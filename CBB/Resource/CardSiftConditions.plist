@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<string>不限</string>
+		<string>机关事业单位</string>
+		<string>国营单位</string>
+		<string>私营企业</string>
+		<string>三资企业</string>
+		<string>股份制企业</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>1,000元以内</string>
+		<string>1,000到2,000元</string>
+		<string>2,000到3,000元</string>
+		<string>3,000到5,000元</string>
+		<string>5,000到8,000元</string>
+		<string>8,000到10,000元</string>
+		<string>10,000到15,000元</string>
+		<string>15,000元以上</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>高中或以下</string>
+		<string>专科</string>
+		<string>本科</string>
+		<string>硕士或以上</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>贵宾VIP</string>
+		<string>普通</string>
+		<string>无</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>有</string>
+		<string>没有</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>是</string>
+		<string>否</string>
+	</array>
+</array>
+</plist>

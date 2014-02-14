@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<string>不限</string>
+		<string>个人贷款</string>
+		<string>企业贷款</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>无抵押</string>
+		<string>有抵押</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>机关事业单位</string>
+		<string>三资企业</string>
+		<string>国营单位</string>
+		<string>股份制企业</string>
+		<string>私营企业</string>
+		<string>个体/自由职业</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>3,000元以内</string>
+		<string>3,000到6,000元</string>
+		<string>6,000元以上</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>现金</string>
+		<string>银行卡代发</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>能</string>
+		<string>不能</string>
+	</array>
+	<array>
+		<string>不限</string>
+		<string>是</string>
+		<string>否</string>
+	</array>
+</array>
+</plist>
