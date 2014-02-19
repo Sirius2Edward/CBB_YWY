@@ -54,7 +54,7 @@
     userField = [CustomTextField new];
     userField.textDownImage = [UIImage imageNamed:@"user_down.png"];
     userField.textOutImage = [UIImage imageNamed:@"user_out.png"];
-    userField.tField.placeholder = @"请输入帐号";
+    userField.tField.placeholder = @"请输入邮箱或手机号";
     userField.tField.keyboardType = UIKeyboardTypeEmailAddress;
     [bgView addSubview:userField];
     
@@ -165,9 +165,7 @@
         [alert show];
         return;
     }
-    if (![userField.tField.text isEmailAddress]) {
-        return;
-    }
+//    if (![userField.tField.text isEmailAddress])  return;
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          userField.tField.text,@"username",
                          pwdField.tField.text,@"password",nil];

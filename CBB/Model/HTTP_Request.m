@@ -221,8 +221,9 @@
         self.connectEnd = @selector(connectEnd:);
     }
     
-    [self.delegate performSelector:self.connectEnd
-                        withObject:self.response];
+    SuppressPerformSelectorLeakWarning([self.delegate performSelector:self.connectEnd
+                        withObject:self.response])
+    ;
 }
 
 - (void)request:(ASIHTTPRequest *)request didSendBytes:(long long)bytes

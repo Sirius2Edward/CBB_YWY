@@ -26,6 +26,7 @@
 		361C34FA17CDA18000C74084 /* detail1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 361C34F717CDA18000C74084 /* detail1@2x.png */; };
 		361C34FB17CDA18000C74084 /* detail2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 361C34F817CDA18000C74084 /* detail2@2x.png */; };
 		361C34FC17CDA18000C74084 /* detail3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 361C34F917CDA18000C74084 /* detail3@2x.png */; };
+		3621BB8718B4791A007B82D2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3621BB8618B4791A007B82D2 /* WebViewController.m */; };
 		362CABA917DEBB4900C2F3F5 /* PayRecordTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 362CABA817DEBB4900C2F3F5 /* PayRecordTable.m */; };
 		362CABAC17DEC53000C2F3F5 /* PARSEloansuserlogin7.m in Sources */ = {isa = PBXBuildFile; fileRef = 362CABAB17DEC53000C2F3F5 /* PARSEloansuserlogin7.m */; };
 		362CABAF17DEC54000C2F3F5 /* PARSEloansuserlogin8.m in Sources */ = {isa = PBXBuildFile; fileRef = 362CABAE17DEC54000C2F3F5 /* PARSEloansuserlogin8.m */; };
@@ -260,6 +261,8 @@
 		361C34F717CDA18000C74084 /* detail1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail1@2x.png"; sourceTree = "<group>"; };
 		361C34F817CDA18000C74084 /* detail2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail2@2x.png"; sourceTree = "<group>"; };
 		361C34F917CDA18000C74084 /* detail3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail3@2x.png"; sourceTree = "<group>"; };
+		3621BB8518B4791A007B82D2 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		3621BB8618B4791A007B82D2 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		362CABA717DEBB4900C2F3F5 /* PayRecordTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayRecordTable.h; sourceTree = "<group>"; };
 		362CABA817DEBB4900C2F3F5 /* PayRecordTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayRecordTable.m; sourceTree = "<group>"; };
 		362CABAA17DEC53000C2F3F5 /* PARSEloansuserlogin7.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEloansuserlogin7.h; sourceTree = "<group>"; };
@@ -1053,6 +1056,8 @@
 				362E3F8A17DDA07E0041F20D /* UploadPicture.m */,
 				362CABA717DEBB4900C2F3F5 /* PayRecordTable.h */,
 				362CABA817DEBB4900C2F3F5 /* PayRecordTable.m */,
+				3621BB8518B4791A007B82D2 /* WebViewController.h */,
+				3621BB8618B4791A007B82D2 /* WebViewController.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1370,6 +1375,7 @@
 				36DEEA4E17BB7A9A00B2E614 /* PARSEcarduserlogin6.m in Sources */,
 				360A26C817BCBDB700F6BB46 /* PARSEuserreg2.m in Sources */,
 				362EBFAF17BE03C200616249 /* PARSEuserlogin.m in Sources */,
+				3621BB8718B4791A007B82D2 /* WebViewController.m in Sources */,
 				363D946917C3046B000C81D4 /* PARSEcarduserlogin11.m in Sources */,
 				369A7FB418ADB8F6002CE4BA /* CardHomePage.m in Sources */,
 				363D946C17C30478000C81D4 /* PARSEcarduserlogin12.m in Sources */,

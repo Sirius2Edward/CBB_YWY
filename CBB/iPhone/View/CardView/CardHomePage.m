@@ -10,6 +10,8 @@
 #import "PayRecordTable.h"
 #import "CardChartView.h"
 #import "Login.h"
+#import "UploadPicture.h"
+#import "WebViewController.h"
 
 @interface CardHomePage ()
 {
@@ -84,13 +86,12 @@
 {
     UserInfo *login = [UserInfo shareInstance];
     
-    self.nameLabel.text = nil?@"name":[login.userInfo objectForKey:@"username"];
-    self.cityLabel.text = nil?@"city":[login.userInfo objectForKey:@"city"];
-    self.bankLabel.text = nil?@"bank":[login.userInfo objectForKey:@"bank1"];
-    [self.latestButton setTitle:nil?@"0":[login.userInfo objectForKey:@"newreg"]
-                       forState:UIControlStateNormal];
-    self.moneyLabel.text = nil?@"0":[login.userInfo objectForKey:@"money"];
-//    self.moneyLabel.text =
+    self.nameLabel.text = [login.userInfo objectForKey:@"username"]==nil?@"name":[login.userInfo objectForKey:@"username"];
+    self.cityLabel.text = [login.userInfo objectForKey:@"city"]==nil?@"city":[login.userInfo objectForKey:@"city"];
+    self.bankLabel.text = [login.userInfo objectForKey:@"bank1"]==nil?@"bank":[login.userInfo objectForKey:@"bank1"];
+    [self.latestButton setTitle:[login.userInfo objectForKey:@"newreg"]==nil?@"0":[login.userInfo objectForKey:@"newreg"]
+                       forState:0];
+    self.moneyLabel.text = [login.userInfo objectForKey:@"money"]==nil?@"0":[login.userInfo objectForKey:@"money"];
     
     UIFont *font = [UIFont systemFontOfSize:15];
     UIColor *color = [UIColor darkGrayColor];
@@ -154,13 +155,17 @@
     [self.navigationController pushViewController:um animated:YES];
 }
 
-//安全退出
--(IBAction)resign
+//上传名片
+-(IBAction)pushUpload:(id)sender
 {
-    //清空登陆数据，返回登陆界面
-    [[UserInfo shareInstance] clearInfo];
-    Login *login = [[Login alloc] init];
-    [self.navigationController setViewControllers:[NSArray arrayWithObject:login] animated:YES];
+    //未激活
+    if (!active) {
+        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:1.5];
+        return;
+    }
+    UploadPicture *upload = [[UploadPicture alloc] init];
+    upload.businessType = 0;
+    [self.navigationController pushViewController:upload animated:YES];
 }
 
 //新客户表
@@ -248,6 +253,12 @@
     [alert show];
 }
 
+-(IBAction)saleActivity:(id)sender
+{
+    WebViewController *web = [WebViewController new];
+    web.title = @"优惠活动";
+    [self.navigationController pushViewController:web animated:YES];
+}
 #pragma mark - connectEnd
 -(void)newCardClientEnd:(id)aDic
 {

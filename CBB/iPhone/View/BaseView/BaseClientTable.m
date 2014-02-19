@@ -60,7 +60,6 @@
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBarButton];
     
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if (_refreshHeaderView == nil) {

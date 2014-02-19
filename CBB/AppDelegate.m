@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "Login.h"
-#import "HomePage.h"
 #import "UIColor+TitleColor.h"
 
 @implementation AppDelegate

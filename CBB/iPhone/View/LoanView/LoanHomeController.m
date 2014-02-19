@@ -9,7 +9,6 @@
 #import "LoanHomeController.h"
 
 @interface LoanHomeController ()
-
 @end
 
 @implementation LoanHomeController
@@ -18,15 +17,23 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    UIImageView *imgView = (UIImageView *)[self.view viewWithTag:1961];
+    UIImage *img = imgView.image;
+    imgView.image = [img resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
 }
 
 - (void)didReceiveMemoryWarning

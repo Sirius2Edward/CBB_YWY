@@ -12,6 +12,7 @@
 #import "ClientDetail.h"
 #import "UIColor+TitleColor.h"
 #import "SVProgressHUD.h"
+#import "WebViewController.h"
 
 @implementation BaseCardCell
 {
@@ -25,7 +26,7 @@
                             [NSValue valueWithCGRect:CGRectMake(7, 52, 306, 33)],
                             [NSValue valueWithCGRect:CGRectMake(7, 85, 306, 33.5)],
                             [NSValue valueWithCGRect:CGRectMake(7, 152, 306, 32)],
-                            [NSValue valueWithCGRect:CGRectMake(206, 160, 100, 20)],
+                            [NSValue valueWithCGRect:CGRectMake(195, 160, 110, 20)],
                             [NSValue valueWithCGRect:CGRectMake(7, 118.5, 306, 33.5)],
                             [NSValue valueWithCGRect:CGRectMake(7, 184, 306, 49)], nil];
         
@@ -41,6 +42,7 @@
         }
         
         UILabel *date = [UILabel new];
+        date.textAlignment = NSTextAlignmentRight;
         date.tag = 3004;
         date.backgroundColor = [UIColor clearColor];
         date.textColor = [UIColor darkGrayColor];
@@ -66,7 +68,7 @@
     for (int i = 0; i < 5; i++) {
         UILabel *label = (CustomLabel*)[self viewWithTag:i+3000];
         label.text = [arr objectAtIndex:i];
-    }    
+    }
     for (int k = 0; k < 5; k++) {
         NSString *image = nil;
         if (k < item.Xing.integerValue) {
@@ -486,7 +488,55 @@ UIButton *statusButton;
     self.page = 1;
     [self.tableView reloadData];
 }
+
+-(void)pushToWeb:(UIButton *)sender
+{
+    WebViewController *web = [WebViewController new];
+    web.title = @"优惠活动";
+    [self.navigationController pushViewController:web animated:YES];
+}
 #pragma mark - Table view data source
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    header.backgroundColor = self.tableView.backgroundColor;
+    header.alpha = 0.85f;
+    
+    UILabel *label;
+    label = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, 115, 15)];
+    label.text = @"卡贝贝专属福利！";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(153, 10, 160, 15)];
+    label.text = @"第一次使用卡贝贝购买表";
+    label.textColor = [UIColor titleColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(50, 30, 125, 15)];
+    label.text = @"单送20分，再9折。";
+    label.textColor = [UIColor titleColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(175, 30, 110, 15)];
+    label.text = @"点此查看详情 》";
+    label.textColor = [UIColor blueColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    UIButton  *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:self action:@selector(pushToWeb:) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(5, 5, 310, 39);
+    [header addSubview:btn];
+    return header;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

@@ -5,10 +5,10 @@
 #import "LoanInfoModify.h"
 #import "PWDModify.h"
 #import "AreaSift.h"
-#import "UploadPicture.h"
 #import "Request_API.h"
 #import "SVProgressHUD.h"
 #import "UIColor+TitleColor.h"
+#import "Login.h"
 
 @interface UserManageView ()
 {
@@ -26,10 +26,10 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        items = [NSMutableArray arrayWithObjects:@"推送服务开关",@"基本资料修改",@"密码修改",
-                                    @"上传工作名片",@"意见反馈",@"关于我们", nil];
-        pushAcitons = [NSMutableArray arrayWithObjects:@"pushModifyInfo",@"pushModifyPWD",@"pushUpload",
-                       @"feedBack",@"aboutUs", nil];
+        items = [NSMutableArray arrayWithObjects://@"推送服务开关",
+                                    @"基本资料修改",@"密码修改",@"意见反馈",@"关于我们", nil];
+        pushAcitons = [NSMutableArray arrayWithObjects:@"pushModifyInfo",
+                       @"pushModifyPWD",@"feedBack",@"aboutUs", nil];
         req = [Request_API shareInstance];
     }
     return self;
@@ -77,14 +77,18 @@
 }
 #pragma mark - Table view data source
 
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (section == 1) {
+        return 1;
+    }
     return items.count;
 }
 
@@ -94,17 +98,26 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    if (indexPath.section == 0) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = [items objectAtIndex:indexPath.row];
+//        if (indexPath.row == 0) {
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            cell.accessoryType = UITableViewCellAccessoryNone;
+//            UISwitch *swch = [[UISwitch alloc] initWithFrame:CGRectMake(255, 7, 50, 30)];
+//            swch.onTintColor = [UIColor titleColor];
+//            [swch addTarget:self action:@selector(pushServiceChange:) forControlEvents:UIControlEventValueChanged];
+//            [cell.contentView addSubview:swch];
+//        }
     }
-    cell.textLabel.text = [items objectAtIndex:indexPath.row];
-    if (indexPath.row == 0) {
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        UISwitch *swch = [[UISwitch alloc] initWithFrame:CGRectMake(215, 7, 100, 30)];
-        swch.onTintColor = [UIColor titleColor];
-        [swch addTarget:self action:@selector(pushServiceChange:) forControlEvents:UIControlEventValueChanged];
-        [cell.contentView addSubview:swch];
+    else {
+        cell.textLabel.text = @"退出账号";
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.backgroundColor = [UIColor titleColor];
     }
+    
     return cell;
 }
 
@@ -113,8 +126,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row) {
-        [self performSelector:NSSelectorFromString([pushAcitons objectAtIndex:indexPath.row-1])];
+    if (indexPath.section == 0) {
+        SuppressPerformSelectorLeakWarning([self performSelector:NSSelectorFromString([pushAcitons objectAtIndex:indexPath.row])]);
+    }
+    else {
+        [self resign];
     }
 }
 
@@ -136,14 +152,6 @@
     PWDModify *pwd = [[PWDModify alloc] init];
     pwd.businessType = self.businessType;
     [self.navigationController pushViewController:pwd animated:YES];
-}
-
--(void)pushUpload
-{
-    //    [SVProgressHUD showSuccessWithStatus:@"此功能即将开通！\n敬请期待..." duration:1.5];
-    UploadPicture *upload = [[UploadPicture alloc] init];
-    upload.businessType = self.businessType;
-    [self.navigationController pushViewController:upload animated:YES];
 }
 
 //区域选择
@@ -195,5 +203,14 @@
     else {
         NSLog(@"off");
     }
+}
+
+//安全退出
+-(void)resign
+{
+    //清空登陆数据，返回登陆界面
+    [[UserInfo shareInstance] clearInfo];
+    Login *login = [[Login alloc] init];
+    [self.navigationController setViewControllers:[NSArray arrayWithObject:login] animated:YES];
 }
 @end
