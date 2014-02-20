@@ -10,6 +10,10 @@
 #import "SVProgressHUD.h"
 
 @implementation Request_API
+{
+    HTTP_Request *req;
+}
+
 +(Request_API *)shareInstance
 {
     static Request_API *instance;
@@ -266,7 +270,7 @@
 -(void)cardStatisticWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(statisticEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089" API:@"XYKServlet" TypeID:0 Dictionary:aDic];
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"XYKServlet" TypeID:1 Dictionary:aDic];
 }
 #pragma mark -
 //上传图片

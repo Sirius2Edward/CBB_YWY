@@ -7,8 +7,6 @@
 #import "SVProgressHUD.h"
 
 @implementation HTTP_Request
-@synthesize apiName;
-@synthesize apiType;
 @synthesize delegate;
 @synthesize connectEnd;
 @synthesize connectFailded;
@@ -87,14 +85,11 @@
 }
 -(void)httpRequestWithURL:(NSString *)aUrl API:(NSString *)api TypeID:(NSInteger)typeID Dictionary:(NSDictionary *)aDic
 {
-    [self.queue cancelAllOperations];
     //配置URL参数
     //选择基本URL
-    self.apiName = api;
-    self.apiType = [NSString stringWithFormat:@"%d",typeID];
     
     url = [NSMutableString stringWithFormat:@"%@",aUrl];
-    [url appendFormat:@"%@.asp",api];
+    [url appendString:api];
     [url appendFormat:@"?key=%@",KEY];
     if (typeID) {
         [url appendFormat:@"&typeid=%d",typeID];
@@ -115,8 +110,10 @@
     
     //发送请求
     NSString *encodeURL = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"请求URL———— %@",encodeURL);
+//    NSLog(@"请求URL———— %@",encodeURL);
     ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:encodeURL]];
+    req.delegate = self.delegate;
+    req.didFinishSelector = self.connectEnd;
     [self.queue addOperation:req];
     [self.queue go];
 }
@@ -136,8 +133,6 @@
 
 -(void)postSOAPwithAPI:(NSString *)api File:(NSString *)file Method:(NSString *)method xmlNS:(NSString *)xmlns Params:(NSArray *)params
 {
-    self.apiName = file;
-    self.apiType = method;
     //1、初始化SOAP消息体
     
     NSString * soapMsgBody1 = [[NSString alloc] initWithFormat:
@@ -187,12 +182,10 @@
     if ([SVProgressHUD isVisible]) {
         [SVProgressHUD dismiss];
     }
+    
     //解析
-    NSString *parserName = [NSString stringWithFormat:@"PARSE%@%@",self.apiName,self.apiType];
-    if ([parserName isEqualToString:@"PARSEcarduserlogin1"] || [parserName isEqualToString:@"PARSEloansuserlogin1"]) {
-        parserName = @"PARSEuserlogin";
-    }
-//    NSLog(@"%@",parserName);
+    NSString *parserName = [self getParserNameFromURL:aRequest.url];
+    
     // 动态创建类
     Class _parserClass = NSClassFromString(parserName);
     BaseParser *parser = [[_parserClass alloc] initWithStr:aRequest.responseString];
@@ -201,6 +194,7 @@
     
     //响应数据存字典
     [self.response setValue:obj forKey:parserName];
+    NSLog(@"---%@解析结束",aRequest.url.lastPathComponent);
 }
 
 -(void)requestDidFail:(ASIHTTPRequest *)aRequest
@@ -216,18 +210,58 @@
 // 队列请求完成
 -(void)allRequestDone:(ASINetworkQueue *)aQueue
 {
-    if (!self.connectEnd)
-    {
-        self.connectEnd = @selector(connectEnd:);
-    }
-    
-    SuppressPerformSelectorLeakWarning([self.delegate performSelector:self.connectEnd
-                        withObject:self.response])
-    ;
+//    if (!self.connectEnd)
+//    {
+//        self.connectEnd = @selector(connectEnd:);
+//    }
+//    
+//    SuppressPerformSelectorLeakWarning([self.delegate performSelector:self.connectEnd
+//                        withObject:self.response])
+//    ;
 }
 
 - (void)request:(ASIHTTPRequest *)request didSendBytes:(long long)bytes
 {
     
+}
+
+- (NSString *)getParserNameFromURL:(NSURL *)aUrl
+{
+    NSString *api = aUrl.lastPathComponent;
+    NSRange range = [api rangeOfString:@"."];
+    if (range.length) {
+        api = [api substringToIndex:range.location];
+    }
+
+    NSString *parserName = [NSString stringWithFormat:@"PARSE%@%@",
+                            api,
+                            [[self dictionaryFromQuery:[aUrl query]
+                                         usingEncoding:4] objectForKey:@"typeid"]];
+    if ([parserName isEqualToString:@"PARSEcarduserlogin1"] || [parserName isEqualToString:@"PARSEloansuserlogin1"]) {
+        parserName = @"PARSEuserlogin";
+    }
+    return parserName;
+}
+
+- (NSDictionary*)dictionaryFromQuery:(NSString*)query usingEncoding:(NSStringEncoding)encoding
+{
+    NSCharacterSet* delimiterSet = [NSCharacterSet characterSetWithCharactersInString:@"&;"];
+    NSMutableDictionary* pairs = [NSMutableDictionary dictionary];
+    NSScanner* scanner = [[NSScanner alloc] initWithString:query];
+    while (![scanner isAtEnd]) {
+        NSString* pairString = nil;
+        [scanner scanUpToCharactersFromSet:delimiterSet intoString:&pairString];
+        [scanner scanCharactersFromSet:delimiterSet intoString:NULL];
+        NSArray* kvPair = [pairString componentsSeparatedByString:@"="];
+        if (kvPair.count == 2) {
+            NSString* key = [[kvPair objectAtIndex:0]
+                             stringByReplacingPercentEscapesUsingEncoding:encoding];
+            NSString* value = [[kvPair objectAtIndex:1]
+                               stringByReplacingPercentEscapesUsingEncoding:encoding];
+            [pairs setObject:value forKey:key];
+        }
+    }
+    
+    return [NSDictionary dictionaryWithDictionary:pairs];
 }
 @end

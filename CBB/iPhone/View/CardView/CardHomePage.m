@@ -135,16 +135,18 @@
                          userInfo.username,@"username",
                          userInfo.password,@"password",nil];
     [req cardLoginWithDic:dic];
-}
-
--(void)loginEnd:(id)aDic
-{
-    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
-    if (dic.count) {
-        UserInfo *loginInfo = [UserInfo shareInstance];
-        loginInfo.userInfo = dic;
-    }
-    [self updateDisplay];
+    
+    NSDate *date = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit ;
+    NSDateComponents *comps  = [calendar components:unitFlags fromDate:date];
+    
+    NSDictionary *sDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                          userInfo.username,@"username",
+                          userInfo.password,@"password",
+                          [NSString stringWithFormat:@"%d",[comps year]],@"year",
+                          [NSString stringWithFormat:@"%d",[comps month]],@"month",nil];
+    [req cardStatisticWithDic:sDic];
 }
 
 //进入个人管理
@@ -260,8 +262,20 @@
     [self.navigationController pushViewController:web animated:YES];
 }
 #pragma mark - connectEnd
+-(void)loginEnd:(id)aDic
+{
+    NSLog(@"%s",__func__);
+    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
+    if (dic.count) {
+        UserInfo *loginInfo = [UserInfo shareInstance];
+        loginInfo.userInfo = dic;
+    }
+    [self updateDisplay];
+}
+
 -(void)newCardClientEnd:(id)aDic
 {
+    NSLog(@"%s",__func__);
     NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin2"];
     if (!data) {
         return;
@@ -276,6 +290,7 @@
 
 -(void)doneCardClientEnd:(id)aDic
 {
+    NSLog(@"%s",__func__);
     NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin5"];
     if (!data) {
         return;
@@ -290,6 +305,7 @@
 
 -(void)payRecordEnd:(id)aDic
 {
+    NSLog(@"%s",__func__);
     NSMutableDictionary *data = nil;
     data = [aDic objectForKey:@"PARSEcarduserlogin7"];
     if (!data) {
@@ -303,5 +319,10 @@
     pay.businessType = 0;
     pay.data = data;
     [self.navigationController pushViewController:pay animated:YES];
+}
+
+-(void)statisticEnd:(id)aDic
+{
+    NSLog(@"%s",__func__);
 }
 @end

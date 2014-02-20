@@ -117,6 +117,8 @@
 		366E0E6817CC87EE00FC8324 /* detail01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366E0E6617CC87EE00FC8324 /* detail01@2x.png */; };
 		366E0E6917CC87EE00FC8324 /* detail02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366E0E6717CC87EE00FC8324 /* detail02@2x.png */; };
 		3675378317E6A54B0073C061 /* BaseSiftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675378217E6A54B0073C061 /* BaseSiftView.m */; };
+		3679768D18B5EC990082CB12 /* PARSEXYKServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3679768C18B5EC990082CB12 /* PARSEXYKServlet1.m */; };
+		3679769418B5F0360082CB12 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3679769118B5F0360082CB12 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		368F747717F0230800E24FBF /* SBTableAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 368F747617F0230800E24FBF /* SBTableAlert.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		368F747E17F03CF700E24FBF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 368F747C17F03CF700E24FBF /* icon.png */; };
 		368F747F17F03CF700E24FBF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 368F747D17F03CF700E24FBF /* icon@2x.png */; };
@@ -390,6 +392,10 @@
 		366E0E6717CC87EE00FC8324 /* detail02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "detail02@2x.png"; sourceTree = "<group>"; };
 		3675378117E6A54B0073C061 /* BaseSiftView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseSiftView.h; sourceTree = "<group>"; };
 		3675378217E6A54B0073C061 /* BaseSiftView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseSiftView.m; sourceTree = "<group>"; };
+		3679768B18B5EC990082CB12 /* PARSEXYKServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEXYKServlet1.h; sourceTree = "<group>"; };
+		3679768C18B5EC990082CB12 /* PARSEXYKServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEXYKServlet1.m; sourceTree = "<group>"; };
+		3679769018B5F0360082CB12 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		3679769118B5F0360082CB12 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		368F747517F0230800E24FBF /* SBTableAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBTableAlert.h; sourceTree = "<group>"; };
 		368F747617F0230800E24FBF /* SBTableAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBTableAlert.m; sourceTree = "<group>"; };
 		368F747C17F03CF700E24FBF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
@@ -636,6 +642,8 @@
 				36EBD05417C4AB5300C95D31 /* PARSEcarduserlogin15.m */,
 				36EBD05617C4B63200C95D31 /* PARSEcarduserlogin16.h */,
 				36EBD05717C4B63300C95D31 /* PARSEcarduserlogin16.m */,
+				3679768B18B5EC990082CB12 /* PARSEXYKServlet1.h */,
+				3679768C18B5EC990082CB12 /* PARSEXYKServlet1.m */,
 			);
 			name = CardParser;
 			sourceTree = "<group>";
@@ -858,6 +866,7 @@
 		3640A1F617B08DBB0064D4EF /* Xtend */ = {
 			isa = PBXGroup;
 			children = (
+				3679768E18B5F0360082CB12 /* JSONKit */,
 				369A7FBC18ADBBAC002CE4BA /* ChartView */,
 				36FA95261803A08800404865 /* CPPickerView */,
 				368F747417F0230800E24FBF /* SBTableAlert */,
@@ -894,6 +903,15 @@
 				366BC4F718B1D806003A0040 /* xiug_q@2x.png */,
 			);
 			path = CardImage;
+			sourceTree = "<group>";
+		};
+		3679768E18B5F0360082CB12 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				3679769018B5F0360082CB12 /* JSONKit.h */,
+				3679769118B5F0360082CB12 /* JSONKit.m */,
+			);
+			path = JSONKit;
 			sourceTree = "<group>";
 		};
 		368F747417F0230800E24FBF /* SBTableAlert */ = {
@@ -1362,6 +1380,7 @@
 				3640A24617B0C9510064D4EF /* DataModel.m in Sources */,
 				36F44B2F17B1E06A00A9454F /* BaseParser.m in Sources */,
 				36F44B3A17B2163900A9454F /* Request_API.m in Sources */,
+				3679769418B5F0360082CB12 /* JSONKit.m in Sources */,
 				36DEE9C217BB190100B2E614 /* PARSEloansuserlogin2.m in Sources */,
 				36DEE9C517BB221E00B2E614 /* PARSEloansuserlogin3.m in Sources */,
 				36DEE9C817BB222C00B2E614 /* PARSEloansuserlogin4.m in Sources */,
@@ -1425,6 +1444,7 @@
 				3612AB1417C749EE0023901C /* PARSEloansuserlogin10.m in Sources */,
 				3616BE1917CB3F4900308896 /* PARSEloansuserlogin9.m in Sources */,
 				3616BE1C17CB486200308896 /* PARSEuserreg3.m in Sources */,
+				3679768D18B5EC990082CB12 /* PARSEXYKServlet1.m in Sources */,
 				36FBCEA217CDF8B60001C62E /* SVProgressHUD.m in Sources */,
 				3617BEBC17D0814700F40805 /* PARSEcarduserlogin14.m in Sources */,
 				3617BEBF17D0816200F40805 /* PARSEloansuserlogin14.m in Sources */,

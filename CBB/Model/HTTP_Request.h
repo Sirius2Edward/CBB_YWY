@@ -18,8 +18,6 @@
 
 #define STATE (1)   // 0为测试，1为正式
 @property(nonatomic,assign)id delegate;
-@property(nonatomic,retain)NSString *apiName;       //API名称
-@property(nonatomic,retain)NSString *apiType;       //接口typeID
 @property(nonatomic,retain)ASINetworkQueue *queue;  //网络请求队列
 @property(nonatomic,retain)NSDictionary *response;  //响应结果字段
 @property(nonatomic,assign)SEL connectEnd;          //请求完成时执行函数

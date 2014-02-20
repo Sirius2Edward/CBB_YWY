@@ -9,17 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "HTTP_Request.h"
 
-#define LoanYWY @"loansuserlogin"
-#define CardYWY @"carduserlogin"
-#define REGISTER @"userreg"
-#define LoanREG @"loansreg"
-#define CardREG @"regcard"
+#define LoanYWY @"loansuserlogin.asp"
+#define CardYWY @"carduserlogin.asp"
+#define REGISTER @"userreg.asp"
+#define LoanREG @"loansreg.asp"
+#define CardREG @"regcard.asp"
 
 @interface Request_API : NSObject
-{
-    HTTP_Request *req;
-}
+
 @property(nonatomic,assign)id delegate;
+
 +(Request_API *)shareInstance;                              //请求接口单例
 -(void)cancel;
 
@@ -59,6 +58,7 @@
 -(void)cardDeleteClientWithDic:(NSDictionary *)aDic;        //信用卡删除客户
 -(void)cardZTChangeWithDic:(NSDictionary *)aDic;            //已购买客户状态值修改
 -(void)cardPasswordBackWithDic:(NSDictionary *)aDic;        //找回密码
+-(void)cardStatisticWithDic:(NSDictionary *)aDic;               //数据统计
 
 -(void)uploadImageWithParams:(NSArray *)paras;             //上传图片
 @end
