@@ -111,7 +111,7 @@
 -(void)connectEnd:(id)aDic
 {
     [self.view endEditing:YES];
-    if (![aDic objectForKey:@"PARSEloansuserlogin9"] && ![aDic objectForKey:@"PARSEcarduserlogin9"]) {
+    if (![aDic objectForKey:@"loansuserlogin9"] && ![aDic objectForKey:@"carduserlogin9"]) {
         return;
     }
     CustomTextField *textField = (CustomTextField *)[self.view viewWithTag:1002];

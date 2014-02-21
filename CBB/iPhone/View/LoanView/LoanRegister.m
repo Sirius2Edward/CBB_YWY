@@ -169,7 +169,7 @@
 
 -(void)getCitys:(NSDictionary *)aDic
 {
-    self.citys = [[aDic objectForKey:@"PARSEloansreg1"] objectForKey:@"citys"];
+    self.citys = [[aDic objectForKey:@"loansreg1"] objectForKey:@"citys"];
     if (self.citys) {
         [self showPicker];
     }
@@ -326,7 +326,7 @@
 
 -(void)regEnd:(NSDictionary *)aDic
 {
-    if (![aDic objectForKey:@"PARSEuserreg3"]) {
+    if (![aDic objectForKey:@"userreg3"]) {
         return;
     }
     CustomTextField *userField = (CustomTextField *)[self.view viewWithTag:1000];
@@ -339,7 +339,7 @@
 
 -(void)loginEnd:(id)aDic
 {
-    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
+    NSMutableDictionary *dic = [[aDic objectForKey:@"userlogin"] objectForKey:@"result"];
     if (dic.count) {
         CustomTextField *pwdField = (CustomTextField *)[self.view viewWithTag:1002];
         [[UserInfo shareInstance] setPassword:pwdField.tField.text];

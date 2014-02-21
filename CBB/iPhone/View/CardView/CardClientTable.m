@@ -139,7 +139,7 @@
 -(void)cardNewDetail:(id)mDic
 {
     NewCardClientDetail *clientDetail = [[NewCardClientDetail alloc] init];
-    clientDetail.detailInfo = [[mDic objectForKey:@"PARSEcarduserlogin3"] objectForKey:@"result"];
+    clientDetail.detailInfo = [[mDic objectForKey:@"carduserlogin3"] objectForKey:@"result"];
     clientDetail.cell = self;
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
@@ -147,7 +147,7 @@
 -(void)cardBoughtDetail:(id)mDic
 {
     DoneCardClientDetail *clientDetail = [[DoneCardClientDetail alloc] init];
-    clientDetail.detailInfo = [[mDic objectForKey:@"PARSEcarduserlogin6"] objectForKey:@"result"];
+    clientDetail.detailInfo = [[mDic objectForKey:@"carduserlogin6"] objectForKey:@"result"];
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
 
@@ -235,7 +235,7 @@
 
 -(void)buyClient:(id)mDic
 {
-    NSString *result = [[mDic objectForKey:@"PARSEcarduserlogin4"] objectForKey:@"result"];
+    NSString *result = [[mDic objectForKey:@"carduserlogin4"] objectForKey:@"result"];
     if (!result) {
         return;
     }
@@ -251,7 +251,7 @@
 
 -(void)delClient:(id)mDic
 {
-    if (![mDic objectForKey:@"PARSEcarduserlogin14"]) {
+    if (![mDic objectForKey:@"carduserlogin14"]) {
         return;
     }
     [self removeCell];
@@ -267,7 +267,7 @@
 
 -(void)doneCardClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin5"];
+    NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin5"];
     if (!data) {
         return;
     }
@@ -389,7 +389,7 @@ UIButton *statusButton;
 -(void)cardBoughtDetail:(id)mDic
 {
     DoneCardClientDetail *clientDetail = [[DoneCardClientDetail alloc] init];
-    clientDetail.detailInfo = [[mDic objectForKey:@"PARSEcarduserlogin6"] objectForKey:@"result"];
+    clientDetail.detailInfo = [[mDic objectForKey:@"carduserlogin6"] objectForKey:@"result"];
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
 
@@ -603,7 +603,7 @@ UIButton *statusButton;
 
 -(void)newCardClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"PARSEcarduserlogin2"];
+    NSDictionary *dic = [aDic objectForKey:@"carduserlogin2"];
     if ([[dic objectForKey:@"Page"] integerValue] == 1) {
         self.page = 1;
         [self.items setArray:[dic objectForKey:@"UL"]];
@@ -767,7 +767,7 @@ UIButton *statusButton;
 
 -(void)doneCardClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"PARSEcarduserlogin5"];
+    NSDictionary *dic = [aDic objectForKey:@"carduserlogin5"];
     if ([[dic objectForKey:@"Page"] integerValue] == 1) {
         self.page = 1;
         [self.items setArray:[dic objectForKey:@"UL"]];

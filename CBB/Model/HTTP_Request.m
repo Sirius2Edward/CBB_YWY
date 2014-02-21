@@ -7,6 +7,9 @@
 #import "SVProgressHUD.h"
 
 @implementation HTTP_Request
+{
+    NSMutableDictionary *conEndsDic;
+}
 @synthesize delegate;
 @synthesize connectEnd;
 @synthesize connectFailded;
@@ -18,7 +21,7 @@
     if (self = [super init]) {
         CBB = STATE ? @"cbb!@#$%^&*()123456789" : @"cbbtest";
         KEY = STATE ? @"cbbclient" : @"cbbtest";
-        
+        conEndsDic = [NSMutableDictionary dictionary];
         ASINetworkQueue *aQueue=[[ASINetworkQueue alloc] init];
         aQueue.showAccurateProgress = YES;
 		aQueue.delegate=self;
@@ -87,6 +90,20 @@
 {
     //配置URL参数
     //选择基本URL
+    if (self.connectEnd) {
+        NSRange range = [api rangeOfString:@"."];
+        NSString *parserName;
+        if (range.length) {
+            parserName = [NSString stringWithFormat:@"%@%d",[api substringToIndex:range.location],typeID];
+        }
+        else {
+            parserName = [NSString stringWithFormat:@"%@%d",api,typeID];
+        }
+        if ([parserName isEqualToString:@"carduserlogin1"] || [parserName isEqualToString:@"loansuserlogin1"]) {
+            parserName = @"userlogin";
+        }
+        [conEndsDic setObject:NSStringFromSelector(self.connectEnd) forKey:parserName];
+    }
     
     url = [NSMutableString stringWithFormat:@"%@",aUrl];
     [url appendString:api];
@@ -110,10 +127,8 @@
     
     //发送请求
     NSString *encodeURL = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSLog(@"请求URL———— %@",encodeURL);
+    NSLog(@"请求URL———— %@",encodeURL);
     ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:encodeURL]];
-    req.delegate = self.delegate;
-    req.didFinishSelector = self.connectEnd;
     [self.queue addOperation:req];
     [self.queue go];
 }
@@ -133,6 +148,10 @@
 
 -(void)postSOAPwithAPI:(NSString *)api File:(NSString *)file Method:(NSString *)method xmlNS:(NSString *)xmlns Params:(NSArray *)params
 {
+    if (self.connectEnd) {
+        NSString *parserName = [NSString stringWithFormat:@"%@%@",file,method];
+        [conEndsDic setObject:NSStringFromSelector(self.connectEnd) forKey:parserName];
+    }
     //1、初始化SOAP消息体
     
     NSString * soapMsgBody1 = [[NSString alloc] initWithFormat:
@@ -179,6 +198,10 @@
 // 单个网络请求完成
 -(void)requestDidFinish:(ASIHTTPRequest *)aRequest
 {
+    if (aRequest.responseStatusCode == 500) {
+        [self.queue cancelAllOperations];
+        return;
+    }
     if ([SVProgressHUD isVisible]) {
         [SVProgressHUD dismiss];
     }
@@ -187,14 +210,18 @@
     NSString *parserName = [self getParserNameFromURL:aRequest.url];
     
     // 动态创建类
-    Class _parserClass = NSClassFromString(parserName);
+    Class _parserClass = NSClassFromString([NSString stringWithFormat:@"PARSE%@",parserName]);
     BaseParser *parser = [[_parserClass alloc] initWithStr:aRequest.responseString];
     
     id obj = [parser superParser];
     
     //响应数据存字典
     [self.response setValue:obj forKey:parserName];
-    NSLog(@"---%@解析结束",aRequest.url.lastPathComponent);
+    
+    NSString *conEnd = [conEndsDic objectForKey:parserName];
+    if ([self.delegate respondsToSelector:NSSelectorFromString(conEnd)]) {
+        SuppressPerformSelectorLeakWarning([self.delegate performSelector:NSSelectorFromString(conEnd) withObject:self.response]);
+    }
 }
 
 -(void)requestDidFail:(ASIHTTPRequest *)aRequest
@@ -233,12 +260,12 @@
         api = [api substringToIndex:range.location];
     }
 
-    NSString *parserName = [NSString stringWithFormat:@"PARSE%@%@",
+    NSString *parserName = [NSString stringWithFormat:@"%@%@",
                             api,
                             [[self dictionaryFromQuery:[aUrl query]
                                          usingEncoding:4] objectForKey:@"typeid"]];
-    if ([parserName isEqualToString:@"PARSEcarduserlogin1"] || [parserName isEqualToString:@"PARSEloansuserlogin1"]) {
-        parserName = @"PARSEuserlogin";
+    if ([parserName isEqualToString:@"carduserlogin1"] || [parserName isEqualToString:@"loansuserlogin1"]) {
+        parserName = @"userlogin";
     }
     return parserName;
 }

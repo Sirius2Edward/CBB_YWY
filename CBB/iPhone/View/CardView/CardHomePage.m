@@ -23,6 +23,7 @@
     UILabel *successUnit;
     UILabel *buyUnit;
     UILabel *payUnit;
+    NSDictionary *_statistic;
 }
 @property(nonatomic,retain)NSMutableDictionary *appClientData;
 @property(nonatomic,retain)NSMutableDictionary *doneClientData;
@@ -68,6 +69,8 @@
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *comp = [cal components:NSMonthCalendarUnit fromDate:[NSDate date]];
     self.monthLabel.text = [NSString stringWithFormat:@"%d月",comp.month];
+    
+    [self updateDisplay];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -85,12 +88,12 @@
 -(void)updateDisplay
 {
     UserInfo *login = [UserInfo shareInstance];
+    NSString *formNum = [login.userInfo objectForKey:@"newreg"];
     
     self.nameLabel.text = [login.userInfo objectForKey:@"username"]==nil?@"name":[login.userInfo objectForKey:@"username"];
     self.cityLabel.text = [login.userInfo objectForKey:@"city"]==nil?@"city":[login.userInfo objectForKey:@"city"];
     self.bankLabel.text = [login.userInfo objectForKey:@"bank1"]==nil?@"bank":[login.userInfo objectForKey:@"bank1"];
-    [self.latestButton setTitle:[login.userInfo objectForKey:@"newreg"]==nil?@"0":[login.userInfo objectForKey:@"newreg"]
-                       forState:0];
+    [self.latestButton setTitle:formNum==nil?@"0":formNum forState:UIControlStateNormal];
     self.moneyLabel.text = [login.userInfo objectForKey:@"money"]==nil?@"0":[login.userInfo objectForKey:@"money"];
     
     UIFont *font = [UIFont systemFontOfSize:15];
@@ -101,24 +104,8 @@
     if (moneyUnit) {
         [moneyUnit removeFromSuperview];
     }
-    if (doneUnit) {
-        [doneUnit removeFromSuperview];
-    }
-    if (successUnit) {
-        [successUnit removeFromSuperview];
-    }
-    if (buyUnit) {
-        [buyUnit removeFromSuperview];
-    }
-    if (payUnit) {
-        [payUnit removeFromSuperview];
-    }
     curUnit = [self.latestButton.titleLabel addUnit:@"张与您匹配的客户表" Font:font Color:color xOffset:2 yOffset:1];
     moneyUnit = [self.moneyLabel addUnit:@"分" Font:font Color:color xOffset:2 yOffset:2];
-    doneUnit = [self.doneNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
-    successUnit = [self.successNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
-    buyUnit = [self.buyNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
-    payUnit = [self.payNumLabel addUnit:@"元" Font:font Color:color xOffset:2 yOffset:1];
 }
 #pragma mark - Action
 //刷新
@@ -228,7 +215,12 @@
 
 -(IBAction)lookChart
 {
+    if (!_statistic) {
+        [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:1.5f];
+        return;
+    }
     CardChartView *ccv = [[CardChartView alloc] init];
+    ccv.statistics = _statistic;
     [self.navigationController pushViewController:ccv animated:YES];
 }
 
@@ -265,18 +257,17 @@
 -(void)loginEnd:(id)aDic
 {
     NSLog(@"%s",__func__);
-    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
+    NSMutableDictionary *dic = [[aDic objectForKey:@"userlogin"] objectForKey:@"result"];
     if (dic.count) {
         UserInfo *loginInfo = [UserInfo shareInstance];
         loginInfo.userInfo = dic;
     }
-    [self updateDisplay];
 }
 
 -(void)newCardClientEnd:(id)aDic
 {
     NSLog(@"%s",__func__);
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin2"];
+    NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin2"];
     if (!data) {
         return;
     }
@@ -291,7 +282,7 @@
 -(void)doneCardClientEnd:(id)aDic
 {
     NSLog(@"%s",__func__);
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin5"];
+    NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin5"];
     if (!data) {
         return;
     }
@@ -307,7 +298,7 @@
 {
     NSLog(@"%s",__func__);
     NSMutableDictionary *data = nil;
-    data = [aDic objectForKey:@"PARSEcarduserlogin7"];
+    data = [aDic objectForKey:@"carduserlogin7"];
     if (!data) {
         return;
     }
@@ -323,6 +314,41 @@
 
 -(void)statisticEnd:(id)aDic
 {
-    NSLog(@"%s",__func__);
+    [self updateDisplay];
+    
+    _statistic = [[[aDic objectForKey:@"XYKServlet1"] objectForKey:@"result"] copy];
+    NSString *tMontPay = [_statistic objectForKey:@"bycz"];
+    NSString *success  = [_statistic objectForKey:@"success"];
+    NSString *total    = [_statistic objectForKey:@"total"];
+    
+    CGFloat persent = 0;
+    if (total && success && ![total isEqualToString:@"0"]) {
+        int sInt = [success intValue];
+        int tInt = [total intValue];
+        persent = sInt/tInt*100;
+    }
+    self.successPercentLabel.text = [NSString stringWithFormat:@"%.1f%%",persent];
+    self.doneNumLabel.text = total==nil?@"0":total;
+    self.successNumLabel.text = success==nil?@"0":success;
+    self.buyNumLabel.text = total==nil?@"0":total;
+    self.payNumLabel.text = tMontPay==nil?@"0":tMontPay;
+    if (doneUnit) {
+        [doneUnit removeFromSuperview];
+    }
+    if (successUnit) {
+        [successUnit removeFromSuperview];
+    }
+    if (buyUnit) {
+        [buyUnit removeFromSuperview];
+    }
+    if (payUnit) {
+        [payUnit removeFromSuperview];
+    }
+    UIFont *font = [UIFont systemFontOfSize:15];
+    UIColor *color = [UIColor darkGrayColor];
+    doneUnit = [self.doneNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
+    successUnit = [self.successNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
+    buyUnit = [self.buyNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
+    payUnit = [self.payNumLabel addUnit:@"元" Font:font Color:color xOffset:2 yOffset:1];
 }
 @end

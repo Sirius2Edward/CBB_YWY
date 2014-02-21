@@ -96,7 +96,7 @@
 
 -(void)connectEnd:(id)aDic
 {
-    NSDictionary *dic = [[aDic objectForKey:@"PARSEcarduserlogin16"] objectForKey:@"result"];
+    NSDictionary *dic = [[aDic objectForKey:@"carduserlogin16"] objectForKey:@"result"];
     if (dic) {
         if (selectControl.selectIndex) {
             code = [dic objectForKey:@"code"];

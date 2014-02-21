@@ -188,7 +188,7 @@
 
 -(void)loginEnd:(id)aDic
 {
-    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
+    NSMutableDictionary *dic = [[aDic objectForKey:@"userlogin"] objectForKey:@"result"];
     if (dic.count) {
         UserInfo *loginInfo = [UserInfo shareInstance];
         loginInfo.userInfo = dic;
@@ -344,7 +344,7 @@
 
 -(void)areaListEnd:(NSDictionary *)mDic
 {
-    areaList = [[mDic objectForKey:@"PARSEcarduserlogin11"] objectForKey:@"QL"];
+    areaList = [[mDic objectForKey:@"carduserlogin11"] objectForKey:@"QL"];
     if (areaList) {
         [self pushToAreaSift];
     }
@@ -379,7 +379,7 @@
 #pragma mark - ConnectEnd -
 -(void)newLoanClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEloansuserlogin2"];
+    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin2"];
     if (!data) {
         return;
     }
@@ -389,7 +389,7 @@
 
 -(void)doneLoanClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEloansuserlogin5"];
+    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin5"];
     if (!data) {
         return;
     }
@@ -399,7 +399,7 @@
 
 -(void)newCardClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin2"];
+    NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin2"];
     if (!data) {
         return;
     }
@@ -413,7 +413,7 @@
 
 -(void)doneCardClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEcarduserlogin5"];
+    NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin5"];
     if (!data) {
         return;
     }
@@ -429,10 +429,10 @@
 {
     NSMutableDictionary *data = nil;
     if (self.businessType) {
-        data = [aDic objectForKey:@"PARSEloansuserlogin7"];
+        data = [aDic objectForKey:@"loansuserlogin7"];
     }
     else {
-        data = [aDic objectForKey:@"PARSEcarduserlogin7"];
+        data = [aDic objectForKey:@"carduserlogin7"];
     }
     if (!data) {
         return;

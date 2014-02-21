@@ -360,10 +360,10 @@
 {
     NSMutableDictionary *data = nil;
     if (self.businessType) {
-        data = [aDic objectForKey:@"PARSEloansuserlogin7"];
+        data = [aDic objectForKey:@"loansuserlogin7"];
     }
     else {
-        data = [aDic objectForKey:@"PARSEcarduserlogin7"];
+        data = [aDic objectForKey:@"carduserlogin7"];
     }
     if (!data) {
         return;
@@ -382,10 +382,10 @@
 {
     NSMutableDictionary *data = nil;
     if (self.businessType) {
-        data = [aDic objectForKey:@"PARSEloansuserlogin8"];
+        data = [aDic objectForKey:@"loansuserlogin8"];
     }
     else {
-        data = [aDic objectForKey:@"PARSEcarduserlogin8"];
+        data = [aDic objectForKey:@"carduserlogin8"];
     }
     if (!data) {
         return;

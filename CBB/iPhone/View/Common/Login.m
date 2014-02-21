@@ -184,7 +184,7 @@
 -(void)loginEnd:(id)aDic
 {
     selectControl.userInteractionEnabled = YES;
-    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
+    NSMutableDictionary *dic = [[aDic objectForKey:@"userlogin"] objectForKey:@"result"];
     if (dic.count) {
         [[NSUserDefaults standardUserDefaults] setObject:userField.tField.text forKey:@"CBB_USER"];
         [[UserInfo shareInstance] setPassword:pwdField.tField.text];

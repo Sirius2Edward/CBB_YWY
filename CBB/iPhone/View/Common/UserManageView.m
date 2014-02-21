@@ -59,7 +59,7 @@
         active = [[[UserInfo shareInstance].userInfo objectForKey:@"ifActive"] integerValue];
     }
     else {
-        [items insertObject:@"可服务区域" atIndex:3];
+        [items insertObject:@"可服务区域" atIndex:2];
         [pushAcitons insertObject:@"areaSel" atIndex:2];
         active = [[[UserInfo shareInstance].userInfo objectForKey:@"mem_ifActive"] integerValue];
     }
@@ -178,7 +178,7 @@
 
 -(void)areaListEnd:(NSDictionary *)mDic
 {
-    areaList = [[mDic objectForKey:@"PARSEcarduserlogin11"] objectForKey:@"QL"];
+    areaList = [[mDic objectForKey:@"carduserlogin11"] objectForKey:@"QL"];
     if (areaList) {
         [self pushToAreaSift];
     }

@@ -109,7 +109,7 @@
 
 -(void)areaCommitEnd:(NSDictionary *)mDic
 {
-    NSString *result = [[mDic objectForKey:@"PARSEcarduserlogin12"] objectForKey:@"result"];
+    NSString *result = [[mDic objectForKey:@"carduserlogin12"] objectForKey:@"result"];
     if (!result) {
         return;
     }

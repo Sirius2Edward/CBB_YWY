@@ -225,7 +225,7 @@
 
 -(void)getBank:(id)mDic
 {
-    banks = [[mDic objectForKey:@"PARSEuserreg2"] objectForKey:@"banks"];
+    banks = [[mDic objectForKey:@"userreg2"] objectForKey:@"banks"];
     [self showPicker:banks Keys:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ProvinceList" ofType:@"plist"]]];
 }
 
@@ -271,7 +271,7 @@
 
 -(void)getCitys:(NSDictionary *)aDic
 {
-    self.citys = [[aDic objectForKey:@"PARSEloansreg1"] objectForKey:@"citys"];
+    self.citys = [[aDic objectForKey:@"loansreg1"] objectForKey:@"citys"];
     if (picker) {
         [self showCityPicker];
     }
@@ -447,7 +447,7 @@
 
 -(void)regEnd:(NSDictionary *)aDic
 {
-    if (![aDic objectForKey:@"PARSEuserreg1"]) {
+    if (![aDic objectForKey:@"userreg1"]) {
         return;
     }
     CustomTextField *userField = (CustomTextField *)[self.view viewWithTag:1000];
@@ -460,7 +460,7 @@
 
 -(void)loginEnd:(id)aDic
 {
-    NSMutableDictionary *dic = [[aDic objectForKey:@"PARSEuserlogin"] objectForKey:@"result"];
+    NSMutableDictionary *dic = [[aDic objectForKey:@"userlogin"] objectForKey:@"result"];
     if (dic.count) {
         CustomTextField *pwdField = (CustomTextField *)[self.view viewWithTag:1002];
         [[UserInfo shareInstance] setPassword:pwdField.tField.text];

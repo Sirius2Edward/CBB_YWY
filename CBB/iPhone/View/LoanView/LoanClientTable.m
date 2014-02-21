@@ -120,7 +120,7 @@
 -(void)loanNewDetail:(id)mDic
 {
     NewLoanClientDetail *clientDetail = [[NewLoanClientDetail alloc] init];
-    clientDetail.detailInfo = [[mDic objectForKey:@"PARSEloansuserlogin3"] objectForKey:@"result"];
+    clientDetail.detailInfo = [[mDic objectForKey:@"loansuserlogin3"] objectForKey:@"result"];
     clientDetail.cell = self;
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
@@ -128,7 +128,7 @@
 -(void)loanBoughtDetail:(id)mDic
 {
     DoneLoanClientDetail *clientDetail = [[DoneLoanClientDetail alloc] init];
-    clientDetail.detailInfo = [[mDic objectForKey:@"PARSEloansuserlogin6"] objectForKey:@"result"];
+    clientDetail.detailInfo = [[mDic objectForKey:@"loansuserlogin6"] objectForKey:@"result"];
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
 //购买
@@ -216,7 +216,7 @@
 
 -(void)buyClient:(id)mDic
 {
-    NSString *result = [[mDic objectForKey:@"PARSEloansuserlogin4"] objectForKey:@"result"];
+    NSString *result = [[mDic objectForKey:@"loansuserlogin4"] objectForKey:@"result"];
     if (!result) {
         return;
     }
@@ -230,7 +230,7 @@
 
 -(void)delClient:(id)mDic
 {
-    if (![mDic objectForKey:@"PARSEloansuserlogin14"]) {
+    if (![mDic objectForKey:@"loansuserlogin14"]) {
         return;
     }
     [self removeCell];
@@ -246,7 +246,7 @@
 
 -(void)doneLoanClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"PARSEloansuserlogin5"];
+    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin5"];
     if (!data) {
         return;
     }
@@ -349,7 +349,7 @@
 -(void)loanBoughtDetail:(id)mDic
 {
     DoneLoanClientDetail *clientDetail = [[DoneLoanClientDetail alloc] init];
-    clientDetail.detailInfo = [[mDic objectForKey:@"PARSEloansuserlogin6"] objectForKey:@"result"];
+    clientDetail.detailInfo = [[mDic objectForKey:@"loansuserlogin6"] objectForKey:@"result"];
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
 @end
@@ -487,7 +487,7 @@
 
 -(void)newLoanClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"PARSEloansuserlogin2"];
+    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin2"];
     if ([[dic objectForKey:@"Page"] integerValue] == 1) {
         self.page = 1;
         [self.items setArray:[dic objectForKey:@"UL"]];
@@ -615,7 +615,7 @@
 
 -(void)doneLoanClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"PARSEloansuserlogin5"];
+    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin5"];
     if ([[dic objectForKey:@"Page"] integerValue] == 1) {
         self.page = 1;
         [self.items setArray:[dic objectForKey:@"UL"]];

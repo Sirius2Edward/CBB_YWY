@@ -103,7 +103,7 @@
 
 -(void)areaListEnd:(NSDictionary *)mDic
 {
-    self.areaList = [[mDic objectForKey:@"PARSEcarduserlogin11"] objectForKey:@"QL"];
+    self.areaList = [[mDic objectForKey:@"carduserlogin11"] objectForKey:@"QL"];
 }
 
 -(void)areaCommitEnd:(NSDictionary *)mDic
@@ -293,7 +293,7 @@
 
 -(void)newCardClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"PARSEcarduserlogin2"];
+    NSDictionary *dic = [aDic objectForKey:@"carduserlogin2"];
     if (dic) {
         [self.delegate changeSiftPara:param Data:dic];
         [self.navigationController popViewControllerAnimated:YES];
