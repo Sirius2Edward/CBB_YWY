@@ -31,7 +31,7 @@
 //    NSLog(@"str = %@",self.parserString);
     
     if (nil == self.parserString) {
-        [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:0.789f];
         return nil;
     }
     NSArray *arr = [self.parserString objectFromJSONString];

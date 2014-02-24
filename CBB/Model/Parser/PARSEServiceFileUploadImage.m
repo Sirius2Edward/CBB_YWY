@@ -12,7 +12,7 @@
 -(id)parser:(GDataXMLElement *)aElement
 {
     if ([aElement.stringValue isEqualToString:@"true"]) {
-        [SVProgressHUD showSuccessWithStatus:@"上传成功！" duration:1.5f];
+        [SVProgressHUD showSuccessWithStatus:@"上传成功！" duration:0.789f];
     }
     return nil;
 }

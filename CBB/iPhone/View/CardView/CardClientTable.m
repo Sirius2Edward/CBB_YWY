@@ -154,7 +154,13 @@
 //购买
 -(void)buyAction
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒您" message:@"本次购买将消费您的积分\n是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"表单原价：10积分\n       折后：  9积分\n\n是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
+    NSDictionary *info = [UserInfo shareInstance].userInfo;
+    NSString *isfirst = [info objectForKey:@"isfirst"];
+    if (isfirst && isfirst.intValue>0) {
+        NSString *firstBuyStr = @"注：这是您第一次使用卡贝贝购买表单\n    购买成功后，您将获赠20积分。\n\n";
+        alert.message = [firstBuyStr stringByAppendingString:alert.message];
+    }
     alert.tag = 6600;
     [alert show];
 }
@@ -163,12 +169,9 @@
 -(void)deleteClient
 {
     reason = nil;
-    SBTableAlert *alert = [[SBTableAlert alloc] initWithTitle:@"请选择删除原因" cancelButtonTitle:@"取消" messageFormat:nil];
-    alert.style = SBTableAlertStyleApple;
-    alert.delegate = self;
-    alert.dataSource = self;
-    [alert.view addButtonWithTitle:@"确定"];
-    [alert show];
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:@"请选择删除原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"其他" otherButtonTitles:@"资料达不到标准",@"位置偏远",@"资料错误",@"有本行信用卡", nil];
+
+    [alert showInView:self.controller.view];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -190,7 +193,7 @@
     else if (alertView.tag == 6601){
         NSString *content = [alertView textFieldAtIndex:0].text;
         if ([content isEqualToString:@""]) {
-            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:1.5f];
+            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
         }
         else
         {
@@ -277,60 +280,60 @@
 }
 
 #pragma mark - SBTableAlertDataSource
-- (UITableViewCell *)tableAlert:(SBTableAlert *)tableAlert cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	UITableViewCell *cell = [[SBTableAlertCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];	
-	[cell.textLabel setText:[reasons objectAtIndex:indexPath.row]];
-	return cell;
-}
-
-- (NSInteger)tableAlert:(SBTableAlert *)tableAlert numberOfRowsInSection:(NSInteger)section
-{
-    return reasons.count;
-}
-
-- (NSInteger)numberOfSectionsInTableAlert:(SBTableAlert *)tableAlert
-{
-    return 1;
-}
+//- (UITableViewCell *)tableAlert:(SBTableAlert *)tableAlert cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	UITableViewCell *cell = [[SBTableAlertCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];	
+//	[cell.textLabel setText:[reasons objectAtIndex:indexPath.row]];
+//	return cell;
+//}
+//
+//- (NSInteger)tableAlert:(SBTableAlert *)tableAlert numberOfRowsInSection:(NSInteger)section
+//{
+//    return reasons.count;
+//}
+//
+//- (NSInteger)numberOfSectionsInTableAlert:(SBTableAlert *)tableAlert
+//{
+//    return 1;
+//}
 
 #pragma mark - SBTableAlertDelegate
-- (void)tableAlert:(SBTableAlert *)tableAlert didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    reason = [reasons objectAtIndex:indexPath.row];
-}
-
-- (void)tableAlert:(SBTableAlert *)tableAlert clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if (buttonIndex) {
-        if (!reason) {
-            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:1.5f];
-        }
-        else if ([reason isEqualToString:@"其他"]){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
-                                                            message:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:@"取消"
-                                                  otherButtonTitles:@"确定",nil];
-            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-            alert.tag = 6601;
-            [alert textFieldAtIndex:0].placeholder = @"输入删除原因";
-            [alert show];
-        }
-        else {
-            UserInfo *info = [UserInfo shareInstance];
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 info.username,@"username",
-                                 info.password,@"password",
-                                 info.ID,@"id",
-                                 orderID,@"orderid",
-                                 reason,@"content",nil];
-            Request_API *req = [Request_API shareInstance];
-            req.delegate = self;
-            [req cardDeleteClientWithDic:dic];
-        }
-    }
-}
+//- (void)tableAlert:(SBTableAlert *)tableAlert didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    reason = [reasons objectAtIndex:indexPath.row];
+//}
+//
+//- (void)tableAlert:(SBTableAlert *)tableAlert clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//	if (buttonIndex) {
+//        if (!reason) {
+//            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
+//        }
+//        else if ([reason isEqualToString:@"其他"]){
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
+//                                                            message:nil
+//                                                           delegate:self
+//                                                  cancelButtonTitle:@"取消"
+//                                                  otherButtonTitles:@"确定",nil];
+//            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+//            alert.tag = 6601;
+//            [alert textFieldAtIndex:0].placeholder = @"输入删除原因";
+//            [alert show];
+//        }
+//        else {
+//            UserInfo *info = [UserInfo shareInstance];
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                 info.username,@"username",
+//                                 info.password,@"password",
+//                                 info.ID,@"id",
+//                                 orderID,@"orderid",
+//                                 reason,@"content",nil];
+//            Request_API *req = [Request_API shareInstance];
+//            req.delegate = self;
+//            [req cardDeleteClientWithDic:dic];
+//        }
+//    }
+//}
 @end
 
 CustomPicker *picker;
@@ -521,10 +524,10 @@ UIButton *statusButton;
     [header addSubview:label];
     
     label = [[UILabel alloc] initWithFrame:CGRectMake(175, 30, 110, 15)];
-    label.text = @"点此查看详情 》";
+    label.text = @"详细介绍 》";
     label.textColor = [UIColor blueColor];
     label.font = [UIFont systemFontOfSize:14];
-    [header addSubview:label];
+    [header addSubview:label];  
     
     UIButton  *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:self action:@selector(pushToWeb:) forControlEvents:UIControlEventTouchUpInside];

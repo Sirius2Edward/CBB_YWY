@@ -11,7 +11,6 @@
 #import "CYCustomMultiSelectPickerView.h"
 #import "CustomPicker.h"
 #import "ListButton.h"
-#import "SBTableAlert.h"
 #import "CardClientSift.h"
 
 @interface BaseCardCell : UITableViewCell
@@ -19,7 +18,7 @@
 @end
 
 @class NewCardClientTable;
-@interface NewCardClientCell : BaseCardCell<UIAlertViewDelegate,SBTableAlertDataSource,SBTableAlertDelegate>
+@interface NewCardClientCell : BaseCardCell<UIAlertViewDelegate,UIActionSheetDelegate>
 @property(nonatomic,retain)NewCardClientTable *controller;
 @end
 

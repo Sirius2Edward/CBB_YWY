@@ -207,7 +207,7 @@
     }
     
     //解析
-    NSString *parserName = [self getParserNameFromURL:aRequest.url];
+    NSString *parserName = [[self getParserNameFromURL:aRequest.url] copy];
     
     // 动态创建类
     Class _parserClass = NSClassFromString([NSString stringWithFormat:@"PARSE%@",parserName]);
@@ -230,7 +230,7 @@
         [SVProgressHUD dismissWithError:@"网络连接异常！稍后重试"];
     }
     else {
-        [SVProgressHUD showErrorWithStatus:@"网络连接异常！稍后重试" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"网络连接异常！稍后重试" duration:0.789f];
     }
 }
 
@@ -272,18 +272,18 @@
 
 - (NSDictionary*)dictionaryFromQuery:(NSString*)query usingEncoding:(NSStringEncoding)encoding
 {
-    NSCharacterSet* delimiterSet = [NSCharacterSet characterSetWithCharactersInString:@"&;"];
-    NSMutableDictionary* pairs = [NSMutableDictionary dictionary];
+    NSCharacterSet *delimiterSet = [NSCharacterSet characterSetWithCharactersInString:@"&;"];
+    NSMutableDictionary *pairs = [NSMutableDictionary dictionary];
     NSScanner* scanner = [[NSScanner alloc] initWithString:query];
     while (![scanner isAtEnd]) {
-        NSString* pairString = nil;
+        NSString *pairString = nil;
         [scanner scanUpToCharactersFromSet:delimiterSet intoString:&pairString];
         [scanner scanCharactersFromSet:delimiterSet intoString:NULL];
-        NSArray* kvPair = [pairString componentsSeparatedByString:@"="];
+        NSArray *kvPair = [pairString componentsSeparatedByString:@"="];
         if (kvPair.count == 2) {
-            NSString* key = [[kvPair objectAtIndex:0]
+            NSString *key = [(NSString *)[kvPair objectAtIndex:0]
                              stringByReplacingPercentEscapesUsingEncoding:encoding];
-            NSString* value = [[kvPair objectAtIndex:1]
+            NSString *value = [(NSString *)[kvPair objectAtIndex:1]
                                stringByReplacingPercentEscapesUsingEncoding:encoding];
             [pairs setObject:value forKey:key];
         }

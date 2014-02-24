@@ -171,7 +171,7 @@
     else if (alertView.tag == 6601){
         NSString *content = [alertView textFieldAtIndex:0].text;
         if ([content isEqualToString:@""]) {
-            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:1.5f];
+            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
         }
         else
         {
@@ -278,7 +278,7 @@
 {
 	if (buttonIndex) {
         if (!reason) {
-            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:1.5f];
+            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
         }
         else if ([reason isEqualToString:@"其他"]){
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"

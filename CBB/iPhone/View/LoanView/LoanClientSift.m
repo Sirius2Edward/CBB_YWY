@@ -193,7 +193,7 @@
     
     if (lowAge != nil && ![lowAge isEqualToString:@""]) {
         if (lowAge.integerValue < 18 || lowAge.integerValue > 60) {
-            [SVProgressHUD showErrorWithStatus:@"年龄必须在18到60岁之间" duration:1.5f];
+            [SVProgressHUD showErrorWithStatus:@"年龄必须在18到60岁之间" duration:0.789f];
             return;
         }
         else {
@@ -205,7 +205,7 @@
     }
     if (highAge != nil && ![highAge isEqualToString:@""]) {
         if (highAge.integerValue < 18 || highAge.integerValue > 60) {
-            [SVProgressHUD showErrorWithStatus:@"年龄必须在18到60岁之间" duration:1.5f];
+            [SVProgressHUD showErrorWithStatus:@"年龄必须在18到60岁之间" duration:0.789f];
             return;
         }
         else {
@@ -217,7 +217,7 @@
     }
     if (lowAge != nil && ![lowAge isEqualToString:@""] && highAge != nil && ![highAge isEqualToString:@""]
         && highAge.integerValue <= lowAge.integerValue) {
-        [SVProgressHUD showErrorWithStatus:@"请认真填写年龄范围" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"请认真填写年龄范围" duration:0.789f];
         return;
     }
     

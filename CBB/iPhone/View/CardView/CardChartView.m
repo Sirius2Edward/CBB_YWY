@@ -16,6 +16,9 @@
     NSArray *titles;
     NSMutableArray *values;
     NSString *total;
+    
+    NSCalendar *cal;
+    NSDateComponents *comp;
 }
 @end
 
@@ -31,8 +34,8 @@
         titles = [NSArray arrayWithObjects:@"成功量",@"条件不符",@"待办",@"未联系", nil];
         values = [NSMutableArray array];
         
-        NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSDateComponents *comp = [cal components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:[NSDate date]];
+        cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        comp = [cal components:NSMonthCalendarUnit|NSYearCalendarUnit fromDate:[NSDate date]];
         year = comp.year;
         month = comp.month;
     }
@@ -157,7 +160,7 @@
     total   = [statistics objectForKey:@"total"];
     
     if (total.intValue == 0) {
-        [values setArray:@[@-1,@0,@0,@0]];
+        [values setArray:@[@77777,@0,@0,@0]];
     }
     else {
         [values setArray:@[[NSNumber numberWithInt:success.intValue],
@@ -192,6 +195,11 @@
         month = 1;
         year++;
     }
+    if (year>=comp.year && month>comp.month) {
+        month = comp.month;
+        year = comp.year;
+        return;
+    }
     dateLabel.text = [NSString stringWithFormat:@"%d年%d月",year,month];
     
     //更新月统计数据
@@ -220,7 +228,7 @@
     NSMutableString *str = [NSMutableString string];
     for (int i = 0; i < titles.count; i++) {
         NSNumber *val = [values objectAtIndex:i];
-        if ([val isEqualToNumber:@-1]) {
+        if ([val isEqualToNumber:@77777]) {
             val = @0;
         }
         [str appendFormat:@"%@:%@张\n",[titles objectAtIndex:i],val];

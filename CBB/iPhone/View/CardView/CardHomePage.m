@@ -149,7 +149,7 @@
 {
     //未激活
     if (!active) {
-        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:1.5];
+        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
         return;
     }
     UploadPicture *upload = [[UploadPicture alloc] init];
@@ -162,7 +162,7 @@
 {
     //未激活
     if (!active) {
-        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:1.5];
+        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
         return;
     }
     UserInfo *userInfo = [UserInfo shareInstance];
@@ -183,7 +183,7 @@
 {
     //未激活
     if (!active) {
-        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:1.5];
+        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
         return;
     }
     UserInfo *userInfo = [UserInfo shareInstance];
@@ -216,7 +216,7 @@
 -(IBAction)lookChart
 {
     if (!_statistic) {
-        [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:0.789f];
         return;
     }
     CardChartView *ccv = [[CardChartView alloc] init];
@@ -251,6 +251,7 @@
 {
     WebViewController *web = [WebViewController new];
     web.title = @"优惠活动";
+    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
     [self.navigationController pushViewController:web animated:YES];
 }
 #pragma mark - connectEnd
@@ -272,7 +273,7 @@
         return;
     }
     if (![[data objectForKey:@"TotalRS"] intValue]) {
-        [SVProgressHUD showErrorWithStatus:@"暂无新申请表" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"暂无新申请表" duration:0.789f];
         return;
     }
     self.appClientData = data;
@@ -287,7 +288,7 @@
         return;
     }
     if (![[data objectForKey:@"TotalRS"] intValue]) {
-        [SVProgressHUD showErrorWithStatus:@"未购买任何客户" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"未购买任何客户" duration:0.789f];
         return;
     }
     self.doneClientData = data;
@@ -303,7 +304,7 @@
         return;
     }
     if (![[data objectForKey:@"TotalRS"] intValue]) {
-        [SVProgressHUD showErrorWithStatus:@"暂无充值记录" duration:1.5f];
+        [SVProgressHUD showErrorWithStatus:@"暂无充值记录" duration:0.789f];
         return;
     }
     PayRecordTable *pay = [[PayRecordTable alloc] init];
@@ -317,6 +318,9 @@
     [self updateDisplay];
     
     _statistic = [[[aDic objectForKey:@"XYKServlet1"] objectForKey:@"result"] copy];
+    UserInfo *loginInfo = [UserInfo shareInstance];
+    [loginInfo.userInfo addEntriesFromDictionary:_statistic];
+    
     NSString *tMontPay = [_statistic objectForKey:@"bycz"];
     NSString *success  = [_statistic objectForKey:@"success"];
     NSString *total    = [_statistic objectForKey:@"total"];

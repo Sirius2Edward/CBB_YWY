@@ -159,7 +159,7 @@
 {
     //未激活
     if (!active) {
-        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:1.5];
+        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
         return;
     }
     if (areaList) {

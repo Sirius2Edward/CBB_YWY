@@ -26,7 +26,7 @@
         self.extendedLayoutIncludesOpaqueBars = NO;
         self.modalPresentationCapturesStatusBarAppearance = NO;
     }
-#endif  // #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+#endif
     
     //返回按钮
     UIButton *backBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -40,6 +40,7 @@
     CGRect rect = self.view.frame;
     rect.size.height -= 64;
     webView = [[UIWebView alloc] initWithFrame:rect];
+    webView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]];
     [self.view addSubview:webView];
     
     if (!self.url) {

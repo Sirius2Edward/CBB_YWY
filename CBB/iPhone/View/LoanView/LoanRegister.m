@@ -279,7 +279,7 @@
         {
 //            if ([textField.tField.text isEqualToString:@""]) {//手机号为空，设置为本机号码
 //                textField.tField.text = [NSString myPhoneNumber];
-//                [SVProgressHUD showSuccessWithStatus:@"已帮您设置成本机号码,请重新提交！" duration:1.5f];
+//                [SVProgressHUD showSuccessWithStatus:@"已帮您设置成本机号码,请重新提交！" duration:0.789f];
 //                return;
 //            }
             if (![textField.tField.text isMobileNumber]) {
