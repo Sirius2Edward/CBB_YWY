@@ -199,6 +199,9 @@
             break;
         }
     }
+    if (selIndex == 4) {
+        selIndex = 3;
+    }
     //根据当前旋转弧度和选中扇区的起止弧度，判断居中需要旋转的弧度
     float calTheta = [[mThetaArray objectAtIndex:selIndex] floatValue] - curTheta;
     float fanTheta = [[mValueArray objectAtIndex:selIndex] floatValue] * self.fracValue;

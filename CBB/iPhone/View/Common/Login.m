@@ -8,6 +8,7 @@
 #import "CardRegister.h"
 #import "GetPWDBack.h"
 #import "CardHomePage.h"
+#import "LoanHomeController.h"
 #import "SVProgressHUD.h"
 
 @interface Login ()
@@ -192,9 +193,10 @@
         UserInfo *loginInfo = [UserInfo shareInstance];
         loginInfo.userInfo = dic;
         if (selectControl.selectIndex) {
-            HomePage *homepage = [[HomePage alloc] init];
-            homepage.businessType = selectControl.selectIndex;
-            [self.navigationController setViewControllers:[NSArray arrayWithObject:homepage] animated:YES];
+            LoanHomeController *loanHomePage = [LoanHomeController new];
+//            HomePage *homepage = [[HomePage alloc] init];
+//            homepage.businessType = selectControl.selectIndex;
+            [self.navigationController setViewControllers:[NSArray arrayWithObject:loanHomePage] animated:YES];
         }
         else {
             CardHomePage *cardHomePage = [[CardHomePage alloc] init];

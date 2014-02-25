@@ -210,7 +210,8 @@
     NSString *parserName = [[self getParserNameFromURL:aRequest.url] copy];
     
     // 动态创建类
-    Class _parserClass = NSClassFromString([NSString stringWithFormat:@"PARSE%@",parserName]);
+    NSString *parseName = [NSString stringWithFormat:@"PARSE%@",parserName];
+    Class _parserClass = NSClassFromString(parseName);
     BaseParser *parser = [[_parserClass alloc] initWithStr:aRequest.responseString];
     
     id obj = [parser superParser];

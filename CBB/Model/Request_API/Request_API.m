@@ -157,6 +157,19 @@
     req.connectEnd = @selector(getCitys:);
     [req httpRequestWithAPI:LoanREG TypeID:1 Dictionary:nil];
 }
+//数据统计
+-(void)loanStatisticWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(statisticEnd:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"DkServlet" TypeID:1 Dictionary:aDic];
+}
+
+//用户咨询
+-(void)loanAdvisorWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(advisorEnd:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"LoanslyServlet" TypeID:1 Dictionary:aDic];
+}
 
 #pragma mark - 信用卡业务员
 //信用卡业务员登录

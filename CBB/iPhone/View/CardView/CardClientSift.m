@@ -42,6 +42,7 @@
 
 -(void)loadView
 {
+    [super loadView];
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 }
 

@@ -36,6 +36,19 @@
 @property(nonatomic,retain)NSString *buynum;
 @end
 
+//贷款用户咨询表
+@interface Advisor : DataModel
+@property(nonatomic,retain)NSString *ID;
+@property(nonatomic,retain)NSString *loansID;
+@property(nonatomic,retain)NSString *content;
+@property(nonatomic,retain)NSString *uname;
+@property(nonatomic,retain)NSString *addDate;
+@property(nonatomic,retain)NSString *reDate;
+@property(nonatomic,retain)NSString *see;
+@property(nonatomic,retain)NSString *resee;
+@end
+
+
 //信用卡新客户表
 @interface CardClient : DataModel
 @property(nonatomic,retain)NSString *ID;

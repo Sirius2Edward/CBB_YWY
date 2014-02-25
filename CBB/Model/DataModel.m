@@ -48,6 +48,17 @@
 @synthesize buynum;
 @end
 
+@implementation Advisor
+@synthesize ID;
+@synthesize loansID;
+@synthesize content;
+@synthesize uname;
+@synthesize addDate;
+@synthesize reDate;
+@synthesize see;
+@synthesize resee;
+@end
+
 @implementation CardClient
 @synthesize ID;
 @synthesize orderid;

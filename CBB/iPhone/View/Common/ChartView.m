@@ -1,11 +1,11 @@
 //
 #import <QuartzCore/QuartzCore.h>
-#import "CardChartView.h"
+#import "ChartView.h"
 #import "Request_API.h"
 #import "UIColor+TitleColor.h"
 #import "DataModel.h"
 
-@interface CardChartView ()
+@interface ChartView ()
 {
     PieChartView *pieChartView;
     Request_API *req;
@@ -22,7 +22,8 @@
 }
 @end
 
-@implementation CardChartView
+@implementation ChartView
+@synthesize businessType;
 @synthesize statistics;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -168,17 +169,25 @@
                            [NSNumber numberWithInt:wait.intValue],
                            [NSNumber numberWithInt:noCont.intValue]]];
     }
+    NSLog(@"total = %@",total);
+    NSLog(@"Values %@",values);
 }
 
 -(void)requestWithMonth:(NSInteger)aMonth Year:(NSInteger)aYear
 {
+    [req cancel];
     UserInfo *userInfo = [UserInfo shareInstance];
     NSDictionary *sDic = [NSDictionary dictionaryWithObjectsAndKeys:
                           userInfo.username,@"username",
                           userInfo.password,@"password",
-                          [NSString stringWithFormat:@"%d",aMonth],@"year",
-                          [NSString stringWithFormat:@"%d",aYear],@"month",nil];
-    [req cardStatisticWithDic:sDic];
+                          [NSString stringWithFormat:@"%d",aMonth],@"month",
+                          [NSString stringWithFormat:@"%d",aYear],@"year",nil];
+    if (self.businessType) {
+        [req loanStatisticWithDic:sDic];
+    }
+    else {
+        [req cardStatisticWithDic:sDic];
+    }
 }
 
 #pragma mark - Action
@@ -253,8 +262,14 @@
 
 -(void)statisticEnd:(id)aDic
 {
-    self.statistics = [[[aDic objectForKey:@"XYKServlet1"] objectForKey:@"result"] copy];
+    if (self.businessType) {
+        self.statistics = [[[aDic objectForKey:@"DkServlet1"] objectForKey:@"result"] copy];
+    }
+    else {
+        self.statistics = [[[aDic objectForKey:@"XYKServlet1"] objectForKey:@"result"] copy];
+    }
     [self reloadData];
+    [pieChartView setAmountText:[NSString stringWithFormat:@"%@张",total]];//
     [pieChartView reloadChart];
 }
 @end

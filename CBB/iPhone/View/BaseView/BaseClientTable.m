@@ -61,6 +61,9 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBarButton];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:view];//多余分割线
     
     if (_refreshHeaderView == nil) {
 		

@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "CustomLabel.h"
 @interface CardHomePage : UIViewController
-
 @property(nonatomic,retain)IBOutlet UIImageView *avatar;
 @property(nonatomic,retain)IBOutlet UILabel *nameLabel;
 @property(nonatomic,retain)IBOutlet UILabel *cityLabel;

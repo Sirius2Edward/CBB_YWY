@@ -21,6 +21,7 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.backgroundColor = [UIColor clearColor];
         NSArray *rectArr = [NSArray arrayWithObjects:
                             [NSValue valueWithCGRect:CGRectMake(7, 10, 306, 42)],
                             [NSValue valueWithCGRect:CGRectMake(7, 52, 306, 33)],
@@ -89,8 +90,6 @@
 {
     NSString *uid;
     NSString *orderID;
-    NSArray *reasons;
-    NSString *reason;
 }
 @synthesize controller;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -110,7 +109,6 @@
             button.frame = [[rectArr objectAtIndex:j] CGRectValue];
             [self addSubview:button];
         }
-        reasons = [NSArray arrayWithObjects:@"资料达不到标准",@"位置偏远",@"资料错误",@"有本行信用卡",@"其他",nil];
     }
     return self;
 }
@@ -168,7 +166,6 @@
 //删除
 -(void)deleteClient
 {
-    reason = nil;
     UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:@"请选择删除原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"其他" otherButtonTitles:@"资料达不到标准",@"位置偏远",@"资料错误",@"有本行信用卡", nil];
 
     [alert showInView:self.controller.view];
@@ -236,6 +233,37 @@
     }
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *reason = [actionSheet buttonTitleAtIndex:buttonIndex];
+	if (buttonIndex != 5) {
+        if ([reason isEqualToString:@"其他"]){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定",nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = 6601;
+            [alert textFieldAtIndex:0].placeholder = @"输入删除原因";
+            [alert show];
+        }
+        else {
+            UserInfo *info = [UserInfo shareInstance];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 info.username,@"username",
+                                 info.password,@"password",
+                                 info.ID,@"id",
+                                 orderID,@"orderid",
+                                 reason,@"content",nil];
+            Request_API *req = [Request_API shareInstance];
+            req.delegate = self;
+            [req cardDeleteClientWithDic:dic];
+        }
+    }
+
+}
+
 -(void)buyClient:(id)mDic
 {
     NSString *result = [[mDic objectForKey:@"carduserlogin4"] objectForKey:@"result"];
@@ -249,8 +277,6 @@
     alert.tag = 6602;
     [alert show];
 }
-
-
 
 -(void)delClient:(id)mDic
 {
@@ -278,62 +304,6 @@
     cardClientTable.data = data;
     [self.controller.navigationController pushViewController:cardClientTable animated:YES];
 }
-
-#pragma mark - SBTableAlertDataSource
-//- (UITableViewCell *)tableAlert:(SBTableAlert *)tableAlert cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//	UITableViewCell *cell = [[SBTableAlertCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];	
-//	[cell.textLabel setText:[reasons objectAtIndex:indexPath.row]];
-//	return cell;
-//}
-//
-//- (NSInteger)tableAlert:(SBTableAlert *)tableAlert numberOfRowsInSection:(NSInteger)section
-//{
-//    return reasons.count;
-//}
-//
-//- (NSInteger)numberOfSectionsInTableAlert:(SBTableAlert *)tableAlert
-//{
-//    return 1;
-//}
-
-#pragma mark - SBTableAlertDelegate
-//- (void)tableAlert:(SBTableAlert *)tableAlert didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    reason = [reasons objectAtIndex:indexPath.row];
-//}
-//
-//- (void)tableAlert:(SBTableAlert *)tableAlert clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//	if (buttonIndex) {
-//        if (!reason) {
-//            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
-//        }
-//        else if ([reason isEqualToString:@"其他"]){
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
-//                                                            message:nil
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"取消"
-//                                                  otherButtonTitles:@"确定",nil];
-//            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-//            alert.tag = 6601;
-//            [alert textFieldAtIndex:0].placeholder = @"输入删除原因";
-//            [alert show];
-//        }
-//        else {
-//            UserInfo *info = [UserInfo shareInstance];
-//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 info.username,@"username",
-//                                 info.password,@"password",
-//                                 info.ID,@"id",
-//                                 orderID,@"orderid",
-//                                 reason,@"content",nil];
-//            Request_API *req = [Request_API shareInstance];
-//            req.delegate = self;
-//            [req cardDeleteClientWithDic:dic];
-//        }
-//    }
-//}
 @end
 
 CustomPicker *picker;
@@ -496,6 +466,7 @@ UIButton *statusButton;
 {
     WebViewController *web = [WebViewController new];
     web.title = @"优惠活动";
+    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/xykhd.html";
     [self.navigationController pushViewController:web animated:YES];
 }
 #pragma mark - Table view data source

@@ -41,6 +41,8 @@
 -(void)loanDeleteClientWithDic:(NSDictionary *)aDic;        //贷款删除客户
 -(void)loanPasswordBackWithDic:(NSDictionary *)aDic;        //找回密码
 -(void)loanGetCity;                                         //贷款申请省市
+-(void)loanStatisticWithDic:(NSDictionary *)aDic;               //数据统计
+-(void)loanAdvisorWithDic:(NSDictionary *)aDic;                 //用户咨询
 
 //信用卡业务员
 -(void)cardLoginWithDic:(NSDictionary *)aDic;               //信用卡业务员登录

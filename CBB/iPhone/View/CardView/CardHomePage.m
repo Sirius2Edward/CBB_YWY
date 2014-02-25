@@ -8,7 +8,7 @@
 #import "SVProgressHUD.h"
 #import "CardClientTable.h"
 #import "PayRecordTable.h"
-#import "CardChartView.h"
+#import "ChartView.h"
 #import "Login.h"
 #import "UploadPicture.h"
 #import "WebViewController.h"
@@ -44,7 +44,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"信用卡业务员";
+    self.title = @"信用卡";
     UIScrollView *scrollView = (UIScrollView *)self.view;
     scrollView.contentSize = CGSizeMake(320, 455);
     scrollView.showsVerticalScrollIndicator = NO;
@@ -89,7 +89,10 @@
 {
     UserInfo *login = [UserInfo shareInstance];
     NSString *formNum = [login.userInfo objectForKey:@"newreg"];
-    
+    NSString *avaName = [login.userInfo objectForKey:@"images"];
+    if (avaName && ![avaName isEqualToString:@""]) {
+        
+    }
     self.nameLabel.text = [login.userInfo objectForKey:@"username"]==nil?@"name":[login.userInfo objectForKey:@"username"];
     self.cityLabel.text = [login.userInfo objectForKey:@"city"]==nil?@"city":[login.userInfo objectForKey:@"city"];
     self.bankLabel.text = [login.userInfo objectForKey:@"bank1"]==nil?@"bank":[login.userInfo objectForKey:@"bank1"];
@@ -219,9 +222,10 @@
         [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:0.789f];
         return;
     }
-    CardChartView *ccv = [[CardChartView alloc] init];
-    ccv.statistics = _statistic;
-    [self.navigationController pushViewController:ccv animated:YES];
+    ChartView *cv = [[ChartView alloc] init];
+    cv.businessType = 0;
+    cv.statistics = _statistic;
+    [self.navigationController pushViewController:cv animated:YES];
 }
 
 -(IBAction)thisMonthBuy
@@ -243,7 +247,7 @@
 
 -(void)goToPay
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"因手机客户端暂未开通在线充值！\n您可以通过支付宝把充值的金额转入我公司支付宝账号：service@cardbaobao.com\n并及时通知为您服务的客户经理！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"进入支付宝", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"在线充值" message:@"因手机客户端暂未开通在线充值！\n您可以通过支付宝把充值的金额转入我公司支付宝账号：service@cardbaobao.com\n并及时通知为您服务的客户经理！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"进入支付宝", nil];
     [alert show];
 }
 
@@ -251,23 +255,22 @@
 {
     WebViewController *web = [WebViewController new];
     web.title = @"优惠活动";
-    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
+    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/xykhd.html";
     [self.navigationController pushViewController:web animated:YES];
 }
 #pragma mark - connectEnd
 -(void)loginEnd:(id)aDic
 {
-    NSLog(@"%s",__func__);
     NSMutableDictionary *dic = [[aDic objectForKey:@"userlogin"] objectForKey:@"result"];
     if (dic.count) {
         UserInfo *loginInfo = [UserInfo shareInstance];
         loginInfo.userInfo = dic;
     }
+    active = [[dic objectForKey:@"mem_ifActive"] integerValue];
 }
 
 -(void)newCardClientEnd:(id)aDic
 {
-    NSLog(@"%s",__func__);
     NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin2"];
     if (!data) {
         return;
@@ -282,7 +285,6 @@
 
 -(void)doneCardClientEnd:(id)aDic
 {
-    NSLog(@"%s",__func__);
     NSMutableDictionary *data = [aDic objectForKey:@"carduserlogin5"];
     if (!data) {
         return;
@@ -297,7 +299,6 @@
 
 -(void)payRecordEnd:(id)aDic
 {
-    NSLog(@"%s",__func__);
     NSMutableDictionary *data = nil;
     data = [aDic objectForKey:@"carduserlogin7"];
     if (!data) {

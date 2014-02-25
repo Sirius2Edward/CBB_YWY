@@ -27,14 +27,12 @@
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.imageView.image = [UIImage imageNamed:@"pay_record.png"];
-        self.imageView.frame = CGRectMake(7, 5, 306, 80);
-        
+        self.backgroundColor = [UIColor clearColor];
         NSArray *rectArr = [NSArray arrayWithObjects:
-                            [NSValue valueWithCGRect:CGRectMake(30, 1, 75, 32)],
-                            [NSValue valueWithCGRect:CGRectMake(100, 1, 206, 32)],
-                            [NSValue valueWithCGRect:CGRectMake(35, 29, 70, 25)],
-                            [NSValue valueWithCGRect:CGRectMake(100, 29, 206, 25)],
+                            [NSValue valueWithCGRect:CGRectMake(27, 3, 75, 32)],
+                            [NSValue valueWithCGRect:CGRectMake(100, 3, 206, 32)],
+                            [NSValue valueWithCGRect:CGRectMake(35, 30, 70, 25)],
+                            [NSValue valueWithCGRect:CGRectMake(100, 30, 206, 25)],
                             [NSValue valueWithCGRect:CGRectMake(35, 50, 70, 29)],
                             [NSValue valueWithCGRect:CGRectMake(102, 50, 204, 29)],nil];
         
@@ -58,12 +56,12 @@
                     label.font = [UIFont systemFontOfSize:15];
                 }
             }
-            [self.imageView addSubview:label];
+            [self.contentView addSubview:label];
         }
         KeyWordLabel *kLabel = [[KeyWordLabel alloc] init];
         kLabel.backgroundColor = [UIColor clearColor];
         kLabel.tag = 3006;
-        [self.imageView addSubview:kLabel];
+        [self.contentView addSubview:kLabel];
         
     }
     return self;
@@ -91,7 +89,7 @@
            WithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:13]
            AndColor:[UIColor darkGrayColor]];
     [kLabel setKeywordLight:item.jifen WithFont:[UIFont systemFontOfSize:14] AndColor:[UIColor titleColor]];
-    kLabel.frame = CGRectMake(100+size.width, 9, 186-size.width, 25);
+    kLabel.frame = CGRectMake(102+size.width, 11, 186-size.width, 25);
 }
 
 -(void)layoutSubviews
@@ -142,7 +140,7 @@
 {
     [super viewDidLoad];
     self.title = @"充值记录";
-    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     UIButton *barButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [barButton setBackgroundImage:[UIImage imageNamed:@"right_btn.png"] forState:0];
     [barButton setTitle:@"删除" forState:0];
@@ -206,7 +204,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 90.0f;
+    return 85.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

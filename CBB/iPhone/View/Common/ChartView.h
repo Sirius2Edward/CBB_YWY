@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PieChartView.h"
 
-@interface CardChartView : UIViewController<PieChartDelegate>
+@interface ChartView : UIViewController<PieChartDelegate>
 @property(nonatomic,retain)NSDictionary *statistics;
+@property(nonatomic,assign)NSInteger businessType;
 @end
