@@ -52,6 +52,7 @@
 
 - (void)viewDidLoad
 {
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]];
     active = [[[UserInfo shareInstance].userInfo objectForKey:@"mem_ifActive"] integerValue];
     [super viewDidLoad];
     UIImageView *imgView = (UIImageView *)[self.view viewWithTag:1961];

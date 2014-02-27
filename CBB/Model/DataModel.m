@@ -59,6 +59,15 @@
 @synthesize resee;
 @end
 
+@implementation ReAdvisor
+@synthesize replyList;
+@end
+
+@implementation Reply
+@synthesize content;
+@synthesize date;
+@end
+
 @implementation CardClient
 @synthesize ID;
 @synthesize orderid;

@@ -43,6 +43,7 @@
 		362E3F9917DDA4EB0041F20D /* czjl_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 362E3F9817DDA4EB0041F20D /* czjl_down@2x.png */; };
 		362E3F9C17DDBF8B0041F20D /* CardClientSift.m in Sources */ = {isa = PBXBuildFile; fileRef = 362E3F9B17DDBF8B0041F20D /* CardClientSift.m */; };
 		362EBFAF17BE03C200616249 /* PARSEuserlogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 362EBFAE17BE03C200616249 /* PARSEuserlogin.m */; };
+		363696FD18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */; };
 		363D946917C3046B000C81D4 /* PARSEcarduserlogin11.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D946817C3046B000C81D4 /* PARSEcarduserlogin11.m */; };
 		363D946C17C30478000C81D4 /* PARSEcarduserlogin12.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D946B17C30478000C81D4 /* PARSEcarduserlogin12.m */; };
 		363D94E617C3108A000C81D4 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D94B717C3108A000C81D4 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -93,6 +94,7 @@
 		3640A24117B095970064D4EF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3640A24017B095970064D4EF /* libz.dylib */; };
 		3640A24317B095A40064D4EF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3640A24217B095A40064D4EF /* libxml2.dylib */; };
 		3640A24617B0C9510064D4EF /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3640A24517B0C9510064D4EF /* DataModel.m */; };
+		3646591818BDEA4A00106379 /* PARSELoanslyReServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3646591718BDEA4A00106379 /* PARSELoanslyReServlet1.m */; };
 		364FF1D117E045580000EB98 /* pay_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 364FF1D017E045580000EB98 /* pay_record@2x.png */; };
 		3657185F18BC67380066B59A /* PARSEDkServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657185E18BC67380066B59A /* PARSEDkServlet1.m */; };
 		3657186218BC6DC00066B59A /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657186118BC6DC00066B59A /* ChartView.m */; };
@@ -292,6 +294,8 @@
 		362E3F9B17DDBF8B0041F20D /* CardClientSift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardClientSift.m; sourceTree = "<group>"; };
 		362EBFAD17BE03C200616249 /* PARSEuserlogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEuserlogin.h; sourceTree = "<group>"; };
 		362EBFAE17BE03C200616249 /* PARSEuserlogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEuserlogin.m; sourceTree = "<group>"; };
+		363696FB18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEDeleteLoanslyServlet1.h; sourceTree = "<group>"; };
+		363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEDeleteLoanslyServlet1.m; sourceTree = "<group>"; };
 		363D946717C3046B000C81D4 /* PARSEcarduserlogin11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin11.h; sourceTree = "<group>"; };
 		363D946817C3046B000C81D4 /* PARSEcarduserlogin11.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEcarduserlogin11.m; sourceTree = "<group>"; };
 		363D946A17C30478000C81D4 /* PARSEcarduserlogin12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin12.h; sourceTree = "<group>"; };
@@ -369,6 +373,8 @@
 		3640A24217B095A40064D4EF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		3640A24417B0C9510064D4EF /* DataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModel.h; sourceTree = "<group>"; };
 		3640A24517B0C9510064D4EF /* DataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataModel.m; sourceTree = "<group>"; };
+		3646591618BDEA4A00106379 /* PARSELoanslyReServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSELoanslyReServlet1.h; sourceTree = "<group>"; };
+		3646591718BDEA4A00106379 /* PARSELoanslyReServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSELoanslyReServlet1.m; sourceTree = "<group>"; };
 		364FF1D017E045580000EB98 /* pay_record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pay_record@2x.png"; sourceTree = "<group>"; };
 		3657185D18BC67380066B59A /* PARSEDkServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEDkServlet1.h; sourceTree = "<group>"; };
 		3657185E18BC67380066B59A /* PARSEDkServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEDkServlet1.m; sourceTree = "<group>"; };
@@ -620,6 +626,10 @@
 				3657185E18BC67380066B59A /* PARSEDkServlet1.m */,
 				3657186318BC78760066B59A /* PARSELoanslyServlet1.h */,
 				3657186418BC78760066B59A /* PARSELoanslyServlet1.m */,
+				3646591618BDEA4A00106379 /* PARSELoanslyReServlet1.h */,
+				3646591718BDEA4A00106379 /* PARSELoanslyReServlet1.m */,
+				363696FB18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.h */,
+				363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */,
 			);
 			name = LoanParser;
 			sourceTree = "<group>";
@@ -1430,6 +1440,7 @@
 				369A7FBB18ADBB6D002CE4BA /* UILabel+Add.m in Sources */,
 				363D94F317C3108A000C81D4 /* EGORefreshTableFooterView.m in Sources */,
 				363D94F417C3108A000C81D4 /* EGORefreshTableHeaderView.m in Sources */,
+				3646591818BDEA4A00106379 /* PARSELoanslyReServlet1.m in Sources */,
 				369A7FB818ADB95D002CE4BA /* UserManageView.m in Sources */,
 				369A7FCC18ADBBAC002CE4BA /* RotatedView.m in Sources */,
 				36EBD05517C4AB5300C95D31 /* PARSEcarduserlogin15.m in Sources */,
@@ -1440,6 +1451,7 @@
 				36EBD06217C4DDA700C95D31 /* PARSEcarduserlogin9.m in Sources */,
 				36EB23A417C5EDDB00624628 /* BaseClientTable.m in Sources */,
 				36EB23A517C5EDDB00624628 /* BaseEditView.m in Sources */,
+				363696FD18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m in Sources */,
 				36EB23A617C5EDDB00624628 /* CardClientTable.m in Sources */,
 				36EB23A717C5EDDB00624628 /* ClientDetail.m in Sources */,
 				36EB23A817C5EDDB00624628 /* HomePage.m in Sources */,
@@ -1576,7 +1588,7 @@
 				GCC_PREFIX_HEADER = "CBB/CBB-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "CBB/CBB-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "卡贝贝";
 				PROVISIONING_PROFILE = "";
@@ -1595,7 +1607,7 @@
 				GCC_PREFIX_HEADER = "CBB/CBB-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "CBB/CBB-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "卡贝贝";
 				PROVISIONING_PROFILE = "CB4C9CCB-D3BE-4876-A267-88F1ADE19F9D";

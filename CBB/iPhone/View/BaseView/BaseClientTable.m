@@ -19,6 +19,24 @@
     BOOL _reloading;
 }
 
+-(id)init
+{
+    if (self = [super init]) {
+        self.tableStyle = UITableViewStylePlain;
+    }
+    return self;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 5;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 15;
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return Nil;
@@ -42,11 +60,15 @@
     
     self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];    
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height - 66) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height - 66) style:self.tableStyle];
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    UIView *view = [UIView new];
+    view.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:view];//多余分割线
 }
 
 - (void)viewDidLoad
@@ -60,10 +82,7 @@
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBarButton];
     
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    UIView *view = [UIView new];
-    view.backgroundColor = [UIColor clearColor];
-    [self.tableView setTableFooterView:view];//多余分割线
+    
     
     if (_refreshHeaderView == nil) {
 		

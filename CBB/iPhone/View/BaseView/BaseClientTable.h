@@ -13,6 +13,7 @@
 @interface BaseClientTable : UIViewController<UITableViewDataSource,UITableViewDelegate,EGORefreshTableDelegate>
 @property(nonatomic,retain)NSDictionary *data;
 @property(nonatomic,retain)UITableView *tableView;
+@property(nonatomic,assign)UITableViewStyle tableStyle;
 - (void)reloadTableViewDataSource;      //更新数据
 - (void)loadNextTableViewDataSource;    //请求更多数据
 - (void)doneLoadingTableViewData;       //加载完成

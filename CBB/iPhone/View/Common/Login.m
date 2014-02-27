@@ -87,6 +87,7 @@
     [bgView addSubview:registBtn];
     
     userField.tField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"CBB_USER"];
+    pwdField.tField.text = @"553088370";
 }
 
 - (void)viewDidLoad

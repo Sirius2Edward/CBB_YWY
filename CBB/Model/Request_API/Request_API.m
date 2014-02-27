@@ -171,6 +171,20 @@
     [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"LoanslyServlet" TypeID:1 Dictionary:aDic];
 }
 
+//已回复咨询
+-(void)loanRepliedAdvisorWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(advisorEnd:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"LoanslyReServlet" TypeID:1 Dictionary:aDic];
+}
+
+//删除咨询
+-(void)loanDelAdvisorWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(delAdvEnd:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"DeleteLoanslyServlet" TypeID:1 Dictionary:aDic];
+}
+
 #pragma mark - 信用卡业务员
 //信用卡业务员登录
 -(void)cardLoginWithDic:(NSDictionary *)aDic

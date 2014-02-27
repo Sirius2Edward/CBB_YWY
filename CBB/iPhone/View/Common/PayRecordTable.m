@@ -83,7 +83,7 @@
         UILabel *label = (CustomLabel*)[self.contentView viewWithTag:i+3000];
         label.text = [arr objectAtIndex:i];
     }
-    CGSize size = [item.money sizeWithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:17]];
+    CGSize size = [item.money sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"STHeitiSC-Medium" size:17]}];
     KeyWordLabel *kLabel = (KeyWordLabel *)[self.contentView viewWithTag:3006];
     [kLabel setText:[NSString stringWithFormat:@"元（可到账%@积分）",item.jifen]
            WithFont:[UIFont fontWithName:@"STHeitiSC-Medium" size:13]

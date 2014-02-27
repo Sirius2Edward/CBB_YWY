@@ -43,6 +43,8 @@
 -(void)loanGetCity;                                         //贷款申请省市
 -(void)loanStatisticWithDic:(NSDictionary *)aDic;               //数据统计
 -(void)loanAdvisorWithDic:(NSDictionary *)aDic;                 //用户咨询
+-(void)loanRepliedAdvisorWithDic:(NSDictionary *)aDic;          //已回复咨询
+-(void)loanDelAdvisorWithDic:(NSDictionary *)aDic;              //删除咨询
 
 //信用卡业务员
 -(void)cardLoginWithDic:(NSDictionary *)aDic;               //信用卡业务员登录
