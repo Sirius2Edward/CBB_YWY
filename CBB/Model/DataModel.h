@@ -46,9 +46,6 @@
 @property(nonatomic,retain)NSString *reDate;
 @property(nonatomic,retain)NSString *see;
 @property(nonatomic,retain)NSString *resee;
-@end
-//已回复贷款用户咨询表
-@interface ReAdvisor : Advisor
 @property(nonatomic,retain)NSArray  *replyList;
 @end
 //咨询回复

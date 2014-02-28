@@ -34,6 +34,7 @@
 
 -(void)setDelegate:(id)delegate
 {
+    [self cancel];
     req.delegate = delegate;
 }
 
@@ -183,6 +184,20 @@
 {
     req.connectEnd = @selector(delAdvEnd:);
     [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"DeleteLoanslyServlet" TypeID:1 Dictionary:aDic];
+}
+
+//回复未回复咨询
+-(void)loanFirstReplyWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(replyEnd:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"ReplyLoanslyServlet" TypeID:1 Dictionary:aDic];
+}
+
+//回复已回复咨询
+-(void)loanAgainReplyWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(replyEnd:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"AgainReplyLoanslyServlet" TypeID:1 Dictionary:aDic];
 }
 
 #pragma mark - 信用卡业务员

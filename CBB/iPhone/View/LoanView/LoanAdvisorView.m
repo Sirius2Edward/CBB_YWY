@@ -13,6 +13,7 @@
 
 @interface LoanAdvisorCell : UITableViewCell<UIAlertViewDelegate>
 {
+    Request_API *req;
     Advisor *_advisor;
     UILabel *nameLabel;
     UILabel *dateLabel;
@@ -31,6 +32,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        req = [Request_API shareInstance];
         
         nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 125, 20)];
         nameLabel.textColor = [UIColor titleColor];
@@ -105,8 +107,17 @@
                              userInfo.password,@"password",
                              @"0",@"year",
                              @"0",@"month",
-                             @"1",@"pagenum",nil];
-        [[Request_API shareInstance] loanDelAdvisorWithDic:dic];
+                             _advisor.ID,@"id",nil];
+        req.delegate = self;
+        [req loanDelAdvisorWithDic:dic];
+    }
+}
+
+-(void)delAdvEnd:(id)aDic
+{
+    NSMutableDictionary *dic = [aDic objectForKey:@"DeleteLoanslyServlet1"];
+    if (dic) {
+        [self.controller removeCell:self];
     }
 }
 @end
@@ -160,20 +171,84 @@
 }
 @end
 
-@interface LoanActionCell : UITableViewCell<UIAlertViewDelegate>
+@interface LoanActionCell : UITableViewCell<UIAlertViewDelegate,UITextFieldDelegate>
+{
+    Request_API *req;
+    UIButton *confirmBtn;
+}
 @property(nonatomic,retain)UITextField *textField;
+@property(nonatomic,retain)LoanAdvisorView *controller;
+@property(nonatomic,retain)Advisor *advisor;
 @end
 @implementation LoanActionCell
 @synthesize textField;
+@synthesize controller;
+@synthesize advisor;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        req = [Request_API shareInstance];
+        
         textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, 290, 30)];
         textField.borderStyle = UITextBorderStyleRoundedRect;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.delegate = self;
         [self.contentView addSubview:textField];
+        
+        confirmBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        confirmBtn.frame = CGRectMake(320, 0, 40, 30);
+        [confirmBtn setTitle:@"提交" forState:UIControlStateNormal];
+        [confirmBtn addTarget:self action:@selector(submitReply:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:confirmBtn];
+        confirmBtn.alpha = 0;
     }
     return self;
+}
+
+-(void)submitReply:(UIBarButtonItem *)sender
+{
+    [self.controller.view endEditing:YES];
+    if ([textField.text isEqualToString:@""]) {
+        return;
+    }
+    else {
+        UserInfo *userInfo = [UserInfo shareInstance];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                             userInfo.username,@"username",
+                             userInfo.password,@"password",
+                             @"0",@"year",
+                             @"0",@"month",
+                             textField.text,@"content",
+                             advisor.ID,@"id",nil];
+        [self.controller replyWithDic:dic];
+        textField.text = @"";
+    }
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)aTextField
+{
+    [UIView animateWithDuration:0.23f animations:^{
+        aTextField.frame = CGRectMake(15, 0, 250, 30);
+        confirmBtn.alpha = 1;
+        confirmBtn.frame = CGRectMake(272, 0, 40, 30);
+        CGRect tFrame = self.controller.tableView.frame;
+        tFrame.size.height -= 214;
+        self.controller.tableView.frame = tFrame;
+    }];
+    return YES;
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)aTextField
+{
+    [UIView animateWithDuration:0.23f animations:^{
+        aTextField.frame = CGRectMake(15, 0, 290, 30);
+        confirmBtn.frame = CGRectMake(320, 0, 40, 30);
+        confirmBtn.alpha = 0;
+        CGRect tFrame = self.controller.tableView.frame;
+        tFrame.size.height += 214;
+        self.controller.tableView.frame = tFrame;
+    }];
 }
 @end
 
@@ -182,12 +257,14 @@
 {
     Request_API *req;
     UISegmentedControl *seg;
-    NSArray  *advis;
+    NSMutableArray  *advis;
     NSInteger totalPage;
+    NSInteger currentPage;
 }
 @synthesize data;
 -(void)loadView
 {
+    currentPage = 1;
     req = [Request_API shareInstance];
     req.delegate = self;
     self.tableStyle = UITableViewStyleGrouped;
@@ -206,15 +283,30 @@
 {
     [super viewDidLoad];
     [self loadData];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
+    [self.tableView addGestureRecognizer:tap];
 }
 
 -(void)loadData
 {
-    advis     = [self.data objectForKey:@"list"];
+    if (currentPage > 1) {
+        [advis addObjectsFromArray:[self.data objectForKey:@"list"]];
+    }
+    else if (currentPage == 1) {
+        advis = [self.data objectForKey:@"list"];
+    }
     totalPage = [[self.data objectForKey:@"pageTotal"] integerValue];
 }
 
 -(void)changeContent:(UISegmentedControl *)sender
+{
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    currentPage = 1;
+    [self requestDataPage:currentPage];
+}
+
+-(void)requestDataPage:(NSInteger)page
 {
     UserInfo *userInfo = [UserInfo shareInstance];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -222,8 +314,9 @@
                          userInfo.password,@"password",
                          @"0",@"year",
                          @"0",@"month",
-                         @"1",@"pagenum",nil];
-    if (sender.selectedSegmentIndex) {
+                         [NSString stringWithFormat:@"%d",page],@"pagenum",nil];
+    req.delegate = self;
+    if (seg.selectedSegmentIndex) {
         [req loanRepliedAdvisorWithDic:dic];
     }
     else {
@@ -231,13 +324,40 @@
     }
 }
 
+-(void)removeCell:(UITableViewCell *)aCell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:aCell];
+    [advis removeObjectAtIndex:indexPath.section];
+    [self.tableView deleteSections:[[NSIndexSet alloc] initWithIndex:indexPath.section]
+                  withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+-(void)replyWithDic:(NSDictionary *)aDic
+{
+    req.delegate = self;
+    if (seg.selectedSegmentIndex) {
+        [req loanAgainReplyWithDic:aDic];
+    }
+    else {
+        [req loanFirstReplyWithDic:aDic];
+    }
+}
+
+-(void)popAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - TableView delegate
 -(NSInteger)numberOfRowsInSection:(NSInteger)section
 {
     NSInteger num = 2;
     if (seg.selectedSegmentIndex) {
-        ReAdvisor *ra = [advis objectAtIndex:section];
-        num += ra.replyList.count;
+        Advisor *ra = [advis objectAtIndex:section];
+        NSArray *replyL = ra.replyList;
+        if (replyL) {
+            num += ra.replyList.count;
+        }
     }
     return num;
 }
@@ -268,7 +388,7 @@
         return 37;
     }
     else {
-        ReAdvisor *reAdv = [advis objectAtIndex:indexPath.section];
+        Advisor *reAdv = [advis objectAtIndex:indexPath.section];
         Reply *reply = [reAdv.replyList objectAtIndex:indexPath.row-1];
         contentStr = reply.content;
         CGSize size = [contentStr boundingRectWithSize:CGSizeMake(290, 500)
@@ -309,11 +429,13 @@
     }
     else if (indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {//回复栏
         LoanActionCell *tCell = [tableView dequeueReusableCellWithIdentifier:tIdentifier];
-        tCell.textField.text = @"";
         if (Nil == tCell) {
             tCell = [[LoanActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tIdentifier];
         }
+        tCell.textField.text = @"";
         tCell.textField.placeholder = _placeholder;
+        tCell.advisor = _advisor;
+        tCell.controller = self;
         cell = tCell;
     }
     else {
@@ -321,17 +443,37 @@
         if (Nil == rCell) {
             rCell = [[LoanReplyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:rIdentifier];
         }
-        rCell.reply = [((ReAdvisor *)_advisor).replyList objectAtIndex:indexPath.row-1];
+        rCell.reply = [_advisor.replyList objectAtIndex:indexPath.row-1];
         cell = rCell;
     }
 
     return cell;
 }
 
--(void)popAction
+#pragma mark - Refresh
+//刷新数据
+- (void)reloadTableViewDataSource
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [super reloadTableViewDataSource];
+    currentPage = 1;
+    [self requestDataPage:currentPage];
 }
+
+//请求更多数据
+- (void)loadNextTableViewDataSource
+{
+    [super loadNextTableViewDataSource];
+    if (currentPage < totalPage) {
+        currentPage ++;
+        [self requestDataPage:currentPage];
+    }
+    else {
+        [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];//线程安全
+    }
+}
+
+#pragma mark - Connect END
+
 
 -(void)advisorEnd:(id)aDic
 {
@@ -342,19 +484,26 @@
     else {
         dic = [aDic objectForKey:@"LoanslyServlet1"];
     }
-    NSLog(@"%@",dic);
     if (dic) {
         self.data = dic;
         [self loadData];
-        [self.tableView reloadData];
     }
+    [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];
+    
 }
 
--(void)delAdvEnd:(id)aDic
+-(void)replyEnd:(id)aDic
 {
-    NSMutableDictionary *dic = [aDic objectForKey:@"DeleteLoanslyServlet1"];
+    NSMutableDictionary *dic = nil;
+    if (seg.selectedSegmentIndex) {
+        dic = [aDic objectForKey:@"AgainReplyLoanslyServlet1"];
+    }
+    else {
+        dic = [aDic objectForKey:@"ReplyLoanslyServlet1"];
+    }
     if (dic) {
-        [self.tableView deleteSections:nil withRowAnimation:UITableViewRowAnimationAutomatic];
+        currentPage = 1;
+        [self requestDataPage:currentPage];
     }
 }
 @end

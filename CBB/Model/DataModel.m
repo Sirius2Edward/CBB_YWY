@@ -57,9 +57,6 @@
 @synthesize reDate;
 @synthesize see;
 @synthesize resee;
-@end
-
-@implementation ReAdvisor
 @synthesize replyList;
 @end
 

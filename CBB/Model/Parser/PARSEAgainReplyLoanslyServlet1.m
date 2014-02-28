@@ -1,15 +1,14 @@
 //
-//  PARSEDeleteLoanslyServlet1.m
+//  PARSEAgainReplyLoanslyServlet1.m
 //  CBB
 //
-//  Created by 卡宝宝 on 14-2-27.
+//  Created by 卡宝宝 on 14-2-28.
 //  Copyright (c) 2014年 卡宝宝. All rights reserved.
 //
 
-#import "PARSEDeleteLoanslyServlet1.h"
+#import "PARSEAgainReplyLoanslyServlet1.h"
 #import "SVProgressHUD.h"
-
-@implementation PARSEDeleteLoanslyServlet1
+@implementation PARSEAgainReplyLoanslyServlet1
 -(id)superParser
 {
     if (nil == self.parserString) {
@@ -25,5 +24,4 @@
     }
     return self.parseredDic;
 }
-
 @end

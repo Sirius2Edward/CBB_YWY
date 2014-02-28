@@ -10,4 +10,6 @@
 
 @interface LoanAdvisorView : BaseClientTable
 @property(nonatomic,retain)NSDictionary *data;
+-(void)removeCell:(UITableViewCell *)aCell;
+-(void)replyWithDic:(NSDictionary *)aDic;
 @end

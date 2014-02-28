@@ -100,6 +100,8 @@
 		3657186218BC6DC00066B59A /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657186118BC6DC00066B59A /* ChartView.m */; };
 		3657186518BC78760066B59A /* PARSELoanslyServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657186418BC78760066B59A /* PARSELoanslyServlet1.m */; };
 		3657186B18BC95E00066B59A /* LoanAdvisorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3657186A18BC95E00066B59A /* LoanAdvisorView.m */; };
+		3664F8BF18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3664F8BE18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.m */; };
+		3664F8C218C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3664F8C118C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.m */; };
 		366BC4F818B1D806003A0040 /* bk01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366BC4E618B1D806003A0040 /* bk01@2x.png */; };
 		366BC4F918B1D806003A0040 /* bk02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366BC4E718B1D806003A0040 /* bk02@2x.png */; };
 		366BC4FA18B1D806003A0040 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 366BC4E818B1D806003A0040 /* btn1@2x.png */; };
@@ -384,6 +386,10 @@
 		3657186418BC78760066B59A /* PARSELoanslyServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSELoanslyServlet1.m; sourceTree = "<group>"; };
 		3657186918BC95E00066B59A /* LoanAdvisorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoanAdvisorView.h; sourceTree = "<group>"; };
 		3657186A18BC95E00066B59A /* LoanAdvisorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoanAdvisorView.m; sourceTree = "<group>"; };
+		3664F8BD18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEReplyLoanslyServlet1.h; sourceTree = "<group>"; };
+		3664F8BE18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEReplyLoanslyServlet1.m; sourceTree = "<group>"; };
+		3664F8C018C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEAgainReplyLoanslyServlet1.h; sourceTree = "<group>"; };
+		3664F8C118C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEAgainReplyLoanslyServlet1.m; sourceTree = "<group>"; };
 		366BC4E618B1D806003A0040 /* bk01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bk01@2x.png"; sourceTree = "<group>"; };
 		366BC4E718B1D806003A0040 /* bk02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bk02@2x.png"; sourceTree = "<group>"; };
 		366BC4E818B1D806003A0040 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
@@ -630,6 +636,10 @@
 				3646591718BDEA4A00106379 /* PARSELoanslyReServlet1.m */,
 				363696FB18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.h */,
 				363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */,
+				3664F8BD18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.h */,
+				3664F8BE18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.m */,
+				3664F8C018C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.h */,
+				3664F8C118C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.m */,
 			);
 			name = LoanParser;
 			sourceTree = "<group>";
@@ -1408,6 +1418,7 @@
 				36F44B3A17B2163900A9454F /* Request_API.m in Sources */,
 				3679769418B5F0360082CB12 /* JSONKit.m in Sources */,
 				36DEE9C217BB190100B2E614 /* PARSEloansuserlogin2.m in Sources */,
+				3664F8C218C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.m in Sources */,
 				36DEE9C517BB221E00B2E614 /* PARSEloansuserlogin3.m in Sources */,
 				36DEE9C817BB222C00B2E614 /* PARSEloansuserlogin4.m in Sources */,
 				36DEE9CB17BB223400B2E614 /* PARSEloansuserlogin5.m in Sources */,
@@ -1436,6 +1447,7 @@
 				363D94EF17C3108A000C81D4 /* ALPickerView.m in Sources */,
 				363D94F017C3108A000C81D4 /* ALPickerViewCell.m in Sources */,
 				363D94F117C3108A000C81D4 /* CYCustomMultiSelectPickerView.m in Sources */,
+				3664F8BF18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.m in Sources */,
 				363D94F217C3108A000C81D4 /* Reachability.m in Sources */,
 				369A7FBB18ADBB6D002CE4BA /* UILabel+Add.m in Sources */,
 				363D94F317C3108A000C81D4 /* EGORefreshTableFooterView.m in Sources */,

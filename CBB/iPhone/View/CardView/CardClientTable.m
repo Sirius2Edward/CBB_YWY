@@ -290,7 +290,7 @@
 {
     NSIndexPath *indexPath = [self.controller.tableView indexPathForCell:self];
     [self.controller.items removeObjectAtIndex:indexPath.row];
-    [self.controller.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[self.controller.tableView indexPathForCell:self]]
+    [self.controller.tableView deleteRowsAtIndexPaths:@[indexPath]
                                      withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 

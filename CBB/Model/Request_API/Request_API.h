@@ -45,6 +45,8 @@
 -(void)loanAdvisorWithDic:(NSDictionary *)aDic;                 //用户咨询
 -(void)loanRepliedAdvisorWithDic:(NSDictionary *)aDic;          //已回复咨询
 -(void)loanDelAdvisorWithDic:(NSDictionary *)aDic;              //删除咨询
+-(void)loanFirstReplyWithDic:(NSDictionary *)aDic;              //回复未回复咨询
+-(void)loanAgainReplyWithDic:(NSDictionary *)aDic;              //回复已回复咨询
 
 //信用卡业务员
 -(void)cardLoginWithDic:(NSDictionary *)aDic;               //信用卡业务员登录

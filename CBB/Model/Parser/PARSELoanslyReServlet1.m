@@ -21,7 +21,7 @@
     NSArray *arr = [self.parserString objectFromJSONString];
     NSMutableArray *mArr = [NSMutableArray array];
     for (NSDictionary *d in arr) {
-        ReAdvisor *adv = [ReAdvisor new];
+        Advisor *adv = [Advisor new];
         adv.ID      = [d objectForKey:@"id"];
         adv.loansID = [d objectForKey:@"loansid"];
         adv.content = [[d objectForKey:@"lycontent"] stringByRemovingPercentEncoding];
