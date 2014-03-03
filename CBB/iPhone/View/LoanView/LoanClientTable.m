@@ -1,67 +1,55 @@
 //
-//  LoanClientTable.m
-//  CBB
-//
-//  Created by 卡宝宝 on 13-8-14.
-//  Copyright (c) 2013年 卡宝宝. All rights reserved.
-//
-
 #import "LoanClientTable.h"
 #import "CustomLabel.h"
 #import "Request_API.h"
 #import "ClientDetail.h"
 #import "SVProgressHUD.h"
+#import "UIColor+TitleColor.h"
+#import "WebViewController.h"
 
 @implementation BaseLoanCell
-
+{
+    UILabel *nameLabel;
+    UILabel *amountLabel;
+    UILabel *adDateLabel;
+}
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.backgroundColor = [UIColor clearColor];
         UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_loan.png"]];
         bg.frame = CGRectMake(7, 10, 306, 223);
-        [self addSubview:bg];       
+//        [self.contentView addSubview:bg];
         
-        NSArray *rectArr = [NSArray arrayWithObjects:
-                            [NSValue valueWithCGRect:CGRectMake(95, 3, 206, 42)],
-                            [NSValue valueWithCGRect:CGRectMake(95, 42, 206, 33)],
-                            [NSValue valueWithCGRect:CGRectMake(95, 76, 206, 33.5)],
-                            [NSValue valueWithCGRect:CGRectMake(95, 145, 206, 32)],
-                            [NSValue valueWithCGRect:CGRectMake(235, 150, 70, 20)],nil];
+        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, 200, 25)];
+        nameLabel.font = [UIFont systemFontOfSize:16];
+        [self.contentView addSubview:nameLabel];
         
-        UILabel *label = nil;
-        for (int i = 0; i < 5; i++) {
-            label = [UILabel new];
-            label.tag = 3000+i;
-            label.backgroundColor = [UIColor clearColor];
-            label.frame = [[rectArr objectAtIndex:i] CGRectValue];
-            label.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:14];
-            [bg addSubview:label];
-        }
-        label.textColor = [UIColor darkGrayColor];
-        label.font = [UIFont systemFontOfSize:12];
+        amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 140, 20)];
+        amountLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:amountLabel];
+        
+        adDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 30, 120, 20)];
+        adDateLabel.textAlignment = NSTextAlignmentRight;
+        adDateLabel.font = [UIFont systemFontOfSize:14];
+        adDateLabel.textColor = [UIColor grayColor];
+        [self.contentView addSubview:adDateLabel];
     }
     return self;
 }
 
 -(void)setItem:(LoanClient *)item
 {
-    NSArray *arr = [NSArray arrayWithObjects:item.Rt,item.worktype,item.loanmoney,item.yearmonth,item.adddate, nil];
-    for (int i = 0; i < 5; i++) {
-        UILabel *label = (CustomLabel*)[self viewWithTag:i+3000];
-        label.text = [arr objectAtIndex:i];
+    NSString *mrs = nil;
+    if (item.usersex.integerValue == 1) {
+        mrs = @"先生";
     }
-    for (int k = 0; k < 5; k++) {
-        NSString *image = nil;
-        if (k < item.Xing.integerValue) {
-            image = @"xing01.png";
-        }
-        else {
-            image = @"xing02.png";
-        }
-        UIImageView *xing = [[UIImageView alloc] initWithImage:[UIImage imageNamed:image]];
-        xing.frame = CGRectMake(100+k*11, 130, 10, 10);
-        [self addSubview:xing];
+    else if (item.usersex.integerValue == 2) {
+        mrs = @"女士";
     }
+    nameLabel.text = [NSString stringWithFormat:@"%@(%@)",item.username,mrs];
+    amountLabel.text = [NSString stringWithFormat:@"贷%@万",item.loanmoney];
+    adDateLabel.text = item.adddate;
 }
 @end
 
@@ -70,28 +58,50 @@
 {
     NSString *uid;
     NSString *orderID;
-    NSArray *reasons;
-    NSString *reason;
+    UILabel *usageLabel;
+    UILabel *identLabel;
+    UIButton *buyButton;
+    UIProgressView *grade;
 }
 @synthesize controller;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        NSArray *rectArr = [NSArray arrayWithObjects:
-                            [NSValue valueWithCGRect:CGRectMake(11, 186.5, 103.5, 42)],
-                            [NSValue valueWithCGRect:CGRectMake(115.5, 186.5, 88.5, 42)],
-                            [NSValue valueWithCGRect:CGRectMake(205, 186.5, 104, 42)], nil];
+        UIButton *delBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [delBtn setBackgroundImage:[UIImage imageNamed:@"iponeV3btn002.png"] forState:UIControlStateNormal];
+        delBtn.frame = CGRectMake(270, 15, 10, 10);
+        [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:delBtn];
         
-        NSArray *selArr = [NSArray arrayWithObjects:@"detail",@"buyAction",@"deleteClient", nil];
-        for (int j = 0; j < 3; j++) {
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            NSString *buttonBG = [NSString stringWithFormat:@"x_%d.png",j+7];
-            [button setBackgroundImage:[UIImage imageNamed:buttonBG] forState:0];
-            [button addTarget:self action:NSSelectorFromString([selArr objectAtIndex:j]) forControlEvents:UIControlEventTouchUpInside];
-            button.frame = [[rectArr objectAtIndex:j] CGRectValue];
-            [self addSubview:button];
+        NSArray *arr = @[@"贷款用途：",@"职业身份：",@"客户资质：",@"手 机 号 ："];
+        CGFloat yCo = 56;
+        for (int i = 0; i < arr.count; i++) {
+            UILabel *itemL = [[UILabel alloc] initWithFrame:CGRectMake(30, yCo, 80, 25)];
+            itemL.font = [UIFont systemFontOfSize:15];
+            itemL.textColor = [UIColor darkGrayColor];
+            itemL.text = [arr objectAtIndex:i];
+            [self.contentView addSubview:itemL];
+            yCo += 25;
         }
-        reasons = [NSArray arrayWithObjects:@"资料达不到标准",@"位置偏远",@"资料错误",@"其他",nil];
+        
+        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 56, 180, 25)];
+        usageLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:usageLabel];
+        
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 81, 180, 25)];
+        identLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:identLabel];
+        
+        grade = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        grade.frame = CGRectMake(110, 118, 100, 30);
+        [self.contentView addSubview:grade];
+        
+        buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        buyButton.frame = CGRectMake(110, 131, 100, 25);
+        buyButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        buyButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [buyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.contentView addSubview:buyButton];
     }
     return self;
 }
@@ -101,6 +111,18 @@
     [super setItem:item];
     uid = item.ID;
     orderID = item.orderid;
+    usageLabel.text = item.Rt;
+    identLabel.text = item.worksf;
+    if (item.Xing.intValue>3) {
+        grade.progressTintColor = [UIColor greenColor];
+    }
+    else {
+        grade.progressTintColor = [UIColor orangeColor];
+    }
+    grade.progress = item.Xing.floatValue/6;
+    if ([[[UserInfo shareInstance].userInfo objectForKey:@"dpset"] isEqualToString:@"1"]) {
+        [buyButton setTitle:@"认证后免费抢" forState:UIControlStateNormal];
+    }
 }
 
 //查看详情
@@ -143,13 +165,8 @@
 //删除
 -(void)deleteClient
 {
-    reason = nil;
-    SBTableAlert *alert = [[SBTableAlert alloc] initWithTitle:@"请选择删除原因" cancelButtonTitle:@"取消" messageFormat:nil];
-    alert.style = SBTableAlertStyleApple;
-    alert.delegate = self;
-    alert.dataSource = self;
-    [alert.view addButtonWithTitle:@"确定"];
-    [alert show];
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:@"请选择删除原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"其他" otherButtonTitles:@"资料达不到标准",@"位置偏远",@"资料错误", nil];
+    [alert showInView:self.controller.view];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -255,32 +272,13 @@
     [self.controller.navigationController pushViewController:loanClientTable animated:YES];
 }
 
-#pragma mark - SBTableAlertDataSource
-- (UITableViewCell *)tableAlert:(SBTableAlert *)tableAlert cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	UITableViewCell *cell = [[SBTableAlertCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-	[cell.textLabel setText:[reasons objectAtIndex:indexPath.row]];
-	return cell;
-}
 
-- (NSInteger)tableAlert:(SBTableAlert *)tableAlert numberOfRowsInSection:(NSInteger)section
+#pragma mark - ActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    return reasons.count;
-}
-
-#pragma mark - SBTableAlertDelegate
-- (void)tableAlert:(SBTableAlert *)tableAlert didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    reason = [reasons objectAtIndex:indexPath.row];
-}
-
-- (void)tableAlert:(SBTableAlert *)tableAlert clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	if (buttonIndex) {
-        if (!reason) {
-            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
-        }
-        else if ([reason isEqualToString:@"其他"]){
+    NSString *reason = [actionSheet buttonTitleAtIndex:buttonIndex];
+	if (buttonIndex != 4) {
+        if ([reason isEqualToString:@"其他"]){
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
                                                             message:nil
                                                            delegate:self
@@ -304,6 +302,7 @@
             [req loanDeleteClientWithDic:dic];
         }
     }
+    
 }
 @end
 
@@ -398,6 +397,8 @@
     UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.rightBarButtonItem = rightBarBtn;
     self.title = @"新客户申请表";
+    
+    NSLog(@"%@",NSStringFromCGRect(self.tableView.frame));
 }
 
 - (void)didReceiveMemoryWarning
@@ -426,7 +427,70 @@
     self.page = 1;
     [self.tableView reloadData];
 }
+
+-(void)pushToWeb:(UIButton *)sender
+{
+    WebViewController *web = [WebViewController new];
+    web.title = @"优惠活动";
+    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
+    [self.navigationController pushViewController:web animated:YES];
+}
+
 #pragma mark - Table view data source
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    header.backgroundColor = self.tableView.backgroundColor;
+    header.alpha = 0.85f;
+    
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iponeV3img001.png"]];
+    imgV.frame = CGRectMake(2, 2, 52, 42);
+    [header addSubview:imgV];
+    
+    UILabel *label;
+    label = [[UILabel alloc] initWithFrame:CGRectMake(55, 10, 115, 15)];
+    label.text = @"大福利：客户表可";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(168, 10, 42, 15)];
+    label.text = @"免费抢";
+    label.textColor = [UIColor titleColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(210, 10, 125, 15)];
+    label.text = @"了，次数满则需";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(55, 30, 170, 15)];
+    label.text = @"购买，价格也有折上折喔！";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(220, 30, 80, 15)];
+    label.text = @"详细介绍 》";
+    label.textColor = [UIColor blueColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    UIButton  *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:self action:@selector(pushToWeb:) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(5, 5, 310, 39);
+    [header addSubview:btn];
+    return header;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

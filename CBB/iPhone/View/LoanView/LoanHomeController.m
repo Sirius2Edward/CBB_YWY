@@ -1,5 +1,4 @@
 //
-
 #import "LoanHomeController.h"
 #import "SVProgressHUD.h"
 #import "Request_API.h"
@@ -23,10 +22,13 @@
     NSInteger active;
     NSDictionary *_statistic;
 }
+@property(nonatomic,retain)NSMutableDictionary *appClientData;
+@property(nonatomic,retain)NSMutableDictionary *doneClientData;
 @end
 
 @implementation LoanHomeController
-
+@synthesize appClientData;
+@synthesize doneClientData;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -105,6 +107,20 @@
     self.matchReg.text = formNum==nil?@"新增0张":[NSString stringWithFormat:@"新增%@张",formNum];
 }
 
+-(void)pushToNewLoanClientTable
+{
+    NewLoanClientTable *loanClientTable = [[NewLoanClientTable alloc] init];
+    loanClientTable.data = self.appClientData;
+    [self.navigationController pushViewController:loanClientTable animated:YES];
+}
+
+-(void)pushToDoneLoanClientTable
+{
+    DoneLoanClientTable *loanClientTable = [[DoneLoanClientTable alloc] init];
+    loanClientTable.data = self.doneClientData;
+    [self.navigationController pushViewController:loanClientTable animated:YES];
+}
+
 #pragma mark - IBAction
 //进入个人管理
 -(IBAction)userManage
@@ -130,10 +146,10 @@
 -(IBAction)advisor:(id)sender
 {
     //未激活
-//    if (!active) {
-//        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
-//        return;
-//    }
+    if (!active) {
+        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
+        return;
+    }
     UserInfo *userInfo = [UserInfo shareInstance];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          userInfo.username,@"username",
@@ -157,12 +173,12 @@
                          userInfo.username,@"username",
                          userInfo.password,@"password",
                          userInfo.ID,@"id", nil];
-//    if (!self.appClientData) {
-//        [req cardNewClientsWithDic:dic];
-//    }
-//    else {
-//        [self pushToNewCardClientTable];
-//    }
+    if (!self.appClientData) {
+        [req loanNewClientsWithDic:dic];
+    }
+    else {
+        [self pushToNewLoanClientTable];
+    }
 }
 
 //已购买表
@@ -178,27 +194,15 @@
                          userInfo.username,@"username",
                          userInfo.password,@"password",
                          userInfo.ID,@"id", nil];
-//    if (!self.doneClientData) {
-//        [req cardBuyersInfoWithDic:dic];
-//    }
-//    else {
-//        [self pushToDoneCardClientTable];
-//    }
+    if (!self.doneClientData) {
+        [req loanBuyersInfoWithDic:dic];
+    }
+    else {
+        [self pushToDoneLoanClientTable];
+    }
 }
 
--(void)pushToNewLoanClientTable
-{
-    NewLoanClientTable *loanClientTable = [[NewLoanClientTable alloc] init];
-//    loanClientTable.data = self.appClientData;
-    [self.navigationController pushViewController:loanClientTable animated:YES];
-}
 
--(void)pushToDoneLoanClientTable
-{
-    DoneLoanClientTable *loanClientTable = [[DoneLoanClientTable alloc] init];
-//    loanClientTable.data = self.doneClientData;
-    [self.navigationController pushViewController:loanClientTable animated:YES];
-}
 
 -(IBAction)lookChart
 {
@@ -242,6 +246,7 @@
     web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
     [self.navigationController pushViewController:web animated:YES];
 }
+
 #pragma mark - Request END
 -(void)loginEnd:(id)aDic
 {
@@ -250,13 +255,12 @@
         UserInfo *loginInfo = [UserInfo shareInstance];
         loginInfo.userInfo = dic;
     }
-    active = [[dic objectForKey:@"mem_ifActive"] integerValue];
+    active = [[dic objectForKey:@"ifActive"] integerValue];
 }
 
 -(void)advisorEnd:(id)aDic
 {
     NSMutableDictionary *dic = [aDic objectForKey:@"LoanslyServlet1"];
-    NSLog(@"%@",dic);
     if (dic) {
         LoanAdvisorView *lav = [LoanAdvisorView new];
         lav.data = [dic copy];
@@ -274,8 +278,8 @@
         [SVProgressHUD showErrorWithStatus:@"暂无新申请表" duration:0.789f];
         return;
     }
-//    self.appClientData = data;
-//    [self pushToNewCardClientTable];
+    self.appClientData = data;
+    [self pushToNewLoanClientTable];
 }
 
 -(void)doneLoanClientEnd:(id)aDic
@@ -288,8 +292,8 @@
         [SVProgressHUD showErrorWithStatus:@"未购买任何客户" duration:0.789f];
         return;
     }
-//    self.doneClientData = data;
-//    [self pushToDoneCardClientTable];
+    self.doneClientData = data;
+    [self pushToDoneLoanClientTable];
 }
 
 -(void)payRecordEnd:(id)aDic

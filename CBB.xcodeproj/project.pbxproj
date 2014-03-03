@@ -44,6 +44,9 @@
 		362E3F9C17DDBF8B0041F20D /* CardClientSift.m in Sources */ = {isa = PBXBuildFile; fileRef = 362E3F9B17DDBF8B0041F20D /* CardClientSift.m */; };
 		362EBFAF17BE03C200616249 /* PARSEuserlogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 362EBFAE17BE03C200616249 /* PARSEuserlogin.m */; };
 		363696FD18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */; };
+		3639DE5218C47FAF00EC06A9 /* iponeV3bg002.png in Resources */ = {isa = PBXBuildFile; fileRef = 3639DE4F18C47FAF00EC06A9 /* iponeV3bg002.png */; };
+		3639DE5318C47FAF00EC06A9 /* iponeV3btn002.png in Resources */ = {isa = PBXBuildFile; fileRef = 3639DE5018C47FAF00EC06A9 /* iponeV3btn002.png */; };
+		3639DE5418C47FAF00EC06A9 /* iponeV3img001.png in Resources */ = {isa = PBXBuildFile; fileRef = 3639DE5118C47FAF00EC06A9 /* iponeV3img001.png */; };
 		363D946917C3046B000C81D4 /* PARSEcarduserlogin11.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D946817C3046B000C81D4 /* PARSEcarduserlogin11.m */; };
 		363D946C17C30478000C81D4 /* PARSEcarduserlogin12.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D946B17C30478000C81D4 /* PARSEcarduserlogin12.m */; };
 		363D94E617C3108A000C81D4 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D94B717C3108A000C81D4 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -298,6 +301,9 @@
 		362EBFAE17BE03C200616249 /* PARSEuserlogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEuserlogin.m; sourceTree = "<group>"; };
 		363696FB18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEDeleteLoanslyServlet1.h; sourceTree = "<group>"; };
 		363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEDeleteLoanslyServlet1.m; sourceTree = "<group>"; };
+		3639DE4F18C47FAF00EC06A9 /* iponeV3bg002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iponeV3bg002.png; sourceTree = "<group>"; };
+		3639DE5018C47FAF00EC06A9 /* iponeV3btn002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iponeV3btn002.png; sourceTree = "<group>"; };
+		3639DE5118C47FAF00EC06A9 /* iponeV3img001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iponeV3img001.png; sourceTree = "<group>"; };
 		363D946717C3046B000C81D4 /* PARSEcarduserlogin11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin11.h; sourceTree = "<group>"; };
 		363D946817C3046B000C81D4 /* PARSEcarduserlogin11.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEcarduserlogin11.m; sourceTree = "<group>"; };
 		363D946A17C30478000C81D4 /* PARSEcarduserlogin12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin12.h; sourceTree = "<group>"; };
@@ -981,6 +987,9 @@
 		36DEE9D817BB79AE00B2E614 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				3639DE4F18C47FAF00EC06A9 /* iponeV3bg002.png */,
+				3639DE5018C47FAF00EC06A9 /* iponeV3btn002.png */,
+				3639DE5118C47FAF00EC06A9 /* iponeV3img001.png */,
 				366BC4E518B1D806003A0040 /* CardImage */,
 				36FA18E617E1A41D006BB5C0 /* right_btn@2x.png */,
 				364FF1D017E045580000EB98 /* pay_record@2x.png */,
@@ -1302,6 +1311,7 @@
 				36DEEA2017BB79AE00B2E614 /* id_bg2@2x.png in Resources */,
 				36DEEA2317BB79AE00B2E614 /* id_tab1@2x.png in Resources */,
 				36DEEA2417BB79AE00B2E614 /* id_tab2@2x.png in Resources */,
+				3639DE5418C47FAF00EC06A9 /* iponeV3img001.png in Resources */,
 				36DEEA2517BB79AE00B2E614 /* id_tab3@2x.png in Resources */,
 				366BC50118B1D806003A0040 /* gm@2x.png in Resources */,
 				36DEEA2817BB79AE00B2E614 /* l_write_bg@2x.png in Resources */,
@@ -1311,6 +1321,7 @@
 				36DEEA2E17BB79AE00B2E614 /* pass_out@2x.png in Resources */,
 				36DEEA2F17BB79AE00B2E614 /* Select@2x.png in Resources */,
 				36DEEA3017BB79AE00B2E614 /* sign_down@2x.png in Resources */,
+				3639DE5318C47FAF00EC06A9 /* iponeV3btn002.png in Resources */,
 				366BC4FE18B1D806003A0040 /* changyongyinh2@2x.png in Resources */,
 				36DEEA3117BB79AE00B2E614 /* sign_out@2x.png in Resources */,
 				36DEEA3217BB79AE00B2E614 /* submit@2x.png in Resources */,
@@ -1396,6 +1407,7 @@
 				36FA95381803A77600404865 /* CardSiftConditions.plist in Resources */,
 				36FA953A1804052300404865 /* xyk_tab01@2x.png in Resources */,
 				36E027AF180803200027DA05 /* icon-76.png in Resources */,
+				3639DE5218C47FAF00EC06A9 /* iponeV3bg002.png in Resources */,
 				36E027B0180803200027DA05 /* icon-120.png in Resources */,
 				36E027B1180803200027DA05 /* icon-152.png in Resources */,
 				366BC50518B1D806003A0040 /* safeext1@2x.png in Resources */,

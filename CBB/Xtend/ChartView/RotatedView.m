@@ -92,7 +92,7 @@
     
     int wedges = [mValueArray count];
     if (wedges > [mColorArray count]) {
-        NSLog(@"Number of colors is not enough: please add %d kinds of colors.",wedges - [mColorArray count]);
+//        NSLog(@"Number of colors is not enough: please add %d kinds of colors.",wedges - [mColorArray count]);
         for (int i= [mColorArray count]; i<wedges; ++i) {
             [mColorArray addObject:[UIColor whiteColor]];
         }

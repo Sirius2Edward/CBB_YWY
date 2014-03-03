@@ -34,6 +34,13 @@
 @property(nonatomic,retain)NSString *Xing;
 @property(nonatomic,retain)NSString *yearmonth;
 @property(nonatomic,retain)NSString *buynum;
+@property(nonatomic,retain)NSString *usersex;
+@property(nonatomic,retain)NSString *username;
+@property(nonatomic,retain)NSString *worksf;
+@property(nonatomic,retain)NSString *mobile;
+@property(nonatomic,retain)NSString *loans_dyw;
+@property(nonatomic,retain)NSString *monthIncome;
+@property(nonatomic,retain)NSString *mon_date;
 @end
 
 //贷款用户咨询表

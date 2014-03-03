@@ -169,8 +169,6 @@
                            [NSNumber numberWithInt:wait.intValue],
                            [NSNumber numberWithInt:noCont.intValue]]];
     }
-    NSLog(@"total = %@",total);
-    NSLog(@"Values %@",values);
 }
 
 -(void)requestWithMonth:(NSInteger)aMonth Year:(NSInteger)aYear

@@ -65,6 +65,7 @@
 -(void)cardZTChangeWithDic:(NSDictionary *)aDic;            //已购买客户状态值修改
 -(void)cardPasswordBackWithDic:(NSDictionary *)aDic;        //找回密码
 -(void)cardStatisticWithDic:(NSDictionary *)aDic;               //数据统计
+-(void)cardUpdateFirstBuy;                                      //第一次购买
 
 -(void)uploadImageWithParams:(NSArray *)paras;             //上传图片
 @end

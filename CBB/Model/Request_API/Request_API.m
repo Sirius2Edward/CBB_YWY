@@ -8,6 +8,7 @@
 
 #import "Request_API.h"
 #import "SVProgressHUD.h"
+#import "DataModel.h"
 
 @implementation Request_API
 {
@@ -313,6 +314,14 @@
 {
     req.connectEnd = @selector(statisticEnd:);
     [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"XYKServlet" TypeID:1 Dictionary:aDic];
+}
+
+//第一次购买
+-(void)cardUpdateFirstBuy
+{
+    UserInfo *userinfo = [UserInfo shareInstance];
+    req.connectEnd = @selector(buyClient:);
+    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"XYKUpdateServlet" TypeID:1 Dictionary:@{@"username":userinfo.username,@"password":userinfo.password}];
 }
 #pragma mark -
 //上传图片

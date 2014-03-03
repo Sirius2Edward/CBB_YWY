@@ -27,9 +27,9 @@
     self = [super initWithStyle:style];
     if (self) {
         items = [NSMutableArray arrayWithObjects://@"推送服务开关",
-                                    @"基本资料修改",@"密码修改",@"意见反馈",@"关于我们", nil];
+                                    @"基本资料修改",@"密码修改", nil];//@"意见反馈",@"关于我们",
         pushAcitons = [NSMutableArray arrayWithObjects:@"pushModifyInfo",
-                       @"pushModifyPWD",@"feedBack",@"aboutUs", nil];
+                       @"pushModifyPWD", nil];//@"feedBack",@"aboutUs",
         req = [Request_API shareInstance];
     }
     return self;
@@ -198,10 +198,10 @@
 -(void)pushServiceChange:(UISwitch *)sender
 {
     if (sender.on) {
-        NSLog(@"on");
+//        NSLog(@"on");
     }
     else {
-        NSLog(@"off");
+//        NSLog(@"off");
     }
 }
 

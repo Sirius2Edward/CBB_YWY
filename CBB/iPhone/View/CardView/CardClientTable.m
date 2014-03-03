@@ -155,7 +155,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒" message:@"表单原价：10积分\n       折后：  9积分\n\n是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
     NSDictionary *info = [UserInfo shareInstance].userInfo;
     NSString *isfirst = [info objectForKey:@"isfirst"];
-    if (isfirst && isfirst.intValue>0) {
+    if (!isfirst || isfirst.intValue == 0) {
         NSString *firstBuyStr = @"注：这是您第一次使用卡贝贝购买表单\n    购买成功后，您将获赠20积分。\n\n";
         alert.message = [firstBuyStr stringByAppendingString:alert.message];
     }
@@ -167,7 +167,6 @@
 -(void)deleteClient
 {
     UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:@"请选择删除原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"其他" otherButtonTitles:@"资料达不到标准",@"位置偏远",@"资料错误",@"有本行信用卡", nil];
-
     [alert showInView:self.controller.view];
 }
 
@@ -185,7 +184,13 @@
                              uid,@"uid",nil];
         Request_API *req = [Request_API shareInstance];
         req.delegate = self;
-        [req cardBuyApplicationWithDic:dic];
+        NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
+        if (!isfirst || isfirst.intValue == 0) {
+            [req cardUpdateFirstBuy];
+        }
+        else {
+            [req cardBuyApplicationWithDic:dic];
+        }
     }
     else if (alertView.tag == 6601){
         NSString *content = [alertView textFieldAtIndex:0].text;
@@ -272,7 +277,6 @@
     }
     //购买成功
     [self removeCell];
-    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"查看客户详情",@"已购买客户表",nil];
     alert.tag = 6602;
     [alert show];
@@ -469,6 +473,7 @@ UIButton *statusButton;
     web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/xykhd.html";
     [self.navigationController pushViewController:web animated:YES];
 }
+
 #pragma mark - Table view data source
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -476,25 +481,29 @@ UIButton *statusButton;
     header.backgroundColor = self.tableView.backgroundColor;
     header.alpha = 0.85f;
     
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iponeV3img001.png"]];
+    imgV.frame = CGRectMake(2, 2, 52, 42);
+    [header addSubview:imgV];
+    
     UILabel *label;
-    label = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, 115, 15)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(57, 10, 115, 15)];
     label.text = @"卡贝贝专属福利！";
     label.font = [UIFont systemFontOfSize:14];
     [header addSubview:label];
     
-    label = [[UILabel alloc] initWithFrame:CGRectMake(153, 10, 160, 15)];
-    label.text = @"第一次使用卡贝贝购买表";
+    label = [[UILabel alloc] initWithFrame:CGRectMake(161, 10, 160, 15)];
+    label.text = @"第一次使用卡贝贝购买";
     label.textColor = [UIColor titleColor];
     label.font = [UIFont systemFontOfSize:14];
     [header addSubview:label];
     
-    label = [[UILabel alloc] initWithFrame:CGRectMake(50, 30, 125, 15)];
-    label.text = @"单送20分，再9折。";
+    label = [[UILabel alloc] initWithFrame:CGRectMake(57, 30, 140, 15)];
+    label.text = @"表单送20分，再9折！";
     label.textColor = [UIColor titleColor];
     label.font = [UIFont systemFontOfSize:14];
     [header addSubview:label];
     
-    label = [[UILabel alloc] initWithFrame:CGRectMake(175, 30, 110, 15)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(189, 30, 110, 15)];
     label.text = @"详细介绍 》";
     label.textColor = [UIColor blueColor];
     label.font = [UIFont systemFontOfSize:14];

@@ -8,7 +8,6 @@
 
 #import "BaseClientTable.h"
 #import "DataModel.h"
-#import "SBTableAlert.h"
 #import "LoanClientSift.h"
 
 @interface BaseLoanCell : UITableViewCell
@@ -16,7 +15,7 @@
 @end
 
 @class NewLoanClientTable;
-@interface NewLoanClientCell : BaseLoanCell<UIAlertViewDelegate,SBTableAlertDataSource,SBTableAlertDelegate>
+@interface NewLoanClientCell : BaseLoanCell<UIAlertViewDelegate,UIActionSheetDelegate>
 @property(nonatomic,retain)NewLoanClientTable *controller;
 @end
 

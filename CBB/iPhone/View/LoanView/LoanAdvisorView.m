@@ -336,7 +336,11 @@
 {
     req.delegate = self;
     if (seg.selectedSegmentIndex) {
-        [req loanAgainReplyWithDic:aDic];
+        NSMutableDictionary *mDic = [aDic mutableCopy];
+        [mDic setObject:[UserInfo shareInstance].ID forKey:@"loansid"];
+        [mDic setObject:[aDic objectForKey:@"id"] forKey:@"lyid"];
+        [mDic removeObjectForKey:@"id"];
+        [req loanAgainReplyWithDic:mDic];
     }
     else {
         [req loanFirstReplyWithDic:aDic];
@@ -427,7 +431,7 @@
         aCell.canDelete = canDel;
         cell = aCell;
     }
-    else if (indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {//回复栏
+    else if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1) {//回复栏
         LoanActionCell *tCell = [tableView dequeueReusableCellWithIdentifier:tIdentifier];
         if (Nil == tCell) {
             tCell = [[LoanActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tIdentifier];
@@ -443,7 +447,9 @@
         if (Nil == rCell) {
             rCell = [[LoanReplyCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:rIdentifier];
         }
-        rCell.reply = [_advisor.replyList objectAtIndex:indexPath.row-1];
+        if (_advisor.replyList) {
+            rCell.reply = [_advisor.replyList objectAtIndex:indexPath.row-1];
+        }
         cell = rCell;
     }
 
@@ -502,7 +508,6 @@
         dic = [aDic objectForKey:@"ReplyLoanslyServlet1"];
     }
     if (dic) {
-        currentPage = 1;
         [self requestDataPage:currentPage];
     }
 }
