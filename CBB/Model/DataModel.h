@@ -25,14 +25,10 @@
 //贷款新客户表
 @interface LoanClient : DataModel
 @property(nonatomic,retain)NSString *ID;
-@property(nonatomic,retain)NSString *orderid;
-@property(nonatomic,retain)NSString *LL;
 @property(nonatomic,retain)NSString *Rt;
-@property(nonatomic,retain)NSString *worktype;
 @property(nonatomic,retain)NSString *loanmoney;
 @property(nonatomic,retain)NSString *adddate;
 @property(nonatomic,retain)NSString *Xing;
-@property(nonatomic,retain)NSString *yearmonth;
 @property(nonatomic,retain)NSString *buynum;
 @property(nonatomic,retain)NSString *usersex;
 @property(nonatomic,retain)NSString *username;
@@ -41,6 +37,7 @@
 @property(nonatomic,retain)NSString *loans_dyw;
 @property(nonatomic,retain)NSString *monthIncome;
 @property(nonatomic,retain)NSString *mon_date;
+@property(nonatomic,retain)NSString *address;
 @end
 
 //贷款用户咨询表

@@ -37,15 +37,19 @@
 
 @implementation LoanClient
 @synthesize ID;
-@synthesize orderid;
-@synthesize LL;
 @synthesize Rt;
-@synthesize worktype;
 @synthesize loanmoney;
 @synthesize adddate;
 @synthesize Xing;
-@synthesize yearmonth;
 @synthesize buynum;
+@synthesize usersex;
+@synthesize username;
+@synthesize worksf;
+@synthesize mobile;
+@synthesize loans_dyw;
+@synthesize monthIncome;
+@synthesize mon_date;
+@synthesize address;
 @end
 
 @implementation Advisor

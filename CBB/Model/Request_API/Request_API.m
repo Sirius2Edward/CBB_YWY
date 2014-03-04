@@ -78,7 +78,7 @@
 -(void)loanNewClientsWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(newLoanClientEnd:);
-    [req httpRequestWithAPI:LoanYWY TypeID:2 Dictionary:aDic];
+    [req httpRequestWithAPI:LoanYWY TypeID:18 Dictionary:aDic];
 }
 
 //贷款单个客户申请表

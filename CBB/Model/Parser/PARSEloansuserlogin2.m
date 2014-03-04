@@ -8,7 +8,7 @@
 
 #import "PARSEloansuserlogin2.h"
 
-@implementation PARSEloansuserlogin2
+@implementation PARSEloansuserlogin18
 -(id)parser:(GDataXMLElement *)aElement
 {
     NSArray *itemsArr = [aElement nodesForXPath:@"//Item" error:nil];

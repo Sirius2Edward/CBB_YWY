@@ -12,6 +12,7 @@
 
 @interface BaseLoanCell : UITableViewCell
 @property(nonatomic,retain)LoanClient *item;
+@property(nonatomic,retain)UIImageView *bg;
 @end
 
 @class NewLoanClientTable;

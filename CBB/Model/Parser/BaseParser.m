@@ -45,23 +45,20 @@
         }
     }
     
-    NSString *resultType = [root.name substringFromIndex:root.name.length-4];
-    if ([resultType isEqualToString:@"List"])
+    //表单页数
+    NSArray *pageArr = [root nodesForXPath:@"//Pages/Items" error:nil];
+    if (!pageArr.count)
     {
-        //表单页数
-        NSArray *pageArr = [root nodesForXPath:@"//Pages/Items" error:nil];
-        if (!pageArr.count)
-        {
-            pageArr = [root nodesForXPath:@"//Pages/Item" error:nil];
-
-        }
-        if (pageArr.count) {
-            GDataXMLElement *pageInfo = [pageArr objectAtIndex:0];
-            for (GDataXMLNode *node in pageInfo.attributes) {
-                [self.parseredDic setObject:node.stringValue forKey:node.name];
-            }
+        pageArr = [root nodesForXPath:@"//Pages/Item" error:nil];
+        
+    }
+    if (pageArr.count) {
+        GDataXMLElement *pageInfo = [pageArr objectAtIndex:0];
+        for (GDataXMLNode *node in pageInfo.attributes) {
+            [self.parseredDic setObject:node.stringValue forKey:node.name];
         }
     }
+
     return [self parser:root];
 }
 

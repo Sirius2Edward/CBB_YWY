@@ -164,10 +164,6 @@
 -(IBAction)newClientAction
 {
     //未激活
-    if (!active) {
-        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
-        return;
-    }
     UserInfo *userInfo = [UserInfo shareInstance];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          userInfo.username,@"username",
@@ -270,7 +266,7 @@
 
 -(void)newLoanClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin2"];
+    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin18"];
     if (!data) {
         return;
     }

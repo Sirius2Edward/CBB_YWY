@@ -13,41 +13,37 @@
     UILabel *amountLabel;
     UILabel *adDateLabel;
 }
+@synthesize bg;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor clearColor];
-        UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new_loan.png"]];
-        bg.frame = CGRectMake(7, 10, 306, 223);
-//        [self.contentView addSubview:bg];
+        UIImage *bgImg = [UIImage imageNamed:@"loanCell_bg.png"];
+        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(100, 0, 20, 0)];
+        bg = [[UIImageView alloc] initWithImage:bgImg];
+        [self.contentView addSubview:bg];
         
-        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, 200, 25)];
-        nameLabel.font = [UIFont systemFontOfSize:16];
-        [self.contentView addSubview:nameLabel];
+        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 8, 200, 20)];
+        nameLabel.font = [UIFont systemFontOfSize:15];
+        [bg addSubview:nameLabel];
         
-        amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 30, 140, 20)];
-        amountLabel.font = [UIFont systemFontOfSize:15];
-        [self.contentView addSubview:amountLabel];
+        amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 29, 150, 20)];
+        amountLabel.font = [UIFont systemFontOfSize:14];
+        [bg addSubview:amountLabel];
         
-        adDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 30, 120, 20)];
+        adDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 29, 120, 20)];
         adDateLabel.textAlignment = NSTextAlignmentRight;
-        adDateLabel.font = [UIFont systemFontOfSize:14];
+        adDateLabel.font = [UIFont systemFontOfSize:13];
         adDateLabel.textColor = [UIColor grayColor];
-        [self.contentView addSubview:adDateLabel];
+        [bg addSubview:adDateLabel];
     }
     return self;
 }
 
 -(void)setItem:(LoanClient *)item
 {
-    NSString *mrs = nil;
-    if (item.usersex.integerValue == 1) {
-        mrs = @"先生";
-    }
-    else if (item.usersex.integerValue == 2) {
-        mrs = @"女士";
-    }
-    nameLabel.text = [NSString stringWithFormat:@"%@(%@)",item.username,mrs];
+
+    nameLabel.text = [NSString stringWithFormat:@"%@(%@)",item.username,item.usersex];
     amountLabel.text = [NSString stringWithFormat:@"贷%@万",item.loanmoney];
     adDateLabel.text = item.adddate;
 }
@@ -60,6 +56,9 @@
     NSString *orderID;
     UILabel *usageLabel;
     UILabel *identLabel;
+    UILabel *infoLabel;
+    UILabel *oriPriceLabel;
+    UILabel *dscPriceLabel;
     UIButton *buyButton;
     UIProgressView *grade;
 }
@@ -69,12 +68,12 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIButton *delBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [delBtn setBackgroundImage:[UIImage imageNamed:@"iponeV3btn002.png"] forState:UIControlStateNormal];
-        delBtn.frame = CGRectMake(270, 15, 10, 10);
+        delBtn.frame = CGRectMake(285, 23, 10, 10);
         [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:delBtn];
         
         NSArray *arr = @[@"贷款用途：",@"职业身份：",@"客户资质：",@"手 机 号 ："];
-        CGFloat yCo = 56;
+        CGFloat yCo = 60;
         for (int i = 0; i < arr.count; i++) {
             UILabel *itemL = [[UILabel alloc] initWithFrame:CGRectMake(30, yCo, 80, 25)];
             itemL.font = [UIFont systemFontOfSize:15];
@@ -84,24 +83,39 @@
             yCo += 25;
         }
         
-        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 56, 180, 25)];
+        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 180, 25)];
         usageLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:usageLabel];
         
-        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 81, 180, 25)];
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 180, 25)];
         identLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:identLabel];
         
         grade = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-        grade.frame = CGRectMake(110, 118, 100, 30);
+        grade.frame = CGRectMake(110, 122, 100, 30);
         [self.contentView addSubview:grade];
         
         buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        buyButton.frame = CGRectMake(110, 131, 100, 25);
+        buyButton.hidden = YES;
         buyButton.titleLabel.font = [UIFont systemFontOfSize:15];
         buyButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [buyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [self.contentView addSubview:buyButton];
+        
+        infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 138, 100, 20)];
+        infoLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:infoLabel];
+        
+        oriPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 158, 100, 20)];
+        [self.contentView addSubview:oriPriceLabel];
+        
+        dscPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 178, 100, 20)];
+        dscPriceLabel.font = [UIFont systemFontOfSize:15];
+        dscPriceLabel.textColor = [UIColor titleColor];
+        dscPriceLabel.text = @"折后：2.7分";
+        [self.contentView addSubview:dscPriceLabel];
+        
+        uid = [UserInfo shareInstance].ID;
     }
     return self;
 }
@@ -109,8 +123,7 @@
 -(void)setItem:(LoanClient *)item
 {
     [super setItem:item];
-    uid = item.ID;
-    orderID = item.orderid;
+    orderID = item.ID;
     usageLabel.text = item.Rt;
     identLabel.text = item.worksf;
     if (item.Xing.intValue>3) {
@@ -120,8 +133,69 @@
         grade.progressTintColor = [UIColor orangeColor];
     }
     grade.progress = item.Xing.floatValue/6;
-    if ([[[UserInfo shareInstance].userInfo objectForKey:@"dpset"] isEqualToString:@"1"]) {
+    NSDictionary *usi = [UserInfo shareInstance].userInfo;
+    buyButton.hidden = NO;
+    self.bg.frame = CGRectMake(10, 5, 300, 161);
+    if (![[usi objectForKey:@"ifActive"] isEqualToString:@"1"]) {//未认证
+        infoLabel.hidden = YES;
+        oriPriceLabel.hidden = YES;
+        dscPriceLabel.hidden = YES;
+        buyButton.frame = CGRectMake(110, 135, 100, 25);
         [buyButton setTitle:@"认证后免费抢" forState:UIControlStateNormal];
+        [buyButton addTarget:self action:@selector(authorAlert) forControlEvents:UIControlEventTouchUpInside];
+        return;
+    }
+    if ([[usi objectForKey:@"dpset"] isEqualToString:@"1"]) {   //已开通店铺
+        buyButton.frame = CGRectMake(200, 173, 50, 30);
+        [buyButton setTitle:@"购买" forState:UIControlStateNormal];
+        [buyButton addTarget:self action:@selector(buyAction:) forControlEvents:UIControlEventTouchUpInside];
+        if (item.buynum.integerValue < 5) {//免费抢
+            infoLabel.hidden = YES;
+            oriPriceLabel.hidden = YES;
+            dscPriceLabel.hidden = YES;
+            buyButton.frame = CGRectMake(110, 135, 100, 25);
+            [buyButton setTitle:@"免费抢" forState:UIControlStateNormal];
+        }
+        else if (item.buynum.integerValue == 10){//已购买5次
+            infoLabel.hidden = NO;
+            oriPriceLabel.hidden = YES;
+            dscPriceLabel.hidden = YES;
+            infoLabel.text = @"已购买5次";
+            buyButton.hidden = YES;
+        }
+        else {       //被买x次
+            self.bg.frame = CGRectMake(10, 5, 300, 200);
+            infoLabel.hidden = NO;
+            oriPriceLabel.hidden = NO;
+            dscPriceLabel.hidden = NO;
+            if (item.buynum.integerValue == 5) {
+                infoLabel.text = @"您来晚了";
+            }
+            else {
+                infoLabel.text = [NSString stringWithFormat:@"被买%d次",item.buynum.integerValue-5];
+            }
+            if ([item.worksf isEqualToString:@"上班族"] || [item.worksf isEqualToString:@"无固定职业"]) {
+                oriPriceLabel.attributedText = [[NSAttributedString alloc] initWithString:@"原价：10分"
+                                                                               attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                                                                            NSForegroundColorAttributeName:[UIColor grayColor],
+                                                                                            NSStrikethroughStyleAttributeName:@2}];
+            }
+            else {
+                oriPriceLabel.attributedText = [[NSAttributedString alloc] initWithString:@"原价：30分"
+                                                                               attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                                                                            NSForegroundColorAttributeName:[UIColor grayColor],
+                                                                                            NSStrikethroughStyleAttributeName:@2}];
+            }
+        }
+        
+    }
+    else {  //未开通店铺
+        infoLabel.hidden = YES;
+        oriPriceLabel.hidden = YES;
+        dscPriceLabel.hidden = YES;
+        buyButton.frame = CGRectMake(110, 135, 100, 25);
+        [buyButton setTitle:@"免费抢" forState:UIControlStateNormal];
+        [buyButton addTarget:self action:@selector(buyAction:) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
@@ -153,13 +227,37 @@
     clientDetail.detailInfo = [[mDic objectForKey:@"loansuserlogin6"] objectForKey:@"result"];
     [self.controller.navigationController pushViewController:clientDetail animated:YES];
 }
-//购买
--(void)buyAction
+
+//
+-(void)authorAlert
 {
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒您" message:@"本次购买将消费您的积分\n是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
-//    alert.tag = 6600;
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒您" message:@"请登录卡宝宝网站购买，卡贝贝正对此功能优化升级中！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请登录卡宝宝网站认证！\n客户端暂不支持认证..." delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
     [alert show];
+}
+
+//购买
+-(void)buyAction:(UIButton *)sender
+{
+    UserInfo *info = [UserInfo shareInstance];
+    if (![[info.userInfo objectForKey:@"dpset"] isEqualToString:@"1"] &&
+        [[info.userInfo objectForKey:@"qnum"] isEqualToString:@"3"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                        message:@"抱歉，您未开通店铺，所以只能免费抢3次表单，电脑登录卡宝宝网开通店铺吧！"
+                                                       delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    if ([sender.titleLabel.text isEqualToString:@"免费抢"]) {
+        NSDictionary *dic = @{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":uid};
+        Request_API *req = [Request_API shareInstance];
+        req.delegate = self;
+        [req loanBuyApplicationWithDic:dic];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
+        alert.tag = 6600;
+        [alert show];
+    }
 }
 
 //删除
@@ -176,11 +274,7 @@
     }
     if (alertView.tag == 6600) {
         UserInfo *info = [UserInfo shareInstance];
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                             info.username,@"username",
-                             info.password,@"password",
-                             info.ID,@"id",
-                             uid,@"uid",nil];
+        NSDictionary *dic = @{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":uid};
         Request_API *req = [Request_API shareInstance];
         req.delegate = self;
         [req loanBuyApplicationWithDic:dic];
@@ -193,12 +287,8 @@
         else
         {
             UserInfo *info = [UserInfo shareInstance];
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 info.username,@"username",
-                                 info.password,@"password",
-                                 info.ID,@"id",
-                                 orderID,@"orderid",
-                                 content,@"content",nil];
+            NSDictionary *dic = @{@"username":info.username, @"password":info.password,@"id":info.ID,
+                                  @"orderid":orderID,@"content":content};
             Request_API *req = [Request_API shareInstance];
             req.delegate = self;
             [req loanDeleteClientWithDic:dic];
@@ -239,6 +329,13 @@
     }
     //购买成功
     [self removeCell];
+    
+    NSDictionary *usi = [UserInfo shareInstance].userInfo;
+    if ([[usi objectForKey:@"dpset"] isEqualToString:@"1"]) {
+        
+    }
+    
+    
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"查看客户详情",@"已购买客户表",nil];
     alert.tag = 6602;
@@ -397,8 +494,6 @@
     UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.rightBarButtonItem = rightBarBtn;
     self.title = @"新客户申请表";
-    
-    NSLog(@"%@",NSStringFromCGRect(self.tableView.frame));
 }
 
 - (void)didReceiveMemoryWarning
@@ -504,7 +599,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 230.0f;
+    NSDictionary *usi = [UserInfo shareInstance].userInfo;
+    if ([[usi objectForKey:@"ifActive"] isEqualToString:@"1"]&&[[usi objectForKey:@"dpset"] isEqualToString:@"1"]) {
+        NSInteger buynum = ((LoanClient *)[self.items objectAtIndex:indexPath.row]).buynum.integerValue;
+        if (buynum > 4 && buynum < 10) {
+            return 210;
+        }
+    }
+    return 175;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -551,7 +653,7 @@
 
 -(void)newLoanClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin2"];
+    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin18"];
     if ([[dic objectForKey:@"Page"] integerValue] == 1) {
         self.page = 1;
         [self.items setArray:[dic objectForKey:@"UL"]];

@@ -8,6 +8,6 @@
 
 #import "BaseParser.h"
 
-@interface PARSEloansuserlogin2 : BaseParser
+@interface PARSEloansuserlogin18 : BaseParser
 
 @end

@@ -232,7 +232,7 @@
 
 -(void)newLoanClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin2"];
+    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin18"];
     if (dic) {
         [self.delegate changeSiftPara:param Data:dic];
         [self.navigationController popViewControllerAnimated:YES];
