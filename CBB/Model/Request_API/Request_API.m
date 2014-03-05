@@ -163,42 +163,71 @@
 -(void)loanStatisticWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(statisticEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"DkServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"DkServlet" TypeID:1 Dictionary:aDic];
 }
 
 //用户咨询
 -(void)loanAdvisorWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(advisorEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"LoanslyServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"LoanslyServlet" TypeID:1 Dictionary:aDic];
 }
 
 //已回复咨询
 -(void)loanRepliedAdvisorWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(advisorEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"LoanslyReServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"LoanslyReServlet" TypeID:1 Dictionary:aDic];
 }
 
 //删除咨询
 -(void)loanDelAdvisorWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(delAdvEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"DeleteLoanslyServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"DeleteLoanslyServlet" TypeID:1 Dictionary:aDic];
 }
 
 //回复未回复咨询
 -(void)loanFirstReplyWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(replyEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"ReplyLoanslyServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"ReplyLoanslyServlet" TypeID:1 Dictionary:aDic];
 }
 
 //回复已回复咨询
 -(void)loanAgainReplyWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(replyEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"AgainReplyLoanslyServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"AgainReplyLoanslyServlet" TypeID:1 Dictionary:aDic];
+}
+
+//第一次购买
+-(void)loanUpdateFirstBuy
+{
+    UserInfo *userinfo = [UserInfo shareInstance];
+    req.connectEnd = @selector(buyClient:);
+    [req httpRequestWithURL:SeveletURL API:@"DkUpdateServlet" TypeID:1 Dictionary:@{@"username":userinfo.username,@"password":userinfo.password}];
+}
+
+//对我店铺申请表
+-(void)loanForMyShopWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(forMeClientEnd:);
+    [req httpRequestWithAPI:LoanYWY TypeID:17 Dictionary:aDic];
+}
+
+//对我产品申请表
+-(void)loanForMyProductWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(forMeclientEnd:);
+    [req httpRequestWithAPI:LoanYWY TypeID:19 Dictionary:aDic];
+}
+
+//购买对我申请的表单
+-(void)loanBuyForMeFormWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(buyEnd:);
+    [req httpRequestWithAPI:LoanYWY TypeID:20 Dictionary:aDic];
 }
 
 #pragma mark - 信用卡业务员
@@ -313,7 +342,7 @@
 -(void)cardStatisticWithDic:(NSDictionary *)aDic
 {
     req.connectEnd = @selector(statisticEnd:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"XYKServlet" TypeID:1 Dictionary:aDic];
+    [req httpRequestWithURL:SeveletURL API:@"XYKServlet" TypeID:1 Dictionary:aDic];
 }
 
 //第一次购买
@@ -321,7 +350,7 @@
 {
     UserInfo *userinfo = [UserInfo shareInstance];
     req.connectEnd = @selector(buyClient:);
-    [req httpRequestWithURL:@"http://192.168.1.132:8089/cardbaobao-ywy/" API:@"XYKUpdateServlet" TypeID:1 Dictionary:@{@"username":userinfo.username,@"password":userinfo.password}];
+    [req httpRequestWithURL:SeveletURL API:@"XYKUpdateServlet" TypeID:1 Dictionary:@{@"username":userinfo.username,@"password":userinfo.password}];
 }
 #pragma mark -
 //上传图片

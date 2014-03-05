@@ -9,9 +9,14 @@
 #import "BaseClientTable.h"
 #import "DataModel.h"
 #import "LoanClientSift.h"
+#import "CustomPicker.h"
 
+#pragma mark - Cell
 @interface BaseLoanCell : UITableViewCell
 @property(nonatomic,retain)LoanClient *item;
+@property(nonatomic,retain)UILabel *nameLabel;
+@property(nonatomic,retain)UILabel *amountLabel;
+@property(nonatomic,retain)UILabel *adDateLabel;
 @property(nonatomic,retain)UIImageView *bg;
 @end
 
@@ -23,22 +28,32 @@
 @class DoneLoanClientTable;
 @interface DoneLoanClientCell : BaseLoanCell
 @property(nonatomic,retain)DoneLoanClientTable *controller;
+@property(nonatomic,retain)NSString *status;
+@end
+
+@interface LoanShopClientCell : BaseLoanCell
+@end
+
+@interface LoanProductClientCell : BaseLoanCell
+@end
+
+#pragma mark - Table
+@interface LoanClientTable : BaseClientTable
+@property(nonatomic,retain)NSMutableDictionary *data;
+@property(nonatomic,retain)NSMutableArray *items;
+@property(nonatomic,assign)NSInteger page;
 @end
 
 //新客户申请表
-@interface NewLoanClientTable : BaseClientTable<changeSiftParaDelegate>
-@property(nonatomic,retain)NSMutableDictionary *data;
-@property(nonatomic,retain)NSMutableArray *items;
-@property(nonatomic,assign)NSInteger page;
+@interface NewLoanClientTable : LoanClientTable<changeSiftParaDelegate>
 @end
 
 //已购买的客户表
-@interface DoneLoanClientTable : BaseClientTable
-@property(nonatomic,retain)NSMutableDictionary *data;
-@property(nonatomic,retain)NSMutableArray *items;
-@property(nonatomic,assign)NSInteger page;
-@property(nonatomic,retain)NSDictionary *zts;
+@interface DoneLoanClientTable : LoanClientTable<CustomPickerDelegate>
+-(void)updateStatus:(DoneLoanClientCell *)cell;
 @end
 
-@interface LoanClientTable : BaseClientTable
+//对我申请的客户表
+@interface ForMeLoanClientTable : LoanClientTable
+
 @end

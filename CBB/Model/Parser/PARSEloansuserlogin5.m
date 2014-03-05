@@ -21,6 +21,23 @@
         [mArr addObject:client];
     }
     [self.parseredDic setObject:mArr forKey:@"UL"];
+    
+    NSArray *ztArr = [aElement nodesForXPath:@"//zts/zt" error:nil];
+    NSMutableDictionary *mDic = [NSMutableDictionary dictionary];
+    for (GDataXMLElement *e in ztArr) {
+        NSString *key = nil;
+        NSString *value = nil;
+        for (GDataXMLNode *node in e.attributes) {
+            if ([node.name isEqualToString:@"value"]) {
+                value = node.stringValue;
+            }
+            if ([node.name isEqualToString:@"name"]) {
+                key = node.stringValue;
+            }
+        }
+        [mDic setObject:value forKey:key];
+    }
+    [self.parseredDic setValue:mDic forKey:@"ZTS"];
     return self.parseredDic;
 }
 @end

@@ -117,7 +117,7 @@
     loginBtn.frame = rect;
     
     rect.origin = CGPointMake(80, 230);
-    rect.size = [forgotBtn.text sizeWithFont:forgotBtn.font];
+    rect.size = [forgotBtn.text sizeWithAttributes:@{NSFontAttributeName:forgotBtn.font}];
     forgotBtn.frame = rect;
     
     rect.origin = CGPointMake(80, 260);

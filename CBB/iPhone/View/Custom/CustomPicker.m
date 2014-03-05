@@ -7,6 +7,7 @@
 //
 
 #import "CustomPicker.h"
+#import "UIColor+TitleColor.h"
 
 @implementation CustomPicker
 {
@@ -28,15 +29,17 @@
         
         //创建工具栏
         NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:3];
+        self.text = [[UILabel alloc] initWithFrame:CGRectMake(10, 7, 250, 30)];
+        self.text.textColor = [UIColor titleColor];
+        UIBarButtonItem *textItem = [[UIBarButtonItem alloc] initWithCustomView: self.text];
         UIBarButtonItem *confirmBtn = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(confirmPicker)];
         UIBarButtonItem *flexibleSpaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        [items addObject:textItem];
         [items addObject:flexibleSpaceItem];
         [items addObject:confirmBtn];        
         if (toolBar==nil) {
             toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
         }
-        toolBar.hidden = NO;
-        toolBar.barStyle = UIBarStyleDefault;
         toolBar.items = items;
         items = nil;
         [self addSubview:toolBar];
@@ -162,7 +165,9 @@
         key = [[[[self.data objectForKey:com_one] objectAtIndex:1] allKeys] objectAtIndex:row];
         self.selectItem = [NSString stringWithFormat:@"%@ - %@",com_one,key];
     }
-    [self.delegate selectAction:self.selectItem];
+    if ([self.delegate respondsToSelector:@selector(selectAction:)]) {
+        [self.delegate selectAction:self.selectItem];
+    }
 }
 
 -(void)dealloc

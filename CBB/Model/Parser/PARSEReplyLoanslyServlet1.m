@@ -11,7 +11,7 @@
 @implementation PARSEReplyLoanslyServlet1
 -(id)superParser
 {
-    if (nil == self.parserString) {
+    if (nil == self.parserString || [self.parserString isEqualToString:@""]) {
         [SVProgressHUD showErrorWithStatus:@"获取不到统计数据！" duration:0.789f];
         return nil;
     }

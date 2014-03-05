@@ -20,6 +20,7 @@
 @property(nonatomic,assign)NSInteger components;
 @property(nonatomic,retain)NSString *selectItem;
 @property(nonatomic,retain)NSDictionary *userInfo;
+@property(nonatomic,retain)UILabel *text;
 @property(nonatomic,assign)id<CustomPickerDelegate> delegate;
 - (void)showPickerInView:(UIView *)view;
 - (void)cancelPicker;

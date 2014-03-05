@@ -8,11 +8,9 @@
 #import "WebViewController.h"
 
 @implementation BaseLoanCell
-{
-    UILabel *nameLabel;
-    UILabel *amountLabel;
-    UILabel *adDateLabel;
-}
+@synthesize nameLabel;
+@synthesize amountLabel;
+@synthesize adDateLabel;
 @synthesize bg;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -52,7 +50,6 @@
 #pragma mark - 新申请客户Cell
 @implementation NewLoanClientCell
 {
-    NSString *uid;
     NSString *orderID;
     UILabel *usageLabel;
     UILabel *identLabel;
@@ -115,7 +112,6 @@
         dscPriceLabel.text = @"折后：2.7分";
         [self.contentView addSubview:dscPriceLabel];
         
-        uid = [UserInfo shareInstance].ID;
     }
     return self;
 }
@@ -207,7 +203,7 @@
                          info.username,@"username",
                          info.password,@"password",
                          info.ID,@"id",
-                         uid,@"uid",nil];
+                         orderID,@"uid",nil];
     Request_API *req = [Request_API shareInstance];
     req.delegate = self;
     [req loanClientInfoWithDic:dic];
@@ -243,18 +239,23 @@
         [[info.userInfo objectForKey:@"qnum"] isEqualToString:@"3"]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
                                                         message:@"抱歉，您未开通店铺，所以只能免费抢3次表单，电脑登录卡宝宝网开通店铺吧！"
-                                                       delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                                                       delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         return;
     }
     if ([sender.titleLabel.text isEqualToString:@"免费抢"]) {
-        NSDictionary *dic = @{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":uid};
+        NSDictionary *dic = @{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":orderID};
         Request_API *req = [Request_API shareInstance];
         req.delegate = self;
         [req loanBuyApplicationWithDic:dic];
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
+        NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
+        if (!isfirst || isfirst.intValue == 0) {
+            NSString *firstBuyStr = @"注：这是您第一次使用卡贝贝购买表单\n    购买成功后，您将获赠20积分。\n\n";
+            alert.message = [firstBuyStr stringByAppendingString:alert.message];
+        }
         alert.tag = 6600;
         [alert show];
     }
@@ -274,10 +275,16 @@
     }
     if (alertView.tag == 6600) {
         UserInfo *info = [UserInfo shareInstance];
-        NSDictionary *dic = @{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":uid};
+        NSDictionary *dic = @{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":orderID};
         Request_API *req = [Request_API shareInstance];
         req.delegate = self;
-        [req loanBuyApplicationWithDic:dic];
+        NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
+        if (!isfirst || isfirst.intValue == 0) {
+            [req loanUpdateFirstBuy];
+        }
+        else {
+            [req loanBuyApplicationWithDic:dic];
+        }
     }
     else if (alertView.tag == 6601){
         NSString *content = [alertView textFieldAtIndex:0].text;
@@ -302,7 +309,7 @@
                                  info.username,@"username",
                                  info.password,@"password",
                                  info.ID,@"id",
-                                 uid,@"uid",nil];
+                                 orderID,@"uid",nil];
             Request_API *req = [Request_API shareInstance];
             req.delegate = self;
             [req loanBuyerDetailWithDic:dic];
@@ -330,16 +337,20 @@
     //购买成功
     [self removeCell];
     
-    NSDictionary *usi = [UserInfo shareInstance].userInfo;
-    if ([[usi objectForKey:@"dpset"] isEqualToString:@"1"]) {
-        
+    NSMutableDictionary *usi = [UserInfo shareInstance].userInfo;
+    NSInteger qnum = [[usi objectForKey:@"qnum"] integerValue];
+    if (![[usi objectForKey:@"dpset"] isEqualToString:@"1"] && qnum < 3) {
+        qnum++;
+        [usi setObject:[NSString stringWithFormat:@"%d",qnum] forKey:@"qnum"];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                        message:[NSString stringWithFormat:@"抢取表单成功！您还剩下%d次免费抢表机会！电脑登录卡宝宝网开通店铺吧，可不限次数免费抢！",3-qnum] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
     }
-    
-    
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"查看客户详情",@"已购买客户表",nil];
-    alert.tag = 6602;
-    [alert show];
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"查看客户详情",@"已购买客户表",nil];
+        alert.tag = 6602;
+        [alert show];
+    }
 }
 
 -(void)delClient:(id)mDic
@@ -407,17 +418,60 @@
 @implementation DoneLoanClientCell
 {
     NSString *uid;
+    UILabel *usageLabel;
+    UILabel *identLabel;
+    UILabel *incomLabel;
+    UILabel *mortgLabel;
+    UILabel *mobilLabel;
+    UILabel *bDateLabel;
+    UIButton *statusButton;
+    UIProgressView *grade;
 }
 @synthesize controller;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setBackgroundImage:[UIImage imageNamed:@"detail01.png"] forState:0];
-        [button setBackgroundImage:[UIImage imageNamed:@"detail02.png"] forState:UIControlStateHighlighted];
-        [button addTarget:self action:@selector(detail) forControlEvents:UIControlEventTouchUpInside];
-        button.frame = CGRectMake(11.5, 186.5, 297, 42);
-        [self addSubview:button];
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.bg.frame = CGRectMake(10, 5, 300, 212);
+        NSArray *arr = @[@"贷款用途：",@"职业身份：",@"打卡工资：",@"有无抵押：",@"手 机 号 ：",@"购买时间："];
+        CGFloat yCo = 60;
+        for (int i = 0; i < arr.count; i++) {
+            UILabel *itemL = [[UILabel alloc] initWithFrame:CGRectMake(30, yCo, 80, 25)];
+            itemL.font = [UIFont systemFontOfSize:15];
+            itemL.textColor = [UIColor darkGrayColor];
+            itemL.text = [arr objectAtIndex:i];
+            [self.contentView addSubview:itemL];
+            yCo += 25;
+        }
+        statusButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        statusButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        [statusButton setTitle:@"未联系" forState:UIControlStateNormal];
+        statusButton.frame = CGRectMake(150, 8, 150, 30);
+        [statusButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:statusButton];
+        
+        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 130, 25)];
+        usageLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:usageLabel];
+        
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 130, 25)];
+        identLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:identLabel];
+        
+        incomLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 110, 180, 25)];
+        incomLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:incomLabel];
+        
+        mortgLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 135, 180, 25)];
+        mortgLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:mortgLabel];
+        
+        mobilLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 160, 180, 25)];
+        mobilLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:mobilLabel];
+        
+        bDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 185, 180, 25)];
+        bDateLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:bDateLabel];
     }
     return self;
 }
@@ -426,6 +480,29 @@
 {
     [super setItem:item];
     uid = item.ID;
+    
+    if (item.usersex.integerValue == 1) {
+        self.nameLabel.text = [NSString stringWithFormat:@"%@(先生)",item.username];
+    }
+    else if (item.usersex.integerValue == 2) {
+        self.nameLabel.text = [NSString stringWithFormat:@"%@(女士)",item.username];
+    }
+    usageLabel.text = item.Rt;
+    identLabel.text = item.worksf;
+    incomLabel.text = item.monthIncome;
+    mortgLabel.text = item.loans_dyw;
+    mobilLabel.text = item.mobile;
+    bDateLabel.text = item.mon_date;
+}
+
+-(void)setStatus:(NSString *)status
+{
+    [statusButton setTitle:status forState:UIControlStateNormal];
+}
+
+-(void)changeStatus:(UIButton *)sender
+{
+    [self.controller updateStatus:self];
 }
 
 //查看详情
@@ -450,19 +527,27 @@
 }
 @end
 
+#pragma mark - 对我店铺表单Cell
+@implementation LoanShopClientCell
+@end
+
+#pragma mark - 对我产品表单Cell
+@implementation LoanProductClientCell
+@end
 
 #pragma mark - table -
-@interface NewLoanClientTable ()
+@implementation LoanClientTable
+@synthesize items;
+@synthesize page;
+@end
+#pragma mark -
+@implementation NewLoanClientTable
 {
     Request_API *req;
     NSMutableDictionary *_data;
     NSMutableDictionary *param;
 }
-@end
-@implementation NewLoanClientTable
 @synthesize data = _data;
-@synthesize items;
-@synthesize page;
 - (id)init
 {
     self = [super init];
@@ -606,7 +691,7 @@
             return 210;
         }
     }
-    return 175;
+    return 173;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -667,23 +752,19 @@
 -(void)popAction
 {
     [self.data setObject:self.items forKey:@"UL"];
-    [self.data setObject:[NSString stringWithFormat:@"%d",page] forKey:@"Page"];
+    [self.data setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"Page"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end
 
-
-
-@interface DoneLoanClientTable ()
+@implementation DoneLoanClientTable
 {
     Request_API *req;
+    CustomPicker *picker;
     NSMutableDictionary *_data;
+    NSArray *zts;
 }
-@end
-@implementation DoneLoanClientTable
 @synthesize data = _data;
-@synthesize items;
-@synthesize page;
 - (id)init
 {
     self = [super init];
@@ -698,20 +779,81 @@
     _data = data;
     self.items = [NSMutableArray arrayWithArray:[data objectForKey:@"UL"]];
     self.page = [[self.data objectForKey:@"Page"] integerValue];
+    
+    NSDictionary *ztDic = [data objectForKey:@"ZTS"];
+    zts = [[ztDic allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([[ztDic objectForKey:obj1] integerValue] < [[ztDic objectForKey:obj2] integerValue]) {
+            return NSOrderedAscending;
+        }
+        return NSOrderedDescending;
+    }];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"正在受理客户表";
+    self.title = @"已购买的表单";
 }
 
-- (void)didReceiveMemoryWarning
+-(void)updateStatus:(DoneLoanClientCell *)cell
 {
-    [super didReceiveMemoryWarning];
+    if (picker) {
+        [picker removeFromSuperview];
+    }
+    picker = [[CustomPicker alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-260, 320, 260)];
+    picker.text.text = [NSString stringWithFormat:@"%@  %@",cell.nameLabel.text,cell.amountLabel.text];
+    picker.userInfo = @{@"CELL":cell};
+    picker.components = 1;
+    picker.keysInOrder = zts;
+    picker.delegate = self;
+    [picker showPickerInView:self.view];
 }
 
 #pragma mark - Table view data source
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    header.backgroundColor = self.tableView.backgroundColor;
+    header.alpha = 0.85f;
+    
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iponeV3img001.png"]];
+    imgV.frame = CGRectMake(5, 2, 52, 42);
+    [header addSubview:imgV];
+    
+    UILabel *label;
+    label = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 85, 15)];
+    label.text = @"修改跟进状态";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(145, 10, 42, 15)];
+    label.text = @"送积分";
+    label.textColor = [UIColor titleColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(187, 10, 125, 15)];
+    label.text = @"，修改一次送0.1分";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(60, 30, 260, 15)];
+    label.text = @"最多送2次，请勿恶意修改！点状态修改";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    return header;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -725,7 +867,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 230.0f;
+    return 222.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -795,13 +937,147 @@
 -(void)popAction
 {
     [self.data setObject:self.items forKey:@"UL"];
-    [self.data setObject:[NSString stringWithFormat:@"%d",page] forKey:@"Page"];
+    [self.data setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"Page"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
+#pragma CustomPicker
+-(void)confirmAction:(NSString *)value WithInfo:(NSDictionary *)info
+{
+    DoneLoanClientCell *cell = [info objectForKey:@"CELL"];
+    cell.status = value;
+    
+    LoanClient *item = [self.items objectAtIndex:[self.tableView indexPathForCell:cell].row];
+}
+
+-(void)selectAction:(NSString *)value {}
 @end
 
-#pragma mark -
-@interface LoanClientTable ()
-@end
-@implementation LoanClientTable
+@implementation ForMeLoanClientTable
+{
+    Request_API *req;
+    UISegmentedControl *seg;
+    NSMutableDictionary *_data;
+    NSMutableDictionary *_shopData;
+    NSMutableDictionary *_productData;
+}
+@synthesize data = _data;
+-(void)setData:(NSMutableDictionary *)data
+{
+    _data = data;
+    self.items = [NSMutableArray arrayWithArray:[data objectForKey:@"UL"]];
+    self.page = [[self.data objectForKey:@"Page"] integerValue];
+}
+
+-(void)loadView
+{
+    req = [Request_API shareInstance];
+    req.delegate = self;
+    self.tableStyle = UITableViewStyleGrouped;
+    [super loadView];
+    seg = [[UISegmentedControl alloc] initWithItems:@[@"店铺申请表",@"产品申请表"]];
+    seg.frame = CGRectMake(0, 0, 150, 32);
+    seg.tintColor = [UIColor whiteColor];
+    seg.selectedSegmentIndex = 0;
+    [seg addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView = seg;
+    self.navigationItem.prompt = @"对我申请的表单";
+}
+
+-(void)changeContent:(UISegmentedControl *)sender
+{
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+//    currentPage = 1;
+//    [self requestDataPage:currentPage];
+}
+
+-(void)pushToWeb:(UIButton *)sender
+{
+    WebViewController *web = [WebViewController new];
+    web.title = @"优惠活动";
+    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
+    [self.navigationController pushViewController:web animated:YES];
+}
+
+-(void)popAction
+{
+//    [self.data setObject:self.items forKey:@"UL"];
+//    [self.data setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"Page"];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+#pragma mark - TableView Delegate
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    header.backgroundColor = self.tableView.backgroundColor;
+    header.alpha = 0.85f;
+    
+    UIImageView *imgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iponeV3img001.png"]];
+    imgV.frame = CGRectMake(5, 2, 52, 42);
+    [header addSubview:imgV];
+    
+    UILabel *label;
+    label = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 167, 15)];
+    label.text = @"大福利：此处表单2分/张，";
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(225, 10, 95, 15)];
+    label.text = @"首次使用卡贝";
+    label.textColor = [UIColor titleColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(55, 30, 185, 15)];
+    label.text = @"贝购买送20积分，再折上折！";
+    label.textColor = [UIColor titleColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(239, 30, 80, 15)];
+    label.text = @"详细介绍 》";
+    label.textColor = [UIColor blueColor];
+    label.font = [UIFont systemFontOfSize:14];
+    [header addSubview:label];
+    
+    UIButton  *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:self action:@selector(pushToWeb:) forControlEvents:UIControlEventTouchUpInside];
+    btn.frame = CGRectMake(5, 5, 310, 39);
+    [header addSubview:btn];
+    return header;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+#pragma mark - Connect END
+-(void)forMeClientEnd:(id)aDic
+{
+    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin17"];
+    if (!data) {
+        return;
+    }
+    
+    self.data = data;
+    if (seg.selectedSegmentIndex) {
+        _productData = data;
+    }
+    else {
+        _shopData = data;
+    }
+    
+}
 @end

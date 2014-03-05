@@ -208,6 +208,8 @@
 		36EBD05B17C4BDF600C95D31 /* PARSEloansuserlogin16.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EBD05A17C4BDF600C95D31 /* PARSEloansuserlogin16.m */; };
 		36EBD05F17C4D28E00C95D31 /* PARSEuserreg1.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EBD05E17C4D28E00C95D31 /* PARSEuserreg1.m */; };
 		36EBD06217C4DDA700C95D31 /* PARSEcarduserlogin9.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EBD06117C4DDA600C95D31 /* PARSEcarduserlogin9.m */; };
+		36EE27A518C6C3470026F772 /* PARSEXYKUpdateServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EE27A418C6C3470026F772 /* PARSEXYKUpdateServlet1.m */; };
+		36EE27A818C6C38E0026F772 /* PARSEDkUpdateServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EE27A718C6C38E0026F772 /* PARSEDkUpdateServlet1.m */; };
 		36F1B05117BA171A00CF0AF8 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F1B05017BA171A00CF0AF8 /* CoreText.framework */; };
 		36F44B2F17B1E06A00A9454F /* BaseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F44B2C17B1E06A00A9454F /* BaseParser.m */; };
 		36F44B3A17B2163900A9454F /* Request_API.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F44B3917B2163900A9454F /* Request_API.m */; };
@@ -528,6 +530,10 @@
 		36EBD05E17C4D28E00C95D31 /* PARSEuserreg1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEuserreg1.m; sourceTree = "<group>"; };
 		36EBD06017C4DDA500C95D31 /* PARSEcarduserlogin9.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin9.h; sourceTree = "<group>"; };
 		36EBD06117C4DDA600C95D31 /* PARSEcarduserlogin9.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEcarduserlogin9.m; sourceTree = "<group>"; };
+		36EE27A318C6C3470026F772 /* PARSEXYKUpdateServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEXYKUpdateServlet1.h; sourceTree = "<group>"; };
+		36EE27A418C6C3470026F772 /* PARSEXYKUpdateServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEXYKUpdateServlet1.m; sourceTree = "<group>"; };
+		36EE27A618C6C38E0026F772 /* PARSEDkUpdateServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEDkUpdateServlet1.h; sourceTree = "<group>"; };
+		36EE27A718C6C38E0026F772 /* PARSEDkUpdateServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEDkUpdateServlet1.m; sourceTree = "<group>"; };
 		36F1B05017BA171A00CF0AF8 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		36F44B2B17B1E06A00A9454F /* BaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseParser.h; sourceTree = "<group>"; };
 		36F44B2C17B1E06A00A9454F /* BaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseParser.m; sourceTree = "<group>"; };
@@ -616,6 +622,8 @@
 				3664F8BE18C027F8005FFF99 /* PARSEReplyLoanslyServlet1.m */,
 				3664F8C018C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.h */,
 				3664F8C118C0280C005FFF99 /* PARSEAgainReplyLoanslyServlet1.m */,
+				36EE27A618C6C38E0026F772 /* PARSEDkUpdateServlet1.h */,
+				36EE27A718C6C38E0026F772 /* PARSEDkUpdateServlet1.m */,
 			);
 			name = LoanParser;
 			sourceTree = "<group>";
@@ -653,6 +661,8 @@
 				36EBD05717C4B63300C95D31 /* PARSEcarduserlogin16.m */,
 				3679768B18B5EC990082CB12 /* PARSEXYKServlet1.h */,
 				3679768C18B5EC990082CB12 /* PARSEXYKServlet1.m */,
+				36EE27A318C6C3470026F772 /* PARSEXYKUpdateServlet1.h */,
+				36EE27A418C6C3470026F772 /* PARSEXYKUpdateServlet1.m */,
 			);
 			name = CardParser;
 			sourceTree = "<group>";
@@ -1364,6 +1374,7 @@
 				3640A1C017B08C7D0064D4EF /* main.m in Sources */,
 				3640A1C417B08C7D0064D4EF /* AppDelegate.m in Sources */,
 				3640A21817B08E790064D4EF /* HTTP_Request.m in Sources */,
+				36EE27A818C6C38E0026F772 /* PARSEDkUpdateServlet1.m in Sources */,
 				3640A24617B0C9510064D4EF /* DataModel.m in Sources */,
 				3657186518BC78760066B59A /* PARSELoanslyServlet1.m in Sources */,
 				36F44B2F17B1E06A00A9454F /* BaseParser.m in Sources */,
@@ -1446,6 +1457,7 @@
 				3614F6E517D4606700D6B02C /* AreaSift.m in Sources */,
 				3618EB9117D5CE9500196133 /* ListButton.m in Sources */,
 				362E3F8B17DDA07E0041F20D /* UploadPicture.m in Sources */,
+				36EE27A518C6C3470026F772 /* PARSEXYKUpdateServlet1.m in Sources */,
 				362E3F9C17DDBF8B0041F20D /* CardClientSift.m in Sources */,
 				362CABA917DEBB4900C2F3F5 /* PayRecordTable.m in Sources */,
 				362CABAC17DEC53000C2F3F5 /* PARSEloansuserlogin7.m in Sources */,

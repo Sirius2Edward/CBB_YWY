@@ -15,6 +15,8 @@
 #define LoanREG @"loansreg.asp"
 #define CardREG @"regcard.asp"
 
+#define SeveletURL @"http://192.168.1.132:8089/cardbaobao-ywy/"
+
 @interface Request_API : NSObject
 
 @property(nonatomic,assign)id delegate;
@@ -47,6 +49,10 @@
 -(void)loanDelAdvisorWithDic:(NSDictionary *)aDic;              //删除咨询
 -(void)loanFirstReplyWithDic:(NSDictionary *)aDic;              //回复未回复咨询
 -(void)loanAgainReplyWithDic:(NSDictionary *)aDic;              //回复已回复咨询
+-(void)loanUpdateFirstBuy;                                      //第一次购买
+-(void)loanForMyShopWithDic:(NSDictionary *)aDic;           //对我店铺申请表
+-(void)loanForMyProductWithDic:(NSDictionary *)aDic;        //对我产品申请表
+-(void)loanBuyForMeFormWithDic:(NSDictionary *)aDic;        //购买对我申请的表单
 
 //信用卡业务员
 -(void)cardLoginWithDic:(NSDictionary *)aDic;               //信用卡业务员登录

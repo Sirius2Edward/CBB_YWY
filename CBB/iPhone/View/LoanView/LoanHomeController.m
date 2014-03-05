@@ -24,11 +24,13 @@
 }
 @property(nonatomic,retain)NSMutableDictionary *appClientData;
 @property(nonatomic,retain)NSMutableDictionary *doneClientData;
+@property(nonatomic,retain)NSMutableDictionary *shopClientData;
 @end
 
 @implementation LoanHomeController
 @synthesize appClientData;
 @synthesize doneClientData;
+@synthesize shopClientData;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -94,6 +96,7 @@
 {
     UserInfo *login = [UserInfo shareInstance];
     NSString *formNum = [login.userInfo objectForKey:@"newreg"];
+    NSString *myRegNum = [login.userInfo objectForKey:@"dpreg"];
     NSString *money = [login.userInfo objectForKey:@"money"];
     NSString *avaName = [login.userInfo objectForKey:@"images"];
     if (avaName && ![avaName isEqualToString:@""]) {
@@ -105,6 +108,7 @@
                               [login.userInfo objectForKey:@"workname"]];
     self.moneyLabel.text = money==nil?@"0分":[NSString stringWithFormat:@"%@分",money];
     self.matchReg.text = formNum==nil?@"新增0张":[NSString stringWithFormat:@"新增%@张",formNum];
+    self.toMeReg.text = myRegNum==nil?@"新增0张":[NSString stringWithFormat:@"新增%@张",myRegNum];
 }
 
 -(void)pushToNewLoanClientTable
@@ -119,6 +123,19 @@
     DoneLoanClientTable *loanClientTable = [[DoneLoanClientTable alloc] init];
     loanClientTable.data = self.doneClientData;
     [self.navigationController pushViewController:loanClientTable animated:YES];
+}
+
+-(void)pushToForMeClientTable
+{
+    ForMeLoanClientTable *loanClientTable = [[ForMeLoanClientTable alloc] init];
+    loanClientTable.data = self.shopClientData;
+    [self.navigationController pushViewController:loanClientTable animated:YES];
+}
+
+-(void)goToPay
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"在线充值" message:@"因手机客户端暂未开通在线充值！\n您可以通过支付宝把充值的金额转入我公司支付宝账号：service@cardbaobao.com\n并及时通知为您服务的客户经理！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"进入支付宝", nil];
+    [alert show];
 }
 
 #pragma mark - IBAction
@@ -163,12 +180,8 @@
 //新客户表
 -(IBAction)newClientAction
 {
-    //未激活
     UserInfo *userInfo = [UserInfo shareInstance];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         userInfo.username,@"username",
-                         userInfo.password,@"password",
-                         userInfo.ID,@"id", nil];
+    NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID};
     if (!self.appClientData) {
         [req loanNewClientsWithDic:dic];
     }
@@ -177,19 +190,25 @@
     }
 }
 
+//对我申请
+-(IBAction)forMeClientAction:(id)sender
+{
+    UserInfo *userInfo = [UserInfo shareInstance];
+    NSInteger dpreg = [[userInfo.userInfo objectForKey:@"dpreg"] integerValue];
+    if (dpreg == 0) {
+        [SVProgressHUD showErrorWithStatus:@"暂无客户对我提交表单" duration:0.789f];
+        return;
+    }
+    NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID};
+    [req loanForMyShopWithDic:dic];
+    [self pushToForMeClientTable];
+}
+
 //已购买表
 -(IBAction)doneClientAction
 {
-    //未激活
-    if (!active) {
-        [SVProgressHUD showErrorWithStatus:@"您尚未激活该账户！\n速联系我们..." duration:0.789f];
-        return;
-    }
     UserInfo *userInfo = [UserInfo shareInstance];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         userInfo.username,@"username",
-                         userInfo.password,@"password",
-                         userInfo.ID,@"id", nil];
+    NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID};
     if (!self.doneClientData) {
         [req loanBuyersInfoWithDic:dic];
     }
@@ -197,7 +216,6 @@
         [self pushToDoneLoanClientTable];
     }
 }
-
 
 
 -(IBAction)lookChart
@@ -221,19 +239,11 @@
 -(IBAction)payRecord
 {
     UserInfo *userInfo = [UserInfo shareInstance];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         userInfo.username,@"username",
-                         userInfo.password,@"password",
-                         userInfo.ID,@"id",
-                         @"1",@"page",nil];
+    NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID,@"page":@"1"};
     [req loanPayRecordWithDic:dic];
 }
 
--(void)goToPay
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"在线充值" message:@"因手机客户端暂未开通在线充值！\n您可以通过支付宝把充值的金额转入我公司支付宝账号：service@cardbaobao.com\n并及时通知为您服务的客户经理！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"进入支付宝", nil];
-    [alert show];
-}
+
 
 -(IBAction)saleActivity:(id)sender
 {
@@ -290,6 +300,16 @@
     }
     self.doneClientData = data;
     [self pushToDoneLoanClientTable];
+}
+
+-(void)forMeClientEnd:(id)aDic
+{
+    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin17"];
+    if (!data) {
+        return;
+    }
+    self.shopClientData = data;
+    [self pushToForMeClientTable];
 }
 
 -(void)payRecordEnd:(id)aDic

@@ -50,6 +50,10 @@
 @synthesize monthIncome;
 @synthesize mon_date;
 @synthesize address;
+@synthesize LL;
+@synthesize orderid;
+@synthesize worktype;
+@synthesize yearmonth;
 @end
 
 @implementation Advisor
