@@ -188,9 +188,8 @@
         if (!isfirst || isfirst.intValue == 0) {
             [req cardUpdateFirstBuy];
         }
-        else {
-            [req cardBuyApplicationWithDic:dic];
-        }
+        [req cardBuyApplicationWithDic:dic];
+
     }
     else if (alertView.tag == 6601){
         NSString *content = [alertView textFieldAtIndex:0].text;

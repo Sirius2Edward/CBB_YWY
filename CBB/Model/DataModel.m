@@ -54,6 +54,7 @@
 @synthesize orderid;
 @synthesize worktype;
 @synthesize yearmonth;
+@synthesize zt;
 @end
 
 @implementation Advisor

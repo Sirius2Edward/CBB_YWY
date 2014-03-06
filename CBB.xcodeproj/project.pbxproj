@@ -210,6 +210,16 @@
 		36EBD06217C4DDA700C95D31 /* PARSEcarduserlogin9.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EBD06117C4DDA600C95D31 /* PARSEcarduserlogin9.m */; };
 		36EE27A518C6C3470026F772 /* PARSEXYKUpdateServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EE27A418C6C3470026F772 /* PARSEXYKUpdateServlet1.m */; };
 		36EE27A818C6C38E0026F772 /* PARSEDkUpdateServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EE27A718C6C38E0026F772 /* PARSEDkUpdateServlet1.m */; };
+		36F007EB18C8233B0065D5EA /* PARSEloansuserlogin17.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F007EA18C8233B0065D5EA /* PARSEloansuserlogin17.m */; };
+		36F007EE18C8234F0065D5EA /* PARSEloansuserlogin19.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F007ED18C8234F0065D5EA /* PARSEloansuserlogin19.m */; };
+		36F007F118C823650065D5EA /* PARSEloansuserlogin20.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F007F018C823650065D5EA /* PARSEloansuserlogin20.m */; };
+		36F007F718C849530065D5EA /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F007F618C849530065D5EA /* MapViewController.m */; };
+		36F007F918C849C40065D5EA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F007F818C849C40065D5EA /* MapKit.framework */; };
+		36F007FB18C849E00065D5EA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F007FA18C849E00065D5EA /* CoreLocation.framework */; };
+		36F0080818C87E3B0065D5EA /* iponeV3bg004@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F0080418C87E3B0065D5EA /* iponeV3bg004@2x.png */; };
+		36F0080918C87E3B0065D5EA /* iponeV3bg005@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F0080518C87E3B0065D5EA /* iponeV3bg005@2x.png */; };
+		36F0080A18C87E3B0065D5EA /* iponeV3bg006@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F0080618C87E3B0065D5EA /* iponeV3bg006@2x.png */; };
+		36F0080B18C87E3B0065D5EA /* map_icon@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 36F0080718C87E3B0065D5EA /* map_icon@2x.jpg */; };
 		36F1B05117BA171A00CF0AF8 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36F1B05017BA171A00CF0AF8 /* CoreText.framework */; };
 		36F44B2F17B1E06A00A9454F /* BaseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F44B2C17B1E06A00A9454F /* BaseParser.m */; };
 		36F44B3A17B2163900A9454F /* Request_API.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F44B3917B2163900A9454F /* Request_API.m */; };
@@ -534,6 +544,20 @@
 		36EE27A418C6C3470026F772 /* PARSEXYKUpdateServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEXYKUpdateServlet1.m; sourceTree = "<group>"; };
 		36EE27A618C6C38E0026F772 /* PARSEDkUpdateServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEDkUpdateServlet1.h; sourceTree = "<group>"; };
 		36EE27A718C6C38E0026F772 /* PARSEDkUpdateServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEDkUpdateServlet1.m; sourceTree = "<group>"; };
+		36F007E918C8233B0065D5EA /* PARSEloansuserlogin17.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEloansuserlogin17.h; sourceTree = "<group>"; };
+		36F007EA18C8233B0065D5EA /* PARSEloansuserlogin17.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEloansuserlogin17.m; sourceTree = "<group>"; };
+		36F007EC18C8234F0065D5EA /* PARSEloansuserlogin19.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEloansuserlogin19.h; sourceTree = "<group>"; };
+		36F007ED18C8234F0065D5EA /* PARSEloansuserlogin19.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEloansuserlogin19.m; sourceTree = "<group>"; };
+		36F007EF18C823650065D5EA /* PARSEloansuserlogin20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEloansuserlogin20.h; sourceTree = "<group>"; };
+		36F007F018C823650065D5EA /* PARSEloansuserlogin20.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEloansuserlogin20.m; sourceTree = "<group>"; };
+		36F007F518C849530065D5EA /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		36F007F618C849530065D5EA /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		36F007F818C849C40065D5EA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		36F007FA18C849E00065D5EA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		36F0080418C87E3B0065D5EA /* iponeV3bg004@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iponeV3bg004@2x.png"; sourceTree = "<group>"; };
+		36F0080518C87E3B0065D5EA /* iponeV3bg005@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iponeV3bg005@2x.png"; sourceTree = "<group>"; };
+		36F0080618C87E3B0065D5EA /* iponeV3bg006@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iponeV3bg006@2x.png"; sourceTree = "<group>"; };
+		36F0080718C87E3B0065D5EA /* map_icon@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "map_icon@2x.jpg"; sourceTree = "<group>"; };
 		36F1B05017BA171A00CF0AF8 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		36F44B2B17B1E06A00A9454F /* BaseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseParser.h; sourceTree = "<group>"; };
 		36F44B2C17B1E06A00A9454F /* BaseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseParser.m; sourceTree = "<group>"; };
@@ -570,13 +594,15 @@
 			files = (
 				3640A24317B095A40064D4EF /* libxml2.dylib in Frameworks */,
 				3640A24117B095970064D4EF /* libz.dylib in Frameworks */,
+				3640A1B417B08C7D0064D4EF /* UIKit.framework in Frameworks */,
+				36F007F918C849C40065D5EA /* MapKit.framework in Frameworks */,
 				36F1B05117BA171A00CF0AF8 /* CoreText.framework in Frameworks */,
 				3640A1B817B08C7D0064D4EF /* CoreGraphics.framework in Frameworks */,
 				3640A23F17B095720064D4EF /* MobileCoreServices.framework in Frameworks */,
 				3640A23D17B0956A0064D4EF /* SystemConfiguration.framework in Frameworks */,
 				36DEEA5017BB7C9700B2E614 /* CoreTelephony.framework in Frameworks */,
+				36F007FB18C849E00065D5EA /* CoreLocation.framework in Frameworks */,
 				3640A23B17B095200064D4EF /* CFNetwork.framework in Frameworks */,
-				3640A1B417B08C7D0064D4EF /* UIKit.framework in Frameworks */,
 				3609043617C1CAA200B54F32 /* QuartzCore.framework in Frameworks */,
 				3640A1B617B08C7D0064D4EF /* Foundation.framework in Frameworks */,
 			);
@@ -610,6 +636,12 @@
 				3617BEBE17D0816200F40805 /* PARSEloansuserlogin14.m */,
 				36EBD05917C4BDF600C95D31 /* PARSEloansuserlogin16.h */,
 				36EBD05A17C4BDF600C95D31 /* PARSEloansuserlogin16.m */,
+				36F007E918C8233B0065D5EA /* PARSEloansuserlogin17.h */,
+				36F007EA18C8233B0065D5EA /* PARSEloansuserlogin17.m */,
+				36F007EC18C8234F0065D5EA /* PARSEloansuserlogin19.h */,
+				36F007ED18C8234F0065D5EA /* PARSEloansuserlogin19.m */,
+				36F007EF18C823650065D5EA /* PARSEloansuserlogin20.h */,
+				36F007F018C823650065D5EA /* PARSEloansuserlogin20.m */,
 				3657185D18BC67380066B59A /* PARSEDkServlet1.h */,
 				3657185E18BC67380066B59A /* PARSEDkServlet1.m */,
 				3657186318BC78760066B59A /* PARSELoanslyServlet1.h */,
@@ -790,6 +822,8 @@
 			children = (
 				3640A24017B095970064D4EF /* libz.dylib */,
 				3640A24217B095A40064D4EF /* libxml2.dylib */,
+				36F007F818C849C40065D5EA /* MapKit.framework */,
+				36F007FA18C849E00065D5EA /* CoreLocation.framework */,
 				3609043517C1CAA200B54F32 /* QuartzCore.framework */,
 				36DEEA4F17BB7C9700B2E614 /* CoreTelephony.framework */,
 				36F1B05017BA171A00CF0AF8 /* CoreText.framework */,
@@ -967,6 +1001,10 @@
 		36DEE9D817BB79AE00B2E614 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				36F0080418C87E3B0065D5EA /* iponeV3bg004@2x.png */,
+				36F0080518C87E3B0065D5EA /* iponeV3bg005@2x.png */,
+				36F0080618C87E3B0065D5EA /* iponeV3bg006@2x.png */,
+				36F0080718C87E3B0065D5EA /* map_icon@2x.jpg */,
 				3613D50E18C56CFD000760C3 /* iponeV3btn002@2x.png */,
 				3613D50F18C56CFD000760C3 /* iponeV3img001@2x.png */,
 				3613D51018C56CFD000760C3 /* loanCell_bg@2x.png */,
@@ -1081,6 +1119,8 @@
 				362CABA817DEBB4900C2F3F5 /* PayRecordTable.m */,
 				3621BB8518B4791A007B82D2 /* WebViewController.h */,
 				3621BB8618B4791A007B82D2 /* WebViewController.m */,
+				36F007F518C849530065D5EA /* MapViewController.h */,
+				36F007F618C849530065D5EA /* MapViewController.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1273,16 +1313,19 @@
 				36DEEA1917BB79AE00B2E614 /* box5_out@2x.png in Resources */,
 				36DEEA1A17BB79AE00B2E614 /* Checkbox_down@2x.png in Resources */,
 				36DEEA1B17BB79AE00B2E614 /* Checkbox_out@2x.png in Resources */,
+				36F0080918C87E3B0065D5EA /* iponeV3bg005@2x.png in Resources */,
 				366BC50118B1D806003A0040 /* gm@2x.png in Resources */,
 				36DEEA2817BB79AE00B2E614 /* l_write_bg@2x.png in Resources */,
 				36DEEA2A17BB79AE00B2E614 /* login_down@2x.png in Resources */,
 				36DEEA2B17BB79AE00B2E614 /* login_out@2x.png in Resources */,
 				36DEEA2D17BB79AE00B2E614 /* pass_down@2x.png in Resources */,
+				36F0080818C87E3B0065D5EA /* iponeV3bg004@2x.png in Resources */,
 				36DEEA2E17BB79AE00B2E614 /* pass_out@2x.png in Resources */,
 				36DEEA2F17BB79AE00B2E614 /* Select@2x.png in Resources */,
 				366BC4FE18B1D806003A0040 /* changyongyinh2@2x.png in Resources */,
 				36DEEA3217BB79AE00B2E614 /* submit@2x.png in Resources */,
 				36DEEA3317BB79AE00B2E614 /* top@2x.jpg in Resources */,
+				36F0080B18C87E3B0065D5EA /* map_icon@2x.jpg in Resources */,
 				366BC50818B1D806003A0040 /* xiug_h@2x.png in Resources */,
 				36DEEA3417BB79AE00B2E614 /* txt01@2x.png in Resources */,
 				366BC50E18B20794003A0040 /* LoanHomeController.xib in Resources */,
@@ -1358,6 +1401,7 @@
 				36FA95381803A77600404865 /* CardSiftConditions.plist in Resources */,
 				36FA953A1804052300404865 /* xyk_tab01@2x.png in Resources */,
 				36E027AF180803200027DA05 /* icon-76.png in Resources */,
+				36F0080A18C87E3B0065D5EA /* iponeV3bg006@2x.png in Resources */,
 				36E027B0180803200027DA05 /* icon-120.png in Resources */,
 				36E027B1180803200027DA05 /* icon-152.png in Resources */,
 				366BC50518B1D806003A0040 /* safeext1@2x.png in Resources */,
@@ -1388,6 +1432,7 @@
 				36DEE9CE17BB224A00B2E614 /* PARSEloansuserlogin6.m in Sources */,
 				36DEE9D717BB76A300B2E614 /* PARSEcarduserlogin2.m in Sources */,
 				366BC50D18B20794003A0040 /* LoanHomeController.m in Sources */,
+				36F007EE18C8234F0065D5EA /* PARSEloansuserlogin19.m in Sources */,
 				36DEEA4517BB7A7D00B2E614 /* PARSEcarduserlogin3.m in Sources */,
 				36DEEA4817BB7A8600B2E614 /* PARSEcarduserlogin4.m in Sources */,
 				36DEEA4B17BB7A8F00B2E614 /* PARSEcarduserlogin5.m in Sources */,
@@ -1398,6 +1443,7 @@
 				363D946917C3046B000C81D4 /* PARSEcarduserlogin11.m in Sources */,
 				369A7FB418ADB8F6002CE4BA /* CardHomePage.m in Sources */,
 				363D946C17C30478000C81D4 /* PARSEcarduserlogin12.m in Sources */,
+				36F007F118C823650065D5EA /* PARSEloansuserlogin20.m in Sources */,
 				363D94E617C3108A000C81D4 /* ASIAuthenticationDialog.m in Sources */,
 				363D94E717C3108A000C81D4 /* ASIDataCompressor.m in Sources */,
 				363D94E817C3108A000C81D4 /* ASIDataDecompressor.m in Sources */,
@@ -1429,6 +1475,7 @@
 				363696FD18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m in Sources */,
 				36EB23A617C5EDDB00624628 /* CardClientTable.m in Sources */,
 				36EB23A717C5EDDB00624628 /* ClientDetail.m in Sources */,
+				36F007EB18C8233B0065D5EA /* PARSEloansuserlogin17.m in Sources */,
 				36EB23A817C5EDDB00624628 /* HomePage.m in Sources */,
 				36EB23A917C5EDDB00624628 /* Login.m in Sources */,
 				36EB23AA17C5EDDB00624628 /* CustomLabel.m in Sources */,
@@ -1450,6 +1497,7 @@
 				3616BE1917CB3F4900308896 /* PARSEloansuserlogin9.m in Sources */,
 				3616BE1C17CB486200308896 /* PARSEuserreg3.m in Sources */,
 				3679768D18B5EC990082CB12 /* PARSEXYKServlet1.m in Sources */,
+				36F007F718C849530065D5EA /* MapViewController.m in Sources */,
 				36FBCEA217CDF8B60001C62E /* SVProgressHUD.m in Sources */,
 				3617BEBC17D0814700F40805 /* PARSEcarduserlogin14.m in Sources */,
 				3617BEBF17D0816200F40805 /* PARSEloansuserlogin14.m in Sources */,

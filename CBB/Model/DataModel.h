@@ -42,6 +42,7 @@
 @property(nonatomic,retain)NSString *monthIncome;
 @property(nonatomic,retain)NSString *mon_date;
 @property(nonatomic,retain)NSString *address;
+@property(nonatomic,retain)NSString *zt;
 @end
 
 //贷款用户咨询表

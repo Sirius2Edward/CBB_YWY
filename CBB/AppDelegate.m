@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "Login.h"
 #import "UIColor+TitleColor.h"
+#import "MapViewController.h"
 
 @implementation AppDelegate
 
@@ -22,6 +23,8 @@
     //已登录，进入首页界面
     //未登录，进入登陆界面
     
+    
+//    MapViewController *login = [MapViewController new];
     Login *login = [Login new];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:login];
     
@@ -31,9 +34,9 @@
         nav.navigationBar.barTintColor = [UIColor titleColor];
         nav.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                  [UIColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:1.0],
-                                                 UITextAttributeTextColor,
+                                                 NSForegroundColorAttributeName,
                                                  [UIFont fontWithName:@"Arial-Bold" size:20.0],
-                                                 UITextAttributeFont,nil];
+                                                 NSFontAttributeName,nil];
     }
     else
     {

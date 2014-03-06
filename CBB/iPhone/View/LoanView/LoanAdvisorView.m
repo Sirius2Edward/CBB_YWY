@@ -19,6 +19,7 @@
     UILabel *dateLabel;
     UILabel *questLabel;
     UIButton *btn;
+    UIImageView *bg;
 }
 @property(nonatomic,assign)BOOL canDelete;
 @property(nonatomic,retain)Advisor *advisor;
@@ -32,7 +33,13 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor clearColor];
         req = [Request_API shareInstance];
+        
+        UIImage *bgImage = [UIImage imageNamed:@"iponeV3bg004"];
+        bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(12, 0, 0, 0)];
+        bg = [[UIImageView alloc] initWithImage:bgImage];
+        [self.contentView addSubview:bg];
         
         nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 125, 20)];
         nameLabel.textColor = [UIColor titleColor];
@@ -88,6 +95,7 @@
                                                         context:nil].size;
             rect.size.height = size.height;
             questLabel.frame = rect;
+            bg.frame = CGRectMake(10, 0, 300, size.height+45);
         }
     }
 }
@@ -126,6 +134,7 @@
 {
     UILabel *dateLabel;
     UILabel *questLabel;
+    UIImageView *bg;
 }
 @property(nonatomic,retain)Reply *reply;
 @end
@@ -135,6 +144,12 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor clearColor];
+        
+        UIImage *bgImage = [UIImage imageNamed:@"iponeV3bg005"];
+        bg = [[UIImageView alloc] initWithImage:bgImage];
+        [self.contentView addSubview:bg];
+        
         UILabel * nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 50, 20)];
         nameLabel.textColor = [UIColor grayColor];
         nameLabel.font = [UIFont systemFontOfSize:14];
@@ -167,6 +182,7 @@
                                                     context:nil].size;
         rect.size.height = size.height;
         questLabel.frame = rect;
+        bg.frame = CGRectMake(10, 0, 300, size.height+39);
     }
 }
 @end
@@ -188,7 +204,13 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [UIColor clearColor];
         req = [Request_API shareInstance];
+        
+        UIImage *bgImage = [UIImage imageNamed:@"iponeV3bg006"];
+        UIImageView *bg = [[UIImageView alloc] initWithImage:bgImage];
+        bg.frame = CGRectMake(10, 0, 300, 37);
+        [self.contentView addSubview:bg];
         
         textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, 290, 30)];
         textField.borderStyle = UITextBorderStyleRoundedRect;

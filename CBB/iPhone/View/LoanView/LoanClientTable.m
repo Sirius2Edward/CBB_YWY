@@ -16,6 +16,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor clearColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         UIImage *bgImg = [UIImage imageNamed:@"loanCell_bg.png"];
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(100, 0, 20, 0)];
         bg = [[UIImageView alloc] initWithImage:bgImg];
@@ -65,7 +66,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         UIButton *delBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [delBtn setBackgroundImage:[UIImage imageNamed:@"iponeV3btn002.png"] forState:UIControlStateNormal];
-        delBtn.frame = CGRectMake(285, 23, 10, 10);
+        delBtn.frame = CGRectMake(285, 21, 10, 10);
         [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:delBtn];
         
@@ -282,9 +283,7 @@
         if (!isfirst || isfirst.intValue == 0) {
             [req loanUpdateFirstBuy];
         }
-        else {
-            [req loanBuyApplicationWithDic:dic];
-        }
+        [req loanBuyApplicationWithDic:dic];
     }
     else if (alertView.tag == 6601){
         NSString *content = [alertView textFieldAtIndex:0].text;
@@ -302,19 +301,19 @@
         }
     }
     else if (alertView.tag == 6602) {
-        if (buttonIndex == 1) {
+//        if (buttonIndex == 1) {
             //查看客户详情
-            UserInfo *info = [UserInfo shareInstance];
-            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                                 info.username,@"username",
-                                 info.password,@"password",
-                                 info.ID,@"id",
-                                 orderID,@"uid",nil];
-            Request_API *req = [Request_API shareInstance];
-            req.delegate = self;
-            [req loanBuyerDetailWithDic:dic];
-        }
-        else {
+//            UserInfo *info = [UserInfo shareInstance];
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                 info.username,@"username",
+//                                 info.password,@"password",
+//                                 info.ID,@"id",
+//                                 orderID,@"uid",nil];
+//            Request_API *req = [Request_API shareInstance];
+//            req.delegate = self;
+//            [req loanBuyerDetailWithDic:dic];
+//        }
+//        else {
             //已购买客户表
             UserInfo *userInfo = [UserInfo shareInstance];
             NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -324,7 +323,7 @@
             Request_API *req = [Request_API shareInstance];
             req.delegate = self;
             [req loanBuyersInfoWithDic:dic];
-        }
+//        }
     }
 }
 
@@ -347,7 +346,7 @@
         [alert show];
     }
     else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"查看客户详情",@"已购买客户表",nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"已购买客户表",nil];
         alert.tag = 6602;
         [alert show];
     }
@@ -529,10 +528,274 @@
 
 #pragma mark - 对我店铺表单Cell
 @implementation LoanShopClientCell
+{
+    NSString *uid;
+    UILabel *identLabel;
+    UILabel *incomLabel;
+    UILabel *mortgLabel;
+    UILabel *oriPriceLabel;
+    UIButton *statusButton;
+    UIProgressView *grade;
+}
+@synthesize controller;
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.bg.frame = CGRectMake(10, 5, 300, 203);
+        NSArray *arr = @[@"职业身份：",@"打卡工资：",@"有无抵押：",@"客户资质：",@"手 机 号 ："];
+        CGFloat yCo = 60;
+        for (int i = 0; i < arr.count; i++) {
+            UILabel *itemL = [[UILabel alloc] initWithFrame:CGRectMake(30, yCo, 80, 25)];
+            itemL.font = [UIFont systemFontOfSize:15];
+            itemL.textColor = [UIColor darkGrayColor];
+            itemL.text = [arr objectAtIndex:i];
+            [self.contentView addSubview:itemL];
+            yCo += 25;
+        }
+        UIButton *delBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [delBtn setBackgroundImage:[UIImage imageNamed:@"iponeV3btn002.png"] forState:UIControlStateNormal];
+        delBtn.frame = CGRectMake(285, 21, 10, 10);
+        [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:delBtn];
+        
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 130, 25)];
+        identLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:identLabel];
+        
+        incomLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 180, 25)];
+        incomLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:incomLabel];
+        
+        mortgLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 110, 180, 25)];
+        mortgLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:mortgLabel];
+        
+        grade = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        grade.frame = CGRectMake(110, 147, 100, 30);
+        [self.contentView addSubview:grade];
+        
+        
+        oriPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 160, 100, 20)];
+        [self.contentView addSubview:oriPriceLabel];
+        
+        UILabel *dscPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 180, 90, 20)];
+        dscPriceLabel.font = [UIFont systemFontOfSize:15];
+        dscPriceLabel.textColor = [UIColor titleColor];
+        dscPriceLabel.text = @"折后：1.8分";
+        [self.contentView addSubview:dscPriceLabel];
+        
+        UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        buyButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [buyButton setTitle:@"购买" forState:UIControlStateNormal];
+        [buyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [buyButton addTarget:self action:@selector(buyAction:) forControlEvents:UIControlEventTouchUpInside];
+        buyButton.frame = CGRectMake(200, 175, 50, 30);
+        [self.contentView addSubview:buyButton];
+    }
+    return self;
+}
+
+-(void)setItem:(LoanClient *)item
+{
+    [super setItem:item];
+    uid = item.ID;
+    identLabel.text = item.worksf;
+    incomLabel.text = item.monthIncome;
+    mortgLabel.text = item.loans_dyw;
+    if (item.Xing.intValue>3) {
+        grade.progressTintColor = [UIColor greenColor];
+    }
+    else {
+        grade.progressTintColor = [UIColor orangeColor];
+    }
+    grade.progress = item.Xing.floatValue/6;
+    if ([item.worksf isEqualToString:@"上班族"] || [item.worksf isEqualToString:@"无固定职业"]) {
+        oriPriceLabel.attributedText = [[NSAttributedString alloc] initWithString:@"原价：10分"
+                                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                                                                    NSForegroundColorAttributeName:[UIColor grayColor],
+                                                                                    NSStrikethroughStyleAttributeName:@2}];
+    }
+    else {
+        oriPriceLabel.attributedText = [[NSAttributedString alloc] initWithString:@"原价：30分"
+                                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                                                                    NSForegroundColorAttributeName:[UIColor grayColor],
+                                                                                    NSStrikethroughStyleAttributeName:@2}];
+    }
+}
+
+-(void)deleteClient
+{
+    
+}
+
+-(void)buyAction:(UIButton *)sender
+{
+    NSDictionary *usi = [UserInfo shareInstance].userInfo;
+    if (![[usi objectForKey:@"ifActive"] isEqualToString:@"1"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"需先电脑登录卡宝宝进行资质认证才可购买!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
+        NSString *isfirst = [usi objectForKey:@"isfirst"];
+        if (!isfirst || isfirst.intValue == 0) {
+            NSString *firstBuyStr = @"注：这是您第一次使用卡贝贝购买表单\n    购买成功后，您将获赠20积分。\n\n";
+            alert.message = [firstBuyStr stringByAppendingString:alert.message];
+        }
+        alert.tag = 6800;
+        [alert show];
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (!buttonIndex) {
+        return;
+    }
+    if (alertView.tag == 6800) {
+        [self.controller buyForMeClient:self];
+    }
+    else if (alertView.tag == 6801){
+    }
+}
 @end
 
 #pragma mark - 对我产品表单Cell
 @implementation LoanProductClientCell
+{
+    NSString *uid;
+    UILabel *usageLabel;
+    UILabel *identLabel;
+    UILabel *incomLabel;
+    UILabel *mortgLabel;
+    UILabel *oriPriceLabel;
+    UIButton *statusButton;
+    UIProgressView *grade;
+}
+//@synthesize controller;
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.bg.frame = CGRectMake(10, 5, 300, 228);
+        NSArray *arr = @[@"贷款用途：",@"职业身份：",@"打卡工资：",@"有无抵押：",@"客户资质：",@"手 机 号 ："];
+        CGFloat yCo = 60;
+        for (int i = 0; i < arr.count; i++) {
+            UILabel *itemL = [[UILabel alloc] initWithFrame:CGRectMake(30, yCo, 80, 25)];
+            itemL.font = [UIFont systemFontOfSize:15];
+            itemL.textColor = [UIColor darkGrayColor];
+            itemL.text = [arr objectAtIndex:i];
+            [self.contentView addSubview:itemL];
+            yCo += 25;
+        }
+        UIButton *delBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [delBtn setBackgroundImage:[UIImage imageNamed:@"iponeV3btn002.png"] forState:UIControlStateNormal];
+        delBtn.frame = CGRectMake(285, 21, 10, 10);
+        [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:delBtn];
+        
+        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 130, 25)];
+        usageLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:usageLabel];
+        
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 130, 25)];
+        identLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:identLabel];
+        
+        incomLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 110, 180, 25)];
+        incomLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:incomLabel];
+        
+        mortgLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 135, 180, 25)];
+        mortgLabel.font = [UIFont systemFontOfSize:15];
+        [self.contentView addSubview:mortgLabel];
+        
+        grade = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        grade.frame = CGRectMake(110, 172, 100, 30);
+        [self.contentView addSubview:grade];
+        
+        oriPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 185, 100, 20)];
+        [self.contentView addSubview:oriPriceLabel];
+        
+        UILabel *dscPriceLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 205, 100, 20)];
+        dscPriceLabel.font = [UIFont systemFontOfSize:15];
+        dscPriceLabel.textColor = [UIColor titleColor];
+        dscPriceLabel.text = @"折后：1.8分";
+        [self.contentView addSubview:dscPriceLabel];
+        
+        UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        buyButton.titleLabel.font = [UIFont systemFontOfSize:15];
+        [buyButton setTitle:@"购买" forState:UIControlStateNormal];
+        [buyButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [buyButton addTarget:self action:@selector(buyAction:) forControlEvents:UIControlEventTouchUpInside];
+        buyButton.frame = CGRectMake(200, 200, 50, 30);
+        [self.contentView addSubview:buyButton];
+    }
+    return self;
+}
+-(void)setItem:(LoanClient *)item
+{
+    [super setItem:item];
+    uid = item.ID;
+    usageLabel.text = item.Rt;
+    identLabel.text = item.worksf;
+    incomLabel.text = item.monthIncome;
+    mortgLabel.text = item.loans_dyw;
+    if (item.Xing.intValue>3) {
+        grade.progressTintColor = [UIColor greenColor];
+    }
+    else {
+        grade.progressTintColor = [UIColor orangeColor];
+    }
+    grade.progress = item.Xing.floatValue/6;
+    if ([item.worksf isEqualToString:@"上班族"] || [item.worksf isEqualToString:@"无固定职业"]) {
+        oriPriceLabel.attributedText = [[NSAttributedString alloc] initWithString:@"原价：10分"
+                                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                                                                    NSForegroundColorAttributeName:[UIColor grayColor],
+                                                                                    NSStrikethroughStyleAttributeName:@2}];
+    }
+    else {
+        oriPriceLabel.attributedText = [[NSAttributedString alloc] initWithString:@"原价：30分"
+                                                                       attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                                                                    NSForegroundColorAttributeName:[UIColor grayColor],
+                                                                                    NSStrikethroughStyleAttributeName:@2}];
+    }
+}
+
+-(void)deleteClient
+{
+    
+}
+
+-(void)buyAction:(UIButton *)sender
+{
+    NSDictionary *usi = [UserInfo shareInstance].userInfo;
+    if (![[usi objectForKey:@"ifActive"] isEqualToString:@"1"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"需先电脑登录卡宝宝进行资质认证才可购买!" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定购买?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"购买",nil];
+        NSString *isfirst = [usi objectForKey:@"isfirst"];
+        if (!isfirst || isfirst.intValue == 0) {
+            NSString *firstBuyStr = @"注：这是您第一次使用卡贝贝购买表单\n    购买成功后，您将获赠20积分。\n\n";
+            alert.message = [firstBuyStr stringByAppendingString:alert.message];
+        }
+        alert.tag = 6800;
+        [alert show];
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (!buttonIndex) {
+        return;
+    }
+    if (alertView.tag == 6800) {
+        [self.controller buyForMeClient:self];
+    }
+    else if (alertView.tag == 6801){
+    }
+}
 @end
 
 #pragma mark - table -
@@ -703,7 +966,6 @@
         cell = [[NewLoanClientCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
         cell.controller = self;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.item = [self.items objectAtIndex:indexPath.row];
     return cell;
 }
@@ -756,7 +1018,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 @end
-
+#pragma mark -
 @implementation DoneLoanClientTable
 {
     Request_API *req;
@@ -879,7 +1141,6 @@
         cell = [[DoneLoanClientCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
         cell.controller = self;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.item = [self.items objectAtIndex:indexPath.row];
     return cell;
 }
@@ -952,7 +1213,7 @@
 
 -(void)selectAction:(NSString *)value {}
 @end
-
+#pragma mark - --
 @implementation ForMeLoanClientTable
 {
     Request_API *req;
@@ -973,7 +1234,6 @@
 {
     req = [Request_API shareInstance];
     req.delegate = self;
-    self.tableStyle = UITableViewStyleGrouped;
     [super loadView];
     seg = [[UISegmentedControl alloc] initWithItems:@[@"店铺申请表",@"产品申请表"]];
     seg.frame = CGRectMake(0, 0, 150, 32);
@@ -982,13 +1242,53 @@
     [seg addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = seg;
     self.navigationItem.prompt = @"对我申请的表单";
+    
+    _shopData = self.data;
 }
 
 -(void)changeContent:(UISegmentedControl *)sender
 {
-//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-//    currentPage = 1;
-//    [self requestDataPage:currentPage];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    NSMutableDictionary *dic = nil;
+    if (sender.selectedSegmentIndex) {
+        dic = _productData;
+    }
+    else {
+        dic = _shopData;
+    }
+    if (dic) {
+        self.data = dic;
+        [self.tableView reloadData];
+        [self setFooterView];
+    }
+    else {
+        [self requestDataPage:1];
+    }
+}
+
+-(void)requestDataPage:(NSInteger)page
+{
+    UserInfo *userInfo = [UserInfo shareInstance];
+    NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID,@"page":[NSString stringWithFormat:@"%d",page]};
+    req.delegate = self;
+    if (seg.selectedSegmentIndex) {
+        [req loanForMyProductWithDic:dic];
+    }
+    else {
+        [req loanForMyShopWithDic:dic];
+    }
+}
+
+-(void)buyForMeClient:(BaseLoanCell *)cell
+{
+    NSInteger row = [self.tableView indexPathForCell:cell].row;
+    LoanClient *lc = (LoanClient *)[self.items objectAtIndex:row];
+    UserInfo *info = [UserInfo shareInstance];
+    NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
+    if (!isfirst || isfirst.intValue == 0) {
+        [req loanUpdateFirstBuy];
+    }
+    [req loanBuyForMeFormWithDic:@{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":lc.ID}];
 }
 
 -(void)pushToWeb:(UIButton *)sender
@@ -1001,8 +1301,6 @@
 
 -(void)popAction
 {
-//    [self.data setObject:self.items forKey:@"UL"];
-//    [self.data setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"Page"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -1058,26 +1356,107 @@
     return 0;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (seg.selectedSegmentIndex) {
+        return 235;
+    }
+    else {
+        return 210;
+    }
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.items.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *sIdentifier = @"ShopCell";
+    static NSString *pIdentifier = @"ProdCell";
+    BaseLoanCell *cell = nil;
+    if (seg.selectedSegmentIndex) {
+        cell = [tableView dequeueReusableCellWithIdentifier:pIdentifier];
+    }
+    else {
+        cell = [tableView dequeueReusableCellWithIdentifier:sIdentifier];
+    }
+    if (nil == cell) {
+        if (seg.selectedSegmentIndex) {
+            cell = [[LoanProductClientCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:pIdentifier];
+            ((LoanProductClientCell *)cell).controller = self;
+        }
+        else {
+            cell = [[LoanShopClientCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sIdentifier];
+            ((LoanShopClientCell *)cell).controller = self;
+        }
+    }
+    cell.item = [self.items objectAtIndex:indexPath.row];
+    return cell;
+}
+
+#pragma mark - Refresh
+//刷新数据
+- (void)reloadTableViewDataSource
+{
+    [super reloadTableViewDataSource];
+    [self requestDataPage:1];
+}
+
+//请求更多数据
+- (void)loadNextTableViewDataSource
+{
+    [super loadNextTableViewDataSource];
+    if (self.page < [[self.data objectForKey:@"TotalPage"] integerValue]) {
+        self.page ++;
+        [self requestDataPage:self.page];
+    }
+    else {
+        [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];//线程安全
+    }
 }
 
 #pragma mark - Connect END
 -(void)forMeClientEnd:(id)aDic
 {
-    NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin17"];
-    if (!data) {
-        return;
-    }
-    
-    self.data = data;
+    NSMutableDictionary *dic = nil;
     if (seg.selectedSegmentIndex) {
-        _productData = data;
+        _productData = [aDic objectForKey:@"loansuserlogin19"];
+        dic = _productData;
     }
     else {
-        _shopData = data;
+        _shopData = [aDic objectForKey:@"loansuserlogin17"];
+        dic = _shopData;
     }
     
+    if (!dic)  return;
+    self.data = dic;
+    
+    if ([[dic objectForKey:@"Page"] integerValue] == 1) {
+        self.page = 1;
+        [self.items setArray:[dic objectForKey:@"UL"]];
+    }
+    else {
+        [self.items addObjectsFromArray:[dic objectForKey:@"UL"]];
+    }
+    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.2f];
+}
+
+-(void)buyEnd:(id)aDic
+{
+    NSString *result = [[aDic objectForKey:@"loansuserlogin20"] objectForKey:@"result"];
+    if (!result) {
+        return;
+    }
+    //购买成功
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+    alert.tag = 6602;
+    [alert show];
 }
 @end

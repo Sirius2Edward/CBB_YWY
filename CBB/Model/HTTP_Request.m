@@ -238,14 +238,6 @@
 // 队列请求完成
 -(void)allRequestDone:(ASINetworkQueue *)aQueue
 {
-//    if (!self.connectEnd)
-//    {
-//        self.connectEnd = @selector(connectEnd:);
-//    }
-//    
-//    SuppressPerformSelectorLeakWarning([self.delegate performSelector:self.connectEnd
-//                        withObject:self.response])
-//    ;
 }
 
 - (void)request:(ASIHTTPRequest *)request didSendBytes:(long long)bytes

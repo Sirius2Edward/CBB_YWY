@@ -201,7 +201,7 @@
     }
     NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID};
     [req loanForMyShopWithDic:dic];
-    [self pushToForMeClientTable];
+//    [self pushToForMeClientTable];
 }
 
 //已购买表

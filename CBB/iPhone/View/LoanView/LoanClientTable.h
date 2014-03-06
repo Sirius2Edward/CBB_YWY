@@ -31,10 +31,12 @@
 @property(nonatomic,retain)NSString *status;
 @end
 
-@interface LoanShopClientCell : BaseLoanCell
+@class ForMeLoanClientTable;
+@interface LoanShopClientCell : BaseLoanCell<UIAlertViewDelegate>
+@property(nonatomic,retain)ForMeLoanClientTable *controller;
 @end
-
-@interface LoanProductClientCell : BaseLoanCell
+@interface LoanProductClientCell : BaseLoanCell<UIAlertViewDelegate>
+@property(nonatomic,retain)ForMeLoanClientTable *controller;
 @end
 
 #pragma mark - Table
@@ -55,5 +57,5 @@
 
 //对我申请的客户表
 @interface ForMeLoanClientTable : LoanClientTable
-
+-(void)buyForMeClient:(BaseLoanCell *)cell;
 @end

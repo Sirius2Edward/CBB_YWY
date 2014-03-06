@@ -205,7 +205,7 @@
 -(void)loanUpdateFirstBuy
 {
     UserInfo *userinfo = [UserInfo shareInstance];
-    req.connectEnd = @selector(buyClient:);
+    req.connectEnd = @selector(firstBuyEnd:);
     [req httpRequestWithURL:SeveletURL API:@"DkUpdateServlet" TypeID:1 Dictionary:@{@"username":userinfo.username,@"password":userinfo.password}];
 }
 
@@ -219,7 +219,7 @@
 //对我产品申请表
 -(void)loanForMyProductWithDic:(NSDictionary *)aDic
 {
-    req.connectEnd = @selector(forMeclientEnd:);
+    req.connectEnd = @selector(forMeClientEnd:);
     [req httpRequestWithAPI:LoanYWY TypeID:19 Dictionary:aDic];
 }
 
@@ -349,7 +349,7 @@
 -(void)cardUpdateFirstBuy
 {
     UserInfo *userinfo = [UserInfo shareInstance];
-    req.connectEnd = @selector(buyClient:);
+    req.connectEnd = @selector(firstBuyEnd:);
     [req httpRequestWithURL:SeveletURL API:@"XYKUpdateServlet" TypeID:1 Dictionary:@{@"username":userinfo.username,@"password":userinfo.password}];
 }
 #pragma mark -
