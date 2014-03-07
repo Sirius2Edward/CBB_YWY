@@ -41,27 +41,25 @@
         bg = [[UIImageView alloc] initWithImage:bgImage];
         [self.contentView addSubview:bg];
         
-        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 125, 20)];
+        nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 135, 20)];
         nameLabel.textColor = [UIColor titleColor];
         nameLabel.font = [UIFont systemFontOfSize:15];
-        [self.contentView addSubview:nameLabel];
+        [bg addSubview:nameLabel];
         
-        questLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 32, 290, 500)];
+        questLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 32, 280, 500)];
         questLabel.numberOfLines = 0;
         questLabel.font = [UIFont systemFontOfSize:14];
-        [self.contentView addSubview:questLabel];
+        [bg addSubview:questLabel];
         
-        dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(139, 5, 135, 20)];
+        dateLabel = [[UILabel alloc] init];
         dateLabel.textColor = [UIColor grayColor];
         dateLabel.textAlignment = NSTextAlignmentRight;
         dateLabel.font = [UIFont systemFontOfSize:13];
-        [self.contentView addSubview:dateLabel];
+        [bg addSubview:dateLabel];
         
         btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(280, 0, 30, 30);
-        btn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [btn setTitle:@"删除" forState:UIControlStateNormal];
+        btn.frame = CGRectMake(290, 10, 10, 10);
+        [btn setBackgroundImage:[UIImage imageNamed:@"iponeV3btn002.png"] forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(delAdvisor:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:btn];
     }
@@ -76,7 +74,7 @@
     }
     else {
         btn.hidden = YES;
-        dateLabel.frame = CGRectMake(175, 5, 135, 20);
+        dateLabel.frame = CGRectMake(160, 5, 135, 20);
     }
 }
 
@@ -89,7 +87,7 @@
             dateLabel.text = advisor.addDate;
             questLabel.text = advisor.content;
             CGRect rect = questLabel.frame;
-            CGSize size = [questLabel.text boundingRectWithSize:CGSizeMake(290, 500)
+            CGSize size = [questLabel.text boundingRectWithSize:CGSizeMake(280, 500)
                                                         options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
                                                         context:nil].size;
@@ -150,18 +148,22 @@
         bg = [[UIImageView alloc] initWithImage:bgImage];
         [self.contentView addSubview:bg];
         
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(5, 1, 290, 0.5)];
+        line.backgroundColor = [UIColor lightGrayColor];
+        [bg addSubview:line];
+        
         UILabel * nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 50, 20)];
         nameLabel.textColor = [UIColor grayColor];
         nameLabel.font = [UIFont systemFontOfSize:14];
         nameLabel.text = @"回复：";
-        [self.contentView addSubview:nameLabel];
+        [bg addSubview:nameLabel];
         
-        questLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 32, 290, 500)];
+        questLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 32, 280, 500)];
         questLabel.numberOfLines = 0;
         questLabel.font = [UIFont systemFontOfSize:14];
-        [self.contentView addSubview:questLabel];
+        [bg addSubview:questLabel];
         
-        dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(175, 5, 135, 20)];
+        dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(170, 5, 135, 20)];
         dateLabel.textColor = [UIColor lightGrayColor];
         dateLabel.textAlignment = NSTextAlignmentRight;
         dateLabel.font = [UIFont systemFontOfSize:12];
@@ -176,7 +178,7 @@
         dateLabel.text = aReply.date;
         questLabel.text = aReply.content;
         CGRect rect = questLabel.frame;
-        CGSize size = [questLabel.text boundingRectWithSize:CGSizeMake(290, 500)
+        CGSize size = [questLabel.text boundingRectWithSize:CGSizeMake(280, 500)
                                                     options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                  attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}
                                                     context:nil].size;
@@ -212,14 +214,14 @@
         bg.frame = CGRectMake(10, 0, 300, 37);
         [self.contentView addSubview:bg];
         
-        textField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, 290, 30)];
+        textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, 280, 30)];
         textField.borderStyle = UITextBorderStyleRoundedRect;
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         textField.delegate = self;
         [self.contentView addSubview:textField];
         
         confirmBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        confirmBtn.frame = CGRectMake(320, 0, 40, 30);
+        confirmBtn.frame = CGRectMake(270, 0, 40, 30);
         [confirmBtn setTitle:@"提交" forState:UIControlStateNormal];
         [confirmBtn addTarget:self action:@selector(submitReply:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:confirmBtn];
@@ -251,9 +253,9 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)aTextField
 {
     [UIView animateWithDuration:0.23f animations:^{
-        aTextField.frame = CGRectMake(15, 0, 250, 30);
+        aTextField.frame = CGRectMake(15, 0, 239, 30);
         confirmBtn.alpha = 1;
-        confirmBtn.frame = CGRectMake(272, 0, 40, 30);
+        confirmBtn.frame = CGRectMake(260, 0, 40, 30);
         CGRect tFrame = self.controller.tableView.frame;
         tFrame.size.height -= 214;
         self.controller.tableView.frame = tFrame;
@@ -265,7 +267,7 @@
 {
     [UIView animateWithDuration:0.23f animations:^{
         aTextField.frame = CGRectMake(15, 0, 290, 30);
-        confirmBtn.frame = CGRectMake(320, 0, 40, 30);
+        confirmBtn.frame = CGRectMake(270, 0, 40, 30);
         confirmBtn.alpha = 0;
         CGRect tFrame = self.controller.tableView.frame;
         tFrame.size.height += 214;

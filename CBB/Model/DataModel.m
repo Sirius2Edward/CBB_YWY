@@ -94,3 +94,20 @@
 @synthesize paydate;
 @synthesize successdate;
 @end
+
+@implementation CAnnotation
+@synthesize streetAddress;
+@synthesize status;
+@synthesize coordinate;
+-(NSString *)title
+{
+    return self.streetAddress;
+}
+-(NSString *)subtitle
+{
+    NSMutableString *ret=[NSMutableString stringWithString:@"跟进状态："];
+    if (status)
+        [ret appendString:status];
+    return ret;
+}
+@end

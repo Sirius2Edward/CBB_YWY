@@ -6,8 +6,24 @@
 //  Copyright (c) 2013年 卡宝宝. All rights reserved.
 //
 
-#import "BaseSiftView.h"
-#import "CustomPicker.h"
+#import <UIKit/UIKit.h>
 
-@interface LoanClientSift : BaseSiftView<CustomPickerDelegate,CPPickerViewCellDelegate, CPPickerViewCellDataSource>
+@interface LoanClientSift : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
+@property(nonatomic,retain)NSDictionary *city;
+@property(nonatomic,retain)NSArray *usage;
+-(void)dismissAction;
+-(void)searchAction;
+@end
+
+
+@interface NewClientSift : LoanClientSift
+@end
+
+@interface ForMyShopClientSift : LoanClientSift
+@end
+
+@interface ForMyProductClientSift : LoanClientSift
+@end
+
+@interface BoughtClientSift : LoanClientSift
 @end

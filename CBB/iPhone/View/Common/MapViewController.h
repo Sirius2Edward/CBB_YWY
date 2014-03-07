@@ -10,4 +10,5 @@
 #import <MapKit/MapKit.h>
 @interface MapViewController : UIViewController<MKMapViewDelegate>
 @property(nonatomic,retain)NSString *address;
+@property(nonatomic,retain)NSString *status;
 @end

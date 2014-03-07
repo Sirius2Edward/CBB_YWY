@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 @interface DataModel : NSObject
 @end
@@ -84,4 +85,10 @@
 @property(nonatomic,retain)NSString *ptype;
 @property(nonatomic,retain)NSString *paydate;
 @property(nonatomic,retain)NSString *successdate;
+@end
+
+@interface CAnnotation : DataModel<MKAnnotation>
+@property (nonatomic,copy) NSString *streetAddress;
+@property (nonatomic,copy) NSString *status;
+@property (nonatomic,readwrite) CLLocationCoordinate2D coordinate;
 @end

@@ -9,22 +9,14 @@
 #import "AppDelegate.h"
 #import "Login.h"
 #import "UIColor+TitleColor.h"
-#import "MapViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //读Cache
-    //已登录，进入首页界面
-    //未登录，进入登陆界面
-    
-    
-//    MapViewController *login = [MapViewController new];
     Login *login = [Login new];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:login];
     
@@ -42,7 +34,7 @@
     {
         nav.navigationBar.tintColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"top.jpg"]];
     }
-#endif  // #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+#endif
     
 //     Image:[UIImage imageNamed:@"top.jpg"] forBarMetrics:UIBarMetricsDefault];
 //    

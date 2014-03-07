@@ -6,8 +6,13 @@
 #import "SVProgressHUD.h"
 #import "UIColor+TitleColor.h"
 #import "WebViewController.h"
+#import "MapViewController.h"
 
 @implementation BaseLoanCell
+{
+    LoanClient *_item;
+}
+@synthesize item = _item;
 @synthesize nameLabel;
 @synthesize amountLabel;
 @synthesize adDateLabel;
@@ -41,7 +46,8 @@
 
 -(void)setItem:(LoanClient *)item
 {
-
+    if (item == _item)  return;
+    _item = item;
     nameLabel.text = [NSString stringWithFormat:@"%@(%@)",item.username,item.usersex];
     amountLabel.text = [NSString stringWithFormat:@"贷%@万",item.loanmoney];
     adDateLabel.text = item.adddate;
@@ -448,11 +454,17 @@
         [statusButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:statusButton];
         
-        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 130, 25)];
+        UIButton *mapBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [mapBtn setBackgroundImage:[UIImage imageNamed:@"map_icon.jpg"] forState:UIControlStateNormal];
+        [mapBtn addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
+        mapBtn.frame = CGRectMake(263, 65, 37, 37);
+        [self.contentView addSubview:mapBtn];
+        
+        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 150, 25)];
         usageLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:usageLabel];
         
-        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 130, 25)];
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 150, 25)];
         identLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:identLabel];
         
@@ -504,7 +516,24 @@
     [self.controller updateStatus:self];
 }
 
+-(void)mapAction:(UIButton *)sender
+{
+    NSString *addr = self.item.address;
+    if (addr && ![addr isEqualToString:@""]) {
+        MapViewController *mapVC = [MapViewController new];
+        mapVC.address = addr;
+        mapVC.status = self.item.zt;
+        mapVC.title = [NSString stringWithFormat:@"%@的位置",self.item.username];
+        [self.controller.navigationController pushViewController:mapVC animated:YES];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"没找到位置！SORRY." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
+}
+
 //查看详情
+/*
 -(void)detail
 {
     UserInfo *info = [UserInfo shareInstance];
@@ -517,6 +546,7 @@
     req.delegate = self;
     [req loanBuyerDetailWithDic:dic];
 }
+*/
 
 -(void)loanBoughtDetail:(id)mDic
 {
@@ -558,11 +588,17 @@
         [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:delBtn];
         
-        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 130, 25)];
+        UIButton *mapBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [mapBtn setBackgroundImage:[UIImage imageNamed:@"map_icon.jpg"] forState:UIControlStateNormal];
+        [mapBtn addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
+        mapBtn.frame = CGRectMake(263, 65, 37, 37);
+        [self.contentView addSubview:mapBtn];
+        
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 150, 25)];
         identLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:identLabel];
         
-        incomLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 180, 25)];
+        incomLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 150, 25)];
         incomLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:incomLabel];
         
@@ -647,6 +683,12 @@
     }
 }
 
+-(void)mapAction:(UIButton *)sender
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"购买此表单后可查看客户地理位置！" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (!buttonIndex) {
@@ -672,7 +714,7 @@
     UIButton *statusButton;
     UIProgressView *grade;
 }
-//@synthesize controller;
+@synthesize controller;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -693,11 +735,17 @@
         [delBtn addTarget:self action:@selector(deleteClient) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:delBtn];
         
-        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 130, 25)];
+        UIButton *mapBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [mapBtn setBackgroundImage:[UIImage imageNamed:@"map_icon.jpg"] forState:UIControlStateNormal];
+        [mapBtn addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
+        mapBtn.frame = CGRectMake(263, 65, 37, 37);
+        [self.contentView addSubview:mapBtn];
+        
+        usageLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 60, 150, 25)];
         usageLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:usageLabel];
         
-        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 130, 25)];
+        identLabel = [[UILabel alloc] initWithFrame:CGRectMake(110, 85, 150, 25)];
         identLabel.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:identLabel];
         
@@ -785,6 +833,12 @@
     }
 }
 
+-(void)mapAction:(UIButton *)sender
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"购买此表单后可查看客户地理位置！" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (!buttonIndex) {
@@ -851,9 +905,8 @@
 
 -(void)pushToSift:(UIButton *)sender
 {
-    LoanClientSift *sift = [[LoanClientSift alloc] init];
-    sift.delegate = self;
-    [self.navigationController pushViewController:sift animated:YES];
+    NewClientSift *sift = [[NewClientSift alloc] init];
+    [self.navigationController presentViewController:sift animated:YES completion:nil];
 }
 
 

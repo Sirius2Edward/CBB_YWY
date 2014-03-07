@@ -59,7 +59,7 @@
     CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
     CGContextSetLineWidth(ctx, 1.0f);
     
-    CGSize textSize = [self.text sizeWithFont:self.font];
+    CGSize textSize = [self.text sizeWithAttributes:@{NSFontAttributeName:self.font}];
     float bottomY = CGRectGetMaxY(self.bounds)-1;
     CGContextMoveToPoint(ctx, 0, bottomY);
     CGContextAddLineToPoint(ctx, textSize.width, bottomY);

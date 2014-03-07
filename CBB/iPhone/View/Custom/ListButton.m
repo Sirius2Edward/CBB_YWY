@@ -29,7 +29,7 @@
         titleLabel.shadowOffset = CGSizeMake(0, -1);
         [self addSubview:titleLabel];
         
-        CGSize size = [titleLabel.text sizeWithFont:titleLabel.font];
+        CGSize size = [titleLabel.text sizeWithAttributes:@{NSFontAttributeName:titleLabel.font}];
         triangle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"triangle.png"]];
         titleLabel.frame = CGRectMake(0, 0, 141, 44);
         triangle.frame = CGRectMake(75.5+size.width/2, 20, 11.5, 8);
@@ -40,7 +40,7 @@
 
 -(void)setTitle:(NSString *)title
 {
-    CGSize size = [title sizeWithFont:titleLabel.font];
+    CGSize size = [title sizeWithAttributes:@{NSFontAttributeName:titleLabel.font}];
     titleLabel.text = title;
     triangle.frame = CGRectMake(75.5+size.width/2, 20, 11.5, 8);
 }

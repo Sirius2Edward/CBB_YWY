@@ -47,7 +47,7 @@
 @end
 
 //新客户申请表
-@interface NewLoanClientTable : LoanClientTable<changeSiftParaDelegate>
+@interface NewLoanClientTable : LoanClientTable//<changeSiftParaDelegate>
 @end
 
 //已购买的客户表
