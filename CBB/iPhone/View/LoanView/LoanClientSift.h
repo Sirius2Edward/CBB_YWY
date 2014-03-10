@@ -11,8 +11,12 @@
 @interface LoanClientSift : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>
 @property(nonatomic,retain)NSDictionary *city;
 @property(nonatomic,retain)NSArray *usage;
+@property(nonatomic,retain)NSArray *pickerData;
+@property(nonatomic,retain)NSMutableDictionary *paramters;
+
+typedef void (^block)(void);
+@property(nonatomic,copy)block completion;
 -(void)dismissAction;
--(void)searchAction;
 @end
 
 
@@ -22,8 +26,9 @@
 @interface ForMyShopClientSift : LoanClientSift
 @end
 
-@interface ForMyProductClientSift : LoanClientSift
+@interface ForMyProductClientSift : NewClientSift
 @end
 
 @interface BoughtClientSift : LoanClientSift
+@property(nonatomic,retain)NSArray *status;
 @end

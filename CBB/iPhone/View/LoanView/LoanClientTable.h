@@ -29,13 +29,14 @@
 @interface DoneLoanClientCell : BaseLoanCell
 @property(nonatomic,retain)DoneLoanClientTable *controller;
 @property(nonatomic,retain)NSString *status;
+@property(nonatomic,retain)NSArray *zts;
 @end
 
 @class ForMeLoanClientTable;
-@interface LoanShopClientCell : BaseLoanCell<UIAlertViewDelegate>
+@interface LoanShopClientCell : BaseLoanCell<UIAlertViewDelegate,UIActionSheetDelegate>
 @property(nonatomic,retain)ForMeLoanClientTable *controller;
 @end
-@interface LoanProductClientCell : BaseLoanCell<UIAlertViewDelegate>
+@interface LoanProductClientCell : BaseLoanCell<UIAlertViewDelegate,UIActionSheetDelegate>
 @property(nonatomic,retain)ForMeLoanClientTable *controller;
 @end
 
@@ -47,7 +48,7 @@
 @end
 
 //新客户申请表
-@interface NewLoanClientTable : LoanClientTable//<changeSiftParaDelegate>
+@interface NewLoanClientTable : LoanClientTable
 @end
 
 //已购买的客户表
@@ -57,5 +58,4 @@
 
 //对我申请的客户表
 @interface ForMeLoanClientTable : LoanClientTable
--(void)buyForMeClient:(BaseLoanCell *)cell;
 @end

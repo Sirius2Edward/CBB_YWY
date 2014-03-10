@@ -199,7 +199,7 @@
 -(void)requestDidFinish:(ASIHTTPRequest *)aRequest
 {
     if (aRequest.responseStatusCode == 500) {
-        [self.queue cancelAllOperations];
+        [SVProgressHUD showErrorWithStatus:@"网络连接异常！稍后重试" duration:0.789f];
         return;
     }
     if ([SVProgressHUD isVisible]) {

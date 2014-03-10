@@ -353,7 +353,6 @@
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"已购买客户表",nil];
-        alert.tag = 6602;
         [alert show];
     }
 }
@@ -449,7 +448,6 @@
         }
         statusButton = [UIButton buttonWithType:UIButtonTypeSystem];
         statusButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        [statusButton setTitle:@"未联系" forState:UIControlStateNormal];
         statusButton.frame = CGRectMake(150, 8, 150, 30);
         [statusButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:statusButton];
@@ -504,6 +502,8 @@
     mortgLabel.text = item.loans_dyw;
     mobilLabel.text = item.mobile;
     bDateLabel.text = item.mon_date;
+    
+    [statusButton setTitle:[self.zts objectAtIndex:item.zt.integerValue-1] forState:UIControlStateNormal];
 }
 
 -(void)setStatus:(NSString *)status
@@ -560,6 +560,7 @@
 @implementation LoanShopClientCell
 {
     NSString *uid;
+    NSString *orderid;
     UILabel *identLabel;
     UILabel *incomLabel;
     UILabel *mortgLabel;
@@ -635,6 +636,7 @@
 {
     [super setItem:item];
     uid = item.ID;
+    orderid = item.orderid;
     identLabel.text = item.worksf;
     incomLabel.text = item.monthIncome;
     mortgLabel.text = item.loans_dyw;
@@ -661,7 +663,16 @@
 
 -(void)deleteClient
 {
-    
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:@"请选择删除原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"其他" otherButtonTitles:@"资料达不到标准",@"位置偏远",@"资料错误", nil];
+    [alert showInView:self.controller.view];
+}
+
+-(void)removeCell
+{
+    NSIndexPath *indexPath = [self.controller.tableView indexPathForCell:self];
+    [self.controller.items removeObjectAtIndex:indexPath.row];
+    [self.controller.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[self.controller.tableView indexPathForCell:self]]
+                                     withRowAnimation:UITableViewRowAnimationRight];
 }
 
 -(void)buyAction:(UIButton *)sender
@@ -695,10 +706,80 @@
         return;
     }
     if (alertView.tag == 6800) {
-        [self.controller buyForMeClient:self];
+        UserInfo *info = [UserInfo shareInstance];
+        NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
+        Request_API *req = [Request_API shareInstance];
+        req.delegate = self;
+        if (!isfirst || isfirst.intValue == 0) {
+            [req loanUpdateFirstBuy];
+        }
+        [req loanBuyForMeFormWithDic:@{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":uid}];
     }
     else if (alertView.tag == 6801){
+        NSString *content = [alertView textFieldAtIndex:0].text;
+        if ([content isEqualToString:@""]) {
+            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
+        }
+        else
+        {
+            UserInfo *info = [UserInfo shareInstance];
+            NSDictionary *dic = @{@"username":info.username, @"password":info.password,@"id":info.ID,
+                                  @"orderid":orderid,@"content":content};
+            Request_API *req = [Request_API shareInstance];
+            req.delegate = self;
+            [req loanDeleteForMeFormWithDic:dic];
+        }
     }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *reason = [actionSheet buttonTitleAtIndex:buttonIndex];
+	if (buttonIndex != 4) {
+        if ([reason isEqualToString:@"其他"]){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定",nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = 6801;
+            [alert textFieldAtIndex:0].placeholder = @"输入删除原因";
+            [alert show];
+        }
+        else {
+            UserInfo *info = [UserInfo shareInstance];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 info.username,@"username",
+                                 info.password,@"password",
+                                 info.ID,@"id",
+                                 orderid,@"orderid",
+                                 reason,@"content",nil];
+            Request_API *req = [Request_API shareInstance];
+            req.delegate = self;
+            [req loanDeleteForMeFormWithDic:dic];
+        }
+    }
+}
+
+-(void)deleteEnd:(id)mDic
+{
+    if (![mDic objectForKey:@"loansuserlogin21"]) {
+        return;
+    }
+    [self removeCell];
+}
+
+-(void)buyEnd:(id)aDic
+{
+    NSString *result = [[aDic objectForKey:@"loansuserlogin20"] objectForKey:@"result"];
+    if (!result) {
+        return;
+    }
+    //购买成功
+    [self removeCell];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+    [alert show];
 }
 @end
 
@@ -706,6 +787,7 @@
 @implementation LoanProductClientCell
 {
     NSString *uid;
+    NSString *orderid;
     UILabel *usageLabel;
     UILabel *identLabel;
     UILabel *incomLabel;
@@ -784,6 +866,7 @@
 {
     [super setItem:item];
     uid = item.ID;
+    orderid = item.orderid;
     usageLabel.text = item.Rt;
     identLabel.text = item.worksf;
     incomLabel.text = item.monthIncome;
@@ -811,7 +894,16 @@
 
 -(void)deleteClient
 {
-    
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:@"请选择删除原因" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"其他" otherButtonTitles:@"资料达不到标准",@"位置偏远",@"资料错误", nil];
+    [alert showInView:self.controller.view];
+}
+
+-(void)removeCell
+{
+    NSIndexPath *indexPath = [self.controller.tableView indexPathForCell:self];
+    [self.controller.items removeObjectAtIndex:indexPath.row];
+    [self.controller.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[self.controller.tableView indexPathForCell:self]]
+                                     withRowAnimation:UITableViewRowAnimationRight];
 }
 
 -(void)buyAction:(UIButton *)sender
@@ -845,10 +937,80 @@
         return;
     }
     if (alertView.tag == 6800) {
-        [self.controller buyForMeClient:self];
+        UserInfo *info = [UserInfo shareInstance];
+        NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
+        Request_API *req = [Request_API shareInstance];
+        req.delegate = self;
+        if (!isfirst || isfirst.intValue == 0) {
+            [req loanUpdateFirstBuy];
+        }
+        [req loanBuyForMeFormWithDic:@{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":uid}];
     }
     else if (alertView.tag == 6801){
+        NSString *content = [alertView textFieldAtIndex:0].text;
+        if ([content isEqualToString:@""]) {
+            [SVProgressHUD showErrorWithStatus:@"输入原因才能删除！" duration:0.789f];
+        }
+        else
+        {
+            UserInfo *info = [UserInfo shareInstance];
+            NSDictionary *dic = @{@"username":info.username, @"password":info.password,@"id":info.ID,
+                                  @"orderid":orderid,@"content":content};
+            Request_API *req = [Request_API shareInstance];
+            req.delegate = self;
+            [req loanDeleteForMeFormWithDic:dic];
+        }
     }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *reason = [actionSheet buttonTitleAtIndex:buttonIndex];
+	if (buttonIndex != 4) {
+        if ([reason isEqualToString:@"其他"]){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请输入删除原因"
+                                                            message:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"确定",nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = 6801;
+            [alert textFieldAtIndex:0].placeholder = @"输入删除原因";
+            [alert show];
+        }
+        else {
+            UserInfo *info = [UserInfo shareInstance];
+            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 info.username,@"username",
+                                 info.password,@"password",
+                                 info.ID,@"id",
+                                 orderid,@"orderid",
+                                 reason,@"content",nil];
+            Request_API *req = [Request_API shareInstance];
+            req.delegate = self;
+            [req loanDeleteForMeFormWithDic:dic];
+        }
+    }
+}
+
+-(void)deleteEnd:(id)mDic
+{
+    if (![mDic objectForKey:@"loansuserlogin21"]) {
+        return;
+    }
+    [self removeCell];
+}
+
+-(void)buyEnd:(id)aDic
+{
+    NSString *result = [[aDic objectForKey:@"loansuserlogin20"] objectForKey:@"result"];
+    if (!result) {
+        return;
+    }
+    //购买成功
+    [self removeCell];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+    [alert show];
 }
 @end
 
@@ -875,6 +1037,7 @@
                  userInfo.username,@"username",
                  userInfo.password,@"password",
                  userInfo.ID,@"id", nil];
+        self.items = [NSMutableArray array];
     }
     return self;
 }
@@ -882,8 +1045,18 @@
 -(void)setData:(NSMutableDictionary *)data
 {
     _data = data;
-    self.items = [NSMutableArray arrayWithArray:[data objectForKey:@"UL"]];
-    self.page = [[self.data objectForKey:@"Page"] integerValue];
+    if (nil == data) {
+        [self.items removeAllObjects];
+        self.page = 0;
+        return;
+    }
+    self.page = [[data objectForKey:@"Page"] integerValue];
+    if (self.page == 1) {
+        [self.items setArray:[data objectForKey:@"UL"]];
+    }
+    else {
+        [self.items addObjectsFromArray:[data objectForKey:@"UL"]];
+    }
 }
 
 - (void)viewDidLoad
@@ -906,22 +1079,11 @@
 -(void)pushToSift:(UIButton *)sender
 {
     NewClientSift *sift = [[NewClientSift alloc] init];
-    [self.navigationController presentViewController:sift animated:YES completion:nil];
-}
-
-
--(void)changeSiftPara:(NSMutableDictionary *)aDic Data:(NSDictionary *)data
-{
-    param = nil;
-    UserInfo *userInfo = [UserInfo shareInstance];
-    param = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-             userInfo.username,@"username",
-             userInfo.password,@"password",
-             userInfo.ID,@"id", nil];
-    [param addEntriesFromDictionary:aDic];
-    [self.items setArray:[data objectForKey:@"UL"]];
-    self.page = 1;
-    [self.tableView reloadData];
+    sift.paramters = param;
+    sift.completion = ^{
+        [self reloadTableViewDataSource];
+    };
+    [self presentViewController:sift animated:YES completion:nil];
 }
 
 -(void)pushToWeb:(UIButton *)sender
@@ -1037,14 +1199,15 @@
 //请求更多数据
 - (void)loadNextTableViewDataSource
 {
+    if (Nil == self.data) {
+        return;
+    }
     [super loadNextTableViewDataSource];
     if (self.page < [[self.data objectForKey:@"TotalPage"] integerValue]) {
         self.page ++;
- 
-        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:param];
-        [dic setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"page"];
+        [param setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"page"];
         req.delegate = self;
-        [req loanNewClientsWithDic:dic];
+        [req loanNewClientsWithDic:param];
     }
     else {
         [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];//线程安全
@@ -1053,14 +1216,8 @@
 
 -(void)newLoanClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin18"];
-    if ([[dic objectForKey:@"Page"] integerValue] == 1) {
-        self.page = 1;
-        [self.items setArray:[dic objectForKey:@"UL"]];
-    }
-    else {
-        [self.items addObjectsFromArray:[dic objectForKey:@"UL"]];
-    }
+    NSMutableDictionary *dic = [aDic objectForKey:@"loansuserlogin18"];
+    self.data = dic;
     [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.2f];
 }
 
@@ -1078,6 +1235,7 @@
     CustomPicker *picker;
     NSMutableDictionary *_data;
     NSArray *zts;
+    NSMutableDictionary *param;
 }
 @synthesize data = _data;
 - (id)init
@@ -1085,6 +1243,12 @@
     self = [super init];
     if (self) {
         req = [Request_API shareInstance];
+        self.items = [NSMutableArray array];
+        UserInfo *userInfo = [UserInfo shareInstance];
+        param = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                 userInfo.username,@"username",
+                 userInfo.password,@"password",
+                 userInfo.ID,@"id", nil];
     }
     return self;
 }
@@ -1092,8 +1256,18 @@
 -(void)setData:(NSMutableDictionary *)data
 {
     _data = data;
-    self.items = [NSMutableArray arrayWithArray:[data objectForKey:@"UL"]];
+    if (nil == data) {
+        [self.items removeAllObjects];
+        self.page = 0;
+        return;
+    }
     self.page = [[self.data objectForKey:@"Page"] integerValue];
+    if (self.page == 1) {
+        [self.items setArray:[data objectForKey:@"UL"]];
+    }
+    else {
+        [self.items addObjectsFromArray:[data objectForKey:@"UL"]];
+    }
     
     NSDictionary *ztDic = [data objectForKey:@"ZTS"];
     zts = [[ztDic allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
@@ -1107,6 +1281,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIButton *barButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [barButton setBackgroundImage:[UIImage imageNamed:@"sift.png"] forState:0];
+    [barButton sizeToFit];
+    [barButton addTarget:self action:@selector(pushToSift:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:barButton];
+    self.navigationItem.rightBarButtonItem = rightBarBtn;
     self.title = @"已购买的表单";
 }
 
@@ -1124,6 +1304,15 @@
     [picker showPickerInView:self.view];
 }
 
+-(void)pushToSift:(UIButton *)sender
+{
+    NewClientSift *sift = [[NewClientSift alloc] init];
+    sift.paramters = param;
+    sift.completion = ^{
+        [self reloadTableViewDataSource];
+    };
+    [self presentViewController:sift animated:YES completion:nil];
+}
 #pragma mark - Table view data source
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -1193,6 +1382,7 @@
     if (nil == cell) {
         cell = [[DoneLoanClientCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
         cell.controller = self;
+        cell.zts = zts;
     }
     cell.item = [self.items objectAtIndex:indexPath.row];
     return cell;
@@ -1205,30 +1395,22 @@
 - (void)reloadTableViewDataSource
 {
     [super reloadTableViewDataSource];
-    
-    UserInfo *userInfo = [UserInfo shareInstance];
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                         userInfo.username,@"username",
-                         userInfo.password,@"password",
-                         userInfo.ID,@"id", nil];
     req.delegate = self;
-    [req loanBuyersInfoWithDic:dic];
+    [req loanBuyersInfoWithDic:param];
 }
 
 //请求更多数据
 - (void)loadNextTableViewDataSource
 {
+    if (Nil == self.data) {
+        return;
+    }
     [super loadNextTableViewDataSource];
     if (self.page < [[self.data objectForKey:@"TotalPage"] integerValue]) {
         self.page ++;
-        UserInfo *userInfo = [UserInfo shareInstance];
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
-                             userInfo.username,@"username",
-                             userInfo.password,@"password",
-                             userInfo.ID,@"id",
-                             [NSString stringWithFormat:@"%d",self.page] ,@"page",nil];
+        [param setObject:[NSString stringWithFormat:@"%d",self.page] forKey:@"page"];
         req.delegate = self;
-        [req loanBuyersInfoWithDic:dic];
+        [req loanBuyersInfoWithDic:param];
     }
     else {
         [self performSelectorOnMainThread:@selector(doneLoadingTableViewData) withObject:nil waitUntilDone:NO];//线程安全
@@ -1237,14 +1419,8 @@
 
 -(void)doneLoanClientEnd:(id)aDic
 {
-    NSDictionary *dic = [aDic objectForKey:@"loansuserlogin5"];
-    if ([[dic objectForKey:@"Page"] integerValue] == 1) {
-        self.page = 1;
-        [self.items setArray:[dic objectForKey:@"UL"]];
-    }
-    else {
-        [self.items addObjectsFromArray:[dic objectForKey:@"UL"]];
-    }
+    NSMutableDictionary *dic = [aDic objectForKey:@"loansuserlogin5"];
+    self.data = dic;
     [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.2f];
 }
 
@@ -1262,9 +1438,21 @@
     cell.status = value;
     
     LoanClient *item = [self.items objectAtIndex:[self.tableView indexPathForCell:cell].row];
+    item.zt = [NSString stringWithFormat:@"%d",[zts indexOfObject:value]+1];
+    UserInfo *userInfo = [UserInfo shareInstance];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
+                         userInfo.username,@"username",
+                         userInfo.password,@"password",
+                         userInfo.ID,@"id",
+                         item.ID,@"uid",
+                         item.zt,@"zt",nil];
+    req.delegate = self;
+    [req loanZTChangeWithDic:dic];
 }
 
 -(void)selectAction:(NSString *)value {}
+
+-(void)ztChangeEnd:(id)aDic{}
 @end
 #pragma mark - --
 @implementation ForMeLoanClientTable
@@ -1274,13 +1462,39 @@
     NSMutableDictionary *_data;
     NSMutableDictionary *_shopData;
     NSMutableDictionary *_productData;
+    NSMutableDictionary *param;
 }
 @synthesize data = _data;
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        req = [Request_API shareInstance];
+        UserInfo *userInfo = [UserInfo shareInstance];
+        param = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                 userInfo.username,@"username",
+                 userInfo.password,@"password",
+                 userInfo.ID,@"id", nil];
+        self.items = [NSMutableArray array];
+    }
+    return self;
+}
+
 -(void)setData:(NSMutableDictionary *)data
 {
     _data = data;
-    self.items = [NSMutableArray arrayWithArray:[data objectForKey:@"UL"]];
+    if (nil == data) {
+        [self.items removeAllObjects];
+        self.page = 0;
+        return;
+    }
     self.page = [[self.data objectForKey:@"Page"] integerValue];
+    if (self.page == 1) {
+        [self.items setArray:[data objectForKey:@"UL"]];
+    }
+    else {
+        [self.items addObjectsFromArray:[data objectForKey:@"UL"]];
+    }
 }
 
 -(void)loadView
@@ -1294,7 +1508,16 @@
     seg.selectedSegmentIndex = 0;
     [seg addTarget:self action:@selector(changeContent:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = seg;
+    
+    UIButton *barButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [barButton setBackgroundImage:[UIImage imageNamed:@"sift.png"] forState:0];
+    [barButton sizeToFit];
+    [barButton addTarget:self action:@selector(pushToSift:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:barButton];
+    self.navigationItem.rightBarButtonItem = rightBarBtn;
     self.navigationItem.prompt = @"对我申请的表单";
+    
+    self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - 94);
     
     _shopData = self.data;
 }
@@ -1321,27 +1544,30 @@
 
 -(void)requestDataPage:(NSInteger)page
 {
-    UserInfo *userInfo = [UserInfo shareInstance];
-    NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID,@"page":[NSString stringWithFormat:@"%d",page]};
+    [param setObject:[NSString stringWithFormat:@"%d",page] forKey:@"page"];
     req.delegate = self;
     if (seg.selectedSegmentIndex) {
-        [req loanForMyProductWithDic:dic];
+        [req loanForMyProductWithDic:param];
     }
     else {
-        [req loanForMyShopWithDic:dic];
+        [req loanForMyShopWithDic:param];
     }
 }
 
--(void)buyForMeClient:(BaseLoanCell *)cell
+-(void)pushToSift:(UIButton *)sender
 {
-    NSInteger row = [self.tableView indexPathForCell:cell].row;
-    LoanClient *lc = (LoanClient *)[self.items objectAtIndex:row];
-    UserInfo *info = [UserInfo shareInstance];
-    NSString *isfirst = [info.userInfo objectForKey:@"isfirst"];
-    if (!isfirst || isfirst.intValue == 0) {
-        [req loanUpdateFirstBuy];
+    LoanClientSift *sift = nil;
+    if (seg.selectedSegmentIndex) {
+        sift = [ForMyProductClientSift new];
     }
-    [req loanBuyForMeFormWithDic:@{@"username":info.username, @"password":info.password, @"id":info.ID, @"uid":lc.ID}];
+    else {
+        sift = [ForMyShopClientSift new];
+    }
+    sift.paramters = param;
+    sift.completion = ^{
+        [self reloadTableViewDataSource];
+    };
+    [self presentViewController:sift animated:YES completion:nil];
 }
 
 -(void)pushToWeb:(UIButton *)sender
@@ -1465,6 +1691,9 @@
 //请求更多数据
 - (void)loadNextTableViewDataSource
 {
+    if (Nil == self.data) {
+        return;
+    }
     [super loadNextTableViewDataSource];
     if (self.page < [[self.data objectForKey:@"TotalPage"] integerValue]) {
         self.page ++;
@@ -1487,29 +1716,7 @@
         _shopData = [aDic objectForKey:@"loansuserlogin17"];
         dic = _shopData;
     }
-    
-    if (!dic)  return;
     self.data = dic;
-    
-    if ([[dic objectForKey:@"Page"] integerValue] == 1) {
-        self.page = 1;
-        [self.items setArray:[dic objectForKey:@"UL"]];
-    }
-    else {
-        [self.items addObjectsFromArray:[dic objectForKey:@"UL"]];
-    }
     [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:0.2f];
-}
-
--(void)buyEnd:(id)aDic
-{
-    NSString *result = [[aDic objectForKey:@"loansuserlogin20"] objectForKey:@"result"];
-    if (!result) {
-        return;
-    }
-    //购买成功
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
-    alert.tag = 6602;
-    [alert show];
 }
 @end

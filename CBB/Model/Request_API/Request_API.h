@@ -53,6 +53,8 @@
 -(void)loanForMyShopWithDic:(NSDictionary *)aDic;           //对我店铺申请表
 -(void)loanForMyProductWithDic:(NSDictionary *)aDic;        //对我产品申请表
 -(void)loanBuyForMeFormWithDic:(NSDictionary *)aDic;        //购买对我申请的表单
+-(void)loanDeleteForMeFormWithDic:(NSDictionary *)aDic;     //删除对我申请的表单
+-(void)loanZTChangeWithDic:(NSDictionary *)aDic;            //已购买客户状态值修改
 
 //信用卡业务员
 -(void)cardLoginWithDic:(NSDictionary *)aDic;               //信用卡业务员登录

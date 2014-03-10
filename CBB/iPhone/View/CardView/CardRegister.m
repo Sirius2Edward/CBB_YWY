@@ -7,8 +7,8 @@
 //
 
 #import "CardRegister.h"
+#import "CardHomePage.h"
 #import "SingleSelectControl.h"
-#import "HomePage.h"
 #import "SVProgressHUD.h"
 
 @interface CardRegister ()
@@ -464,8 +464,7 @@
     if (dic.count) {
         CustomTextField *pwdField = (CustomTextField *)[self.view viewWithTag:1002];
         [[UserInfo shareInstance] setPassword:pwdField.tField.text];
-        HomePage *homepage = [[HomePage alloc] init];
-        homepage.businessType = 0;
+        CardHomePage *homepage = [[CardHomePage alloc] init];
         UserInfo *loginInfo = [UserInfo shareInstance];
         loginInfo.userInfo = dic;
         [[NSUserDefaults standardUserDefaults] setObject:loginInfo.username forKey:@"CBB_USER"];

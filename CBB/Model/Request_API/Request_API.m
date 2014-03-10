@@ -230,6 +230,20 @@
     [req httpRequestWithAPI:LoanYWY TypeID:20 Dictionary:aDic];
 }
 
+//删除对我申请的表单
+-(void)loanDeleteForMeFormWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(deleteEnd:);
+    [req httpRequestWithAPI:LoanYWY TypeID:21 Dictionary:aDic];
+}
+
+//已购买客户状态值修改
+-(void)loanZTChangeWithDic:(NSDictionary *)aDic
+{
+    req.connectEnd = @selector(ztChangeEnd:);
+    [req httpRequestWithAPI:LoanYWY TypeID:15 Dictionary:aDic];
+}
+
 #pragma mark - 信用卡业务员
 //信用卡业务员登录
 -(void)cardLoginWithDic:(NSDictionary *)aDic

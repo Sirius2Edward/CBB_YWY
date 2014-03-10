@@ -10,9 +10,13 @@
 {
     NSDictionary *_city;
     NSArray *_usage;
+    NSArray *_pickerData;
 }
 @synthesize city = _city;
 @synthesize usage= _usage;
+@synthesize pickerData = _pickerData;
+@synthesize paramters;
+@synthesize completion;
 -(id)init
 {
     if (self = [super init]) {
@@ -30,8 +34,6 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
--(void)searchAction{}
 
 -(NSDictionary *)city
 {
@@ -67,7 +69,12 @@
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return 0;
+    return _pickerData.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [_pickerData objectAtIndex:row];
 }
 @end
 
@@ -79,7 +86,6 @@
     UITextField *dnDateTF;
     UITextField *upDateTF;
     UIPickerView *picker;
-    NSArray *pickerData;
 }
 -(void)loadView
 {
@@ -94,7 +100,7 @@
     label = [[UILabel alloc] initWithFrame:CGRectMake(20, 130, 80, 30)];
     label.text = @"申请时间:";
     [self.view addSubview:label];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(151, 165, 20, 30)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(151, 160, 20, 30)];
     label.text = @"至";
     [self.view addSubview:label];
     
@@ -123,7 +129,7 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     
-    dnDateTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 165, 130, 30)];
+    dnDateTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 160, 130, 30)];
     dnDateTF.clearButtonMode = UITextFieldViewModeUnlessEditing;
     dnDateTF.borderStyle = UITextBorderStyleRoundedRect;
     dnDateTF.textAlignment = NSTextAlignmentCenter;
@@ -132,7 +138,7 @@
     dnDateTF.inputView = datePicker;
     [self.view addSubview:dnDateTF];
     
-    upDateTF = [[UITextField alloc] initWithFrame:CGRectMake(170, 165, 130, 30)];
+    upDateTF = [[UITextField alloc] initWithFrame:CGRectMake(170, 160, 130, 30)];
     upDateTF.clearButtonMode = UITextFieldViewModeUnlessEditing;
     upDateTF.borderStyle = UITextBorderStyleRoundedRect;
     upDateTF.textAlignment = NSTextAlignmentCenter;
@@ -151,6 +157,7 @@
     button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"搜索" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor titleColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(searchAction) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(170, 210, 80, 30);
     [self.view addSubview:button];
 
@@ -168,32 +175,56 @@
     }
 }
 
-#pragma mark Delegate
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     if (textField == cityTF) {
-        pickerData = [[self.city allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        self.pickerData = [[self.city allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             if ([[self.city objectForKey:obj1] integerValue] < [[self.city objectForKey:obj2] integerValue]) {
                 return NSOrderedAscending;
             }
             return NSOrderedDescending;
         }];
+        [picker reloadAllComponents];
     }
     else if (textField == usageTF) {
-        pickerData = self.usage;
+        self.pickerData = self.usage;
+        [picker reloadAllComponents];
     }
-    [picker reloadAllComponents];
     return YES;
 }
 
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+-(void)searchAction
 {
-    return pickerData.count;
+    UserInfo *userInfo = [UserInfo shareInstance];
+    [self.paramters setDictionary:@{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID}];
+    if ([cityTF.text isEqualToString:@""]) {
+        [self.paramters setObject:@"0" forKey:@"ucity"];
+    }
+    else {
+        [self.paramters setObject:[self.city objectForKey:cityTF.text] forKey:@"ucity"];
+    }
+    
+    if ([usageTF.text isEqualToString:@""]) {
+        [self.paramters setObject:@"0" forKey:@"uyt"];
+    }
+    else {
+        [self.paramters setObject:[NSString stringWithFormat:@"%d",[self.usage indexOfObject:usageTF.text] ] forKey:@"uyt"];
+    }
+    
+    [self.paramters setObject:dnDateTF.text forKey:@"syear"];
+    [self.paramters setObject:upDateTF.text forKey:@"eyear"];
+    
+    [self dismissViewControllerAnimated:YES completion:self.completion];
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    return [pickerData objectAtIndex:row];
+    if ([cityTF isFirstResponder]) {
+        cityTF.text = [self.pickerData objectAtIndex:row];
+    }
+    else if ([usageTF isFirstResponder]) {
+        usageTF.text = [self.pickerData objectAtIndex:row];
+    }
 }
 @end
 
@@ -215,7 +246,7 @@
     label = [[UILabel alloc] initWithFrame:CGRectMake(20, 90, 80, 30)];
     label.text = @"申请时间:";
     [self.view addSubview:label];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(151, 125, 20, 30)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(151, 120, 20, 30)];
     label.text = @"至";
     [self.view addSubview:label];
     
@@ -236,7 +267,7 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     
-    dnDateTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 125, 130, 30)];
+    dnDateTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 120, 130, 30)];
     dnDateTF.clearButtonMode = UITextFieldViewModeUnlessEditing;
     dnDateTF.borderStyle = UITextBorderStyleRoundedRect;
     dnDateTF.textAlignment = NSTextAlignmentCenter;
@@ -245,7 +276,7 @@
     dnDateTF.inputView = datePicker;
     [self.view addSubview:dnDateTF];
     
-    upDateTF = [[UITextField alloc] initWithFrame:CGRectMake(170, 125, 130, 30)];
+    upDateTF = [[UITextField alloc] initWithFrame:CGRectMake(170, 120, 130, 30)];
     upDateTF.clearButtonMode = UITextFieldViewModeUnlessEditing;
     upDateTF.borderStyle = UITextBorderStyleRoundedRect;
     upDateTF.textAlignment = NSTextAlignmentCenter;
@@ -264,16 +295,49 @@
     button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"搜索" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor titleColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(searchAction) forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(170, 170, 80, 30);
     [self.view addSubview:button];
     
+    self.pickerData = [[self.city allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([[self.city objectForKey:obj1] integerValue] < [[self.city objectForKey:obj2] integerValue]) {
+            return NSOrderedAscending;
+        }
+        return NSOrderedDescending;
+    }];
     [cityTF becomeFirstResponder];
 }
 
+-(void)dateChanged:(UIDatePicker *)sender
+{
+    NSDateComponents *component = [sender.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit fromDate:sender.date];
+    if ([dnDateTF isFirstResponder]) {
+        dnDateTF.text = [NSString stringWithFormat:@"%d-%d-%d", component.year,component.month,component.day];
+    }
+    else if ([upDateTF isFirstResponder]) {
+        upDateTF.text = [NSString stringWithFormat:@"%d-%d-%d", component.year,component.month,component.day];
+    }
+}
+
+-(void)searchAction
+{
+    UserInfo *userInfo = [UserInfo shareInstance];
+    [self.paramters setDictionary:@{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID}];
+    if ([cityTF.text isEqualToString:@""]) {
+        [self.paramters setObject:@"0" forKey:@"ucity"];
+    }
+    else {
+        [self.paramters setObject:[self.city objectForKey:cityTF.text] forKey:@"ucity"];
+    }
+    
+    [self.paramters setObject:dnDateTF.text forKey:@"syear"];
+    [self.paramters setObject:upDateTF.text forKey:@"eyear"];
+    
+    [self dismissViewControllerAnimated:YES completion:self.completion];
+}
 @end
 
 #pragma mark -
-
 @implementation ForMyProductClientSift
 
 @end
@@ -281,6 +345,7 @@
 #pragma mark -
 @implementation BoughtClientSift
 {
+    NSArray *_status;
     UITextField *nameTF;
     UITextField *statTF;
     UITextField *usageTF;
@@ -288,29 +353,47 @@
     UITextField *upDateTF;
     UIPickerView *picker;
 }
+@synthesize status = _status;
 -(void)loadView
 {
     [super loadView];
     UILabel *label = nil;
-    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, 80, 30)];
-    label.text = @"城 市 ：";
+    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, 85, 30)];
+    label.text = @"客户姓名：";
     [self.view addSubview:label];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 90, 80, 30)];
-    label.text = @"用 途 ：";
+    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 75, 85, 30)];
+    label.text = @"处理状态：";
     [self.view addSubview:label];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 130, 80, 30)];
-    label.text = @"申请时间:";
+    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 115, 85, 30)];
+    label.text = @"贷款用途：";
     [self.view addSubview:label];
-    label = [[UILabel alloc] initWithFrame:CGRectMake(151, 165, 20, 30)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(20, 155, 85, 30)];
+    label.text = @"购买时间：";
+    [self.view addSubview:label];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(151, 185, 20, 30)];
     label.text = @"至";
     [self.view addSubview:label];
+    
+    nameTF = [[UITextField alloc] initWithFrame:CGRectMake(100, 35, 200, 30)];
+    nameTF.borderStyle = UITextBorderStyleRoundedRect;
+    nameTF.font = [UIFont systemFontOfSize:15];
+    nameTF.placeholder = @"按客户姓名搜索...";
+    nameTF.delegate = self;
+    [self.view addSubview:nameTF];
     
     picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 320, 216)];
     picker.showsSelectionIndicator = YES;
     picker.delegate = self;
     
+    statTF = [[UITextField alloc] initWithFrame:CGRectMake(100, 75, 200, 30)];
+    statTF.borderStyle = UITextBorderStyleRoundedRect;
+    statTF.font = [UIFont systemFontOfSize:15];
+    statTF.placeholder = @"处理状态（全部）";
+    statTF.inputView = picker;
+    statTF.delegate = self;
+    [self.view addSubview:statTF];
     
-    usageTF = [[UITextField alloc] initWithFrame:CGRectMake(90, 90, 210, 30)];
+    usageTF = [[UITextField alloc] initWithFrame:CGRectMake(100, 115, 200, 30)];
     usageTF.borderStyle = UITextBorderStyleRoundedRect;
     usageTF.font = [UIFont systemFontOfSize:15];
     usageTF.placeholder = @"贷款用途（全部）";
@@ -323,7 +406,7 @@
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
     
-    dnDateTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 165, 130, 30)];
+    dnDateTF = [[UITextField alloc] initWithFrame:CGRectMake(20, 185, 130, 30)];
     dnDateTF.clearButtonMode = UITextFieldViewModeUnlessEditing;
     dnDateTF.borderStyle = UITextBorderStyleRoundedRect;
     dnDateTF.textAlignment = NSTextAlignmentCenter;
@@ -332,7 +415,7 @@
     dnDateTF.inputView = datePicker;
     [self.view addSubview:dnDateTF];
     
-    upDateTF = [[UITextField alloc] initWithFrame:CGRectMake(170, 165, 130, 30)];
+    upDateTF = [[UITextField alloc] initWithFrame:CGRectMake(170, 185, 130, 30)];
     upDateTF.clearButtonMode = UITextFieldViewModeUnlessEditing;
     upDateTF.borderStyle = UITextBorderStyleRoundedRect;
     upDateTF.textAlignment = NSTextAlignmentCenter;
@@ -345,15 +428,78 @@
     button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"取消" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(dismissAction) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = CGRectMake(70, 210, 80, 30);
+    button.frame = CGRectMake(70, 225, 80, 30);
     [self.view addSubview:button];
     
     button = [UIButton buttonWithType:UIButtonTypeSystem];
     [button setTitle:@"搜索" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor titleColor] forState:UIControlStateNormal];
-    button.frame = CGRectMake(170, 210, 80, 30);
+    [button addTarget:self action:@selector(searchAction) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(170, 225, 80, 30);
     [self.view addSubview:button];
     
     [nameTF becomeFirstResponder];
+}
+
+-(NSArray *)status
+{
+    if (!_status) {
+        _status = @[@"处理状态（全部）",@"未联系",@"已联系待办",@"已上门",@"已联系条件不符",@"已上门条件不符",@"已办理",@"已查阅条件不符"];
+    }
+    return _status;
+}
+
+-(void)dateChanged:(UIDatePicker *)sender
+{
+    NSDateComponents *component = [sender.calendar components:NSDayCalendarUnit|NSMonthCalendarUnit|NSYearCalendarUnit fromDate:sender.date];
+    if ([dnDateTF isFirstResponder]) {
+        dnDateTF.text = [NSString stringWithFormat:@"%d-%d-%d", component.year,component.month,component.day];
+    }
+    else if ([upDateTF isFirstResponder]) {
+        upDateTF.text = [NSString stringWithFormat:@"%d-%d-%d", component.year,component.month,component.day];
+    }
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (textField == statTF) {
+        self.pickerData = [[self.city allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            if ([[self.city objectForKey:obj1] integerValue] < [[self.city objectForKey:obj2] integerValue]) {
+                return NSOrderedAscending;
+            }
+            return NSOrderedDescending;
+        }];
+        [picker reloadAllComponents];
+    }
+    else if (textField == usageTF) {
+        self.pickerData = self.usage;
+        [picker reloadAllComponents];
+    }
+    return YES;
+}
+
+-(void)searchAction
+{
+    UserInfo *userInfo = [UserInfo shareInstance];
+    [self.paramters setDictionary:@{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID}];
+    if ([statTF.text isEqualToString:@""]) {
+        [self.paramters setObject:@"0" forKey:@"uzt"];
+    }
+    else {
+        [self.paramters setObject:[NSString stringWithFormat:@"%d",[self.status indexOfObject:statTF.text]] forKey:@"ucity"];
+    }
+    
+    if ([usageTF.text isEqualToString:@""]) {
+        [self.paramters setObject:@"0" forKey:@"uyt"];
+    }
+    else {
+        [self.paramters setObject:[NSString stringWithFormat:@"%d",[self.usage indexOfObject:usageTF.text] ] forKey:@"uyt"];
+    }
+    
+    [self.paramters setObject:nameTF.text forKey:@"uname"];
+    [self.paramters setObject:dnDateTF.text forKey:@"syear"];
+    [self.paramters setObject:upDateTF.text forKey:@"eyear"];
+    
+    [self dismissViewControllerAnimated:YES completion:self.completion];
 }
 @end

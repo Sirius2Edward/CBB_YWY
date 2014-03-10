@@ -10,6 +10,7 @@
 		360249D317F3D2B2005E4C37 /* PARSEServiceFileUploadImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 360249D217F3D2B2005E4C37 /* PARSEServiceFileUploadImage.m */; };
 		360249D917F42597005E4C37 /* LoanClientSift.m in Sources */ = {isa = PBXBuildFile; fileRef = 360249D817F42597005E4C37 /* LoanClientSift.m */; };
 		3609043617C1CAA200B54F32 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3609043517C1CAA200B54F32 /* QuartzCore.framework */; };
+		360A149D18CD886C008D5DB7 /* PARSEloansuserlogin21.m in Sources */ = {isa = PBXBuildFile; fileRef = 360A149C18CD886C008D5DB7 /* PARSEloansuserlogin21.m */; };
 		360A26C817BCBDB700F6BB46 /* PARSEuserreg2.m in Sources */ = {isa = PBXBuildFile; fileRef = 360A26C717BCBDB700F6BB46 /* PARSEuserreg2.m */; };
 		3612AB1117C714F10023901C /* PARSEcarduserlogin10.m in Sources */ = {isa = PBXBuildFile; fileRef = 3612AB1017C714F10023901C /* PARSEcarduserlogin10.m */; };
 		3612AB1417C749EE0023901C /* PARSEloansuserlogin10.m in Sources */ = {isa = PBXBuildFile; fileRef = 3612AB1317C749EE0023901C /* PARSEloansuserlogin10.m */; };
@@ -187,7 +188,6 @@
 		36EB23A517C5EDDB00624628 /* BaseEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB238B17C5EDDB00624628 /* BaseEditView.m */; };
 		36EB23A617C5EDDB00624628 /* CardClientTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB238E17C5EDDB00624628 /* CardClientTable.m */; };
 		36EB23A717C5EDDB00624628 /* ClientDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB239117C5EDDB00624628 /* ClientDetail.m */; };
-		36EB23A817C5EDDB00624628 /* HomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB239317C5EDDB00624628 /* HomePage.m */; };
 		36EB23A917C5EDDB00624628 /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB239517C5EDDB00624628 /* Login.m */; };
 		36EB23AA17C5EDDB00624628 /* CustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB239817C5EDDB00624628 /* CustomLabel.m */; };
 		36EB23AB17C5EDDB00624628 /* CustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EB239A17C5EDDB00624628 /* CustomPicker.m */; };
@@ -245,6 +245,8 @@
 		360249D717F42597005E4C37 /* LoanClientSift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoanClientSift.h; sourceTree = "<group>"; };
 		360249D817F42597005E4C37 /* LoanClientSift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoanClientSift.m; sourceTree = "<group>"; };
 		3609043517C1CAA200B54F32 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		360A149B18CD886C008D5DB7 /* PARSEloansuserlogin21.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEloansuserlogin21.h; sourceTree = "<group>"; };
+		360A149C18CD886C008D5DB7 /* PARSEloansuserlogin21.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEloansuserlogin21.m; sourceTree = "<group>"; };
 		360A26C617BCBDB700F6BB46 /* PARSEuserreg2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEuserreg2.h; sourceTree = "<group>"; };
 		360A26C717BCBDB700F6BB46 /* PARSEuserreg2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEuserreg2.m; sourceTree = "<group>"; };
 		3612AB0F17C714F10023901C /* PARSEcarduserlogin10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin10.h; sourceTree = "<group>"; };
@@ -500,8 +502,6 @@
 		36EB238E17C5EDDB00624628 /* CardClientTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardClientTable.m; sourceTree = "<group>"; };
 		36EB239017C5EDDB00624628 /* ClientDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetail.h; sourceTree = "<group>"; };
 		36EB239117C5EDDB00624628 /* ClientDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetail.m; sourceTree = "<group>"; };
-		36EB239217C5EDDB00624628 /* HomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePage.h; sourceTree = "<group>"; };
-		36EB239317C5EDDB00624628 /* HomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePage.m; sourceTree = "<group>"; };
 		36EB239417C5EDDB00624628 /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
 		36EB239517C5EDDB00624628 /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
 		36EB239717C5EDDB00624628 /* CustomLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLabel.h; sourceTree = "<group>"; };
@@ -642,6 +642,8 @@
 				36F007ED18C8234F0065D5EA /* PARSEloansuserlogin19.m */,
 				36F007EF18C823650065D5EA /* PARSEloansuserlogin20.h */,
 				36F007F018C823650065D5EA /* PARSEloansuserlogin20.m */,
+				360A149B18CD886C008D5DB7 /* PARSEloansuserlogin21.h */,
+				360A149C18CD886C008D5DB7 /* PARSEloansuserlogin21.m */,
 				3657185D18BC67380066B59A /* PARSEDkServlet1.h */,
 				3657185E18BC67380066B59A /* PARSEDkServlet1.m */,
 				3657186318BC78760066B59A /* PARSELoanslyServlet1.h */,
@@ -1105,8 +1107,6 @@
 				369A7FB718ADB95D002CE4BA /* UserManageView.m */,
 				36EB239017C5EDDB00624628 /* ClientDetail.h */,
 				36EB239117C5EDDB00624628 /* ClientDetail.m */,
-				36EB239217C5EDDB00624628 /* HomePage.h */,
-				36EB239317C5EDDB00624628 /* HomePage.m */,
 				36EB239417C5EDDB00624628 /* Login.h */,
 				36EB239517C5EDDB00624628 /* Login.m */,
 				36EB23BC17C5EE9A00624628 /* GetPWDBack.h */,
@@ -1472,11 +1472,11 @@
 				36EBD06217C4DDA700C95D31 /* PARSEcarduserlogin9.m in Sources */,
 				36EB23A417C5EDDB00624628 /* BaseClientTable.m in Sources */,
 				36EB23A517C5EDDB00624628 /* BaseEditView.m in Sources */,
+				360A149D18CD886C008D5DB7 /* PARSEloansuserlogin21.m in Sources */,
 				363696FD18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m in Sources */,
 				36EB23A617C5EDDB00624628 /* CardClientTable.m in Sources */,
 				36EB23A717C5EDDB00624628 /* ClientDetail.m in Sources */,
 				36F007EB18C8233B0065D5EA /* PARSEloansuserlogin17.m in Sources */,
-				36EB23A817C5EDDB00624628 /* HomePage.m in Sources */,
 				36EB23A917C5EDDB00624628 /* Login.m in Sources */,
 				36EB23AA17C5EDDB00624628 /* CustomLabel.m in Sources */,
 				36EB23AB17C5EDDB00624628 /* CustomPicker.m in Sources */,
