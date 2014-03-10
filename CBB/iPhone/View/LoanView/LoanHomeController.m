@@ -21,6 +21,7 @@
     Request_API *req;
     NSInteger active;
     NSDictionary *_statistic;
+    NSDateComponents *comps;
 }
 @property(nonatomic,retain)NSMutableDictionary *appClientData;
 @property(nonatomic,retain)NSMutableDictionary *doneClientData;
@@ -82,8 +83,8 @@
     
     NSDate *date = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit ;
-    NSDateComponents *comps  = [calendar components:unitFlags fromDate:date];
+    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit;
+    comps  = [calendar components:unitFlags fromDate:date];
     
     dic = [NSDictionary dictionaryWithObjectsAndKeys:
                           userInfo.username,@"username",
@@ -100,7 +101,7 @@
     NSString *money = [login.userInfo objectForKey:@"money"];
     NSString *avaName = [login.userInfo objectForKey:@"images"];
     if (avaName && ![avaName isEqualToString:@""]) {
-        
+        [req requestImage:avaName];
     }
     self.nameLabel.text = [login.userInfo objectForKey:@"username"];
     self.companyLabel.text = [NSString stringWithFormat:@"%@%@",
@@ -230,11 +231,6 @@
     [self.navigationController pushViewController:cv animated:YES];
 }
 
--(IBAction)thisMonthBuy
-{
-    
-}
-
 //充值记录
 -(IBAction)payRecord
 {
@@ -242,8 +238,6 @@
     NSDictionary *dic = @{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID,@"page":@"1"};
     [req loanPayRecordWithDic:dic];
 }
-
-
 
 -(IBAction)saleActivity:(id)sender
 {
@@ -352,7 +346,6 @@
     self.successPercentLabel.text = [NSString stringWithFormat:@"%.1f%%",persent];
     self.doneNumLabel.text = total==nil?@"0":total;
     self.successNumLabel.text = success==nil?@"0":success;
-    self.buyNumLabel.text = total==nil?@"0":total;
     self.payNumLabel.text = tMontPay==nil?@"0":tMontPay;
     if (doneUnit) {
         [doneUnit removeFromSuperview];
@@ -370,7 +363,6 @@
     UIColor *color = [UIColor darkGrayColor];
     doneUnit = [self.doneNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     successUnit = [self.successNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
-    buyUnit = [self.buyNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     payUnit = [self.payNumLabel addUnit:@"元" Font:font Color:color xOffset:2 yOffset:1];
 }
 @end

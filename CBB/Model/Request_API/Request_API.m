@@ -373,4 +373,11 @@
     req.connectEnd = @selector(uploadEnd:);
     [req postSOAPwithAPI:@"http://upload.cardbaobao.com/" File:@"Service" Method:@"FileUploadImage" xmlNS:@"http://tempuri.org/" Params:paras];
 }
+
+//加载图片
+-(void)requestImage:(NSString *)url
+{
+    req.connectEnd = @selector(imageGot:);
+    [req httpRequestWithURL:[NSString stringWithFormat:@"http://www.cardbaobao.com/loans/Office/%@",url]];
+}
 @end

@@ -22,6 +22,7 @@
 @property(nonatomic,retain)NSDictionary *response;  //响应结果字段
 @property(nonatomic,assign)SEL connectEnd;          //请求完成时执行函数
 @property(nonatomic,assign)SEL connectFailded;      //请求失败时执行函数
+-(void)httpRequestWithURL:(NSString *)aUrl;
 -(void)httpRequestWithAPI:(NSString *)api TypeID:(NSInteger)typeID Dictionary:(NSDictionary *)aDic;
 -(void)httpRequestWithURL:(NSString *)aUrl API:(NSString *)api TypeID:(NSInteger)typeID Dictionary:(NSDictionary *)aDic;
 -(void)postSOAPwithAPI:(NSString *)api File:(NSString *)file Method:(NSString *)method xmlNS:(NSString *)xmlns Params:(NSArray *)params;

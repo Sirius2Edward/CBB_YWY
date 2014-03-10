@@ -46,7 +46,7 @@
     [super viewDidLoad];
     self.title = @"信用卡";
     UIScrollView *scrollView = (UIScrollView *)self.view;
-    scrollView.contentSize = CGSizeMake(320, 455);
+    scrollView.contentSize = CGSizeMake(320, 416);
     scrollView.showsVerticalScrollIndicator = NO;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg.jpg"]];
     
@@ -335,7 +335,6 @@
     self.successPercentLabel.text = [NSString stringWithFormat:@"%.1f%%",persent];
     self.doneNumLabel.text = total==nil?@"0":total;
     self.successNumLabel.text = success==nil?@"0":success;
-    self.buyNumLabel.text = total==nil?@"0":total;
     self.payNumLabel.text = tMontPay==nil?@"0":tMontPay;
     if (doneUnit) {
         [doneUnit removeFromSuperview];
@@ -353,7 +352,6 @@
     UIColor *color = [UIColor darkGrayColor];
     doneUnit = [self.doneNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     successUnit = [self.successNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
-    buyUnit = [self.buyNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     payUnit = [self.payNumLabel addUnit:@"元" Font:font Color:color xOffset:2 yOffset:1];
 }
 @end

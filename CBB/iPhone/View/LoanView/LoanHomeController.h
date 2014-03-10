@@ -21,7 +21,6 @@
 @property(nonatomic,retain)IBOutlet UILabel *doneNumLabel;
 @property(nonatomic,retain)IBOutlet UILabel *successNumLabel;
 @property(nonatomic,retain)IBOutlet UILabel *successPercentLabel;
-@property(nonatomic,retain)IBOutlet UILabel *buyNumLabel;
 @property(nonatomic,retain)IBOutlet UILabel *payNumLabel;
 @property(nonatomic,retain)IBOutlet TouchLabel *payLabel;
 @end

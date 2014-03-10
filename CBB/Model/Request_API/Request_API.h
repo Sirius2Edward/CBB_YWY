@@ -15,7 +15,7 @@
 #define LoanREG @"loansreg.asp"
 #define CardREG @"regcard.asp"
 
-#define SeveletURL @"http://192.168.1.132:8089/cardbaobao-ywy/"
+#define SeveletURL @"http://192.168.1.32:8082/cardbaobao-ywy/"
 
 @interface Request_API : NSObject
 
@@ -76,4 +76,5 @@
 -(void)cardUpdateFirstBuy;                                      //第一次购买
 
 -(void)uploadImageWithParams:(NSArray *)paras;             //上传图片
+-(void)requestImage:(NSString *)url;                       //加载图片
 @end

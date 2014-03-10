@@ -86,6 +86,7 @@
     NSString *prefixURL = STATE ? @"http://www.cardbaobao.com/cbbjk/":@"http://test.cardbaobao.com/cbbjk/";
     [self httpRequestWithURL:prefixURL API:api TypeID:typeID Dictionary:aDic];
 }
+
 -(void)httpRequestWithURL:(NSString *)aUrl API:(NSString *)api TypeID:(NSInteger)typeID Dictionary:(NSDictionary *)aDic
 {
     //配置URL参数
@@ -124,11 +125,19 @@
         }
         [url appendFormat:@"&%@=%@",k,value];
     }
-    
+    [self httpRequestWithURL:url];
+}
+
+-(void)httpRequestWithURL:(NSString *)aUrl
+{
     //发送请求
-    NSString *encodeURL = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"请求URL———— %@",encodeURL);
-    ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:encodeURL]];
+    NSString *encodeURL = [aUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSLog(@"请求URL———— %@",encodeURL);
+    NSURL *reqURL = [NSURL URLWithString:encodeURL];
+    
+    NSLog(@"%@",NSStringFromRange([encodeURL rangeOfString:@"?"]));
+    
+    ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:reqURL];
     [self.queue addOperation:req];
     [self.queue go];
 }
