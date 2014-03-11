@@ -353,6 +353,7 @@
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"已购买客户表",nil];
+        alert.tag = 6602;
         [alert show];
     }
 }
@@ -778,7 +779,7 @@
     }
     //购买成功
     [self removeCell];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alert show];
 }
 @end
@@ -1009,7 +1010,7 @@
     }
     //购买成功
     [self removeCell];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:result delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alert show];
 }
 @end
@@ -1307,7 +1308,7 @@
 
 -(void)pushToSift:(UIButton *)sender
 {
-    NewClientSift *sift = [[NewClientSift alloc] init];
+    BoughtClientSift *sift = [[BoughtClientSift alloc] init];
     sift.paramters = param;
     sift.completion = ^{
         [self reloadTableViewDataSource];

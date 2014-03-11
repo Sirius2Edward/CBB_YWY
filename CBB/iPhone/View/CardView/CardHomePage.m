@@ -242,7 +242,7 @@
 
 -(void)goToPay
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"在线充值" message:@"因手机客户端暂未开通在线充值！\n您可以通过支付宝把充值的金额转入我公司支付宝账号：service@cardbaobao.com\n并及时通知为您服务的客户经理！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"进入支付宝", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"在线充值" message:@"因手机客户端暂未开通在线充值！\n您可以通过支付宝把充值的金额转入我公司支付宝账号：service@cardbaobao.com\n并及时通知为您服务的客户经理！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
     [alert show];
 }
 

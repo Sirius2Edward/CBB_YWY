@@ -132,7 +132,7 @@
 {
     //发送请求
     NSString *encodeURL = [aUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSLog(@"请求URL———— %@",encodeURL);
+    NSLog(@"请求URL———— %@",encodeURL);
     NSURL *reqURL = [NSURL URLWithString:encodeURL];
     
     ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:reqURL];

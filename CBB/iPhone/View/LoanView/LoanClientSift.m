@@ -32,6 +32,7 @@
 
 -(void)dismissAction
 {
+    [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -195,6 +196,7 @@
 
 -(void)searchAction
 {
+    [self.view endEditing:YES];
     UserInfo *userInfo = [UserInfo shareInstance];
     [self.paramters setDictionary:@{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID}];
     if ([cityTF.text isEqualToString:@""]) {
@@ -321,6 +323,7 @@
 
 -(void)searchAction
 {
+    [self.view endEditing:YES];
     UserInfo *userInfo = [UserInfo shareInstance];
     [self.paramters setDictionary:@{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID}];
     if ([cityTF.text isEqualToString:@""]) {
@@ -334,6 +337,13 @@
     [self.paramters setObject:upDateTF.text forKey:@"eyear"];
     
     [self dismissViewControllerAnimated:YES completion:self.completion];
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if ([cityTF isFirstResponder]) {
+        cityTF.text = [self.pickerData objectAtIndex:row];
+    }
 }
 @end
 
@@ -463,12 +473,7 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     if (textField == statTF) {
-        self.pickerData = [[self.city allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            if ([[self.city objectForKey:obj1] integerValue] < [[self.city objectForKey:obj2] integerValue]) {
-                return NSOrderedAscending;
-            }
-            return NSOrderedDescending;
-        }];
+        self.pickerData = self.status;
         [picker reloadAllComponents];
     }
     else if (textField == usageTF) {
@@ -478,15 +483,26 @@
     return YES;
 }
 
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if ([statTF isFirstResponder]) {
+        statTF.text = [self.pickerData objectAtIndex:row];
+    }
+    else if ([usageTF isFirstResponder]) {
+        usageTF.text = [self.pickerData objectAtIndex:row];
+    }
+}
+
 -(void)searchAction
 {
+    [self.view endEditing:YES];
     UserInfo *userInfo = [UserInfo shareInstance];
     [self.paramters setDictionary:@{@"username":userInfo.username,@"password":userInfo.password,@"id":userInfo.ID}];
     if ([statTF.text isEqualToString:@""]) {
         [self.paramters setObject:@"0" forKey:@"uzt"];
     }
     else {
-        [self.paramters setObject:[NSString stringWithFormat:@"%d",[self.status indexOfObject:statTF.text]] forKey:@"ucity"];
+        [self.paramters setObject:[NSString stringWithFormat:@"%d",[self.status indexOfObject:statTF.text]] forKey:@"uzt"];
     }
     
     if ([usageTF.text isEqualToString:@""]) {
