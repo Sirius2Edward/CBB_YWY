@@ -1517,16 +1517,25 @@
     [barButton addTarget:self action:@selector(pushToSift:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightBarBtn = [[UIBarButtonItem alloc] initWithCustomView:barButton];
     self.navigationItem.rightBarButtonItem = rightBarBtn;
-    self.navigationItem.prompt = @"对我申请的表单";
-    
-    self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height - 94);
     
     _shopData = self.data;
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.navigationItem.prompt = @"对我申请的表单";
+    self.tableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height);
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationItem.prompt = nil;
+}
+
 -(void)changeContent:(UISegmentedControl *)sender
 {
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     NSMutableDictionary *dic = nil;
     if (sender.selectedSegmentIndex) {
         dic = _productData;
@@ -1536,6 +1545,9 @@
     }
     if (dic) {
         self.data = dic;
+        if (!self.items.count) {
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
         [self.tableView reloadData];
         [self setFooterView];
     }

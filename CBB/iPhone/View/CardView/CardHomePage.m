@@ -353,7 +353,6 @@
 -(void)imageGot:(id)data
 {
     UIImage *image = [UIImage imageWithData:data];
-    [image drawInRect:CGRectMake(0, 0, 75, 75)];
     self.avatar.image = image;
 }
 @end

@@ -299,9 +299,6 @@
 -(void)forMeClientEnd:(id)aDic
 {
     NSMutableDictionary *data = [aDic objectForKey:@"loansuserlogin17"];
-    if (!data) {
-        return;
-    }
     self.shopClientData = data;
     [self pushToForMeClientTable];
 }
@@ -369,7 +366,6 @@
 -(void)imageGot:(id)data
 {
     UIImage *image = [UIImage imageWithData:data];
-    [image drawInRect:CGRectMake(0, 0, 75, 75)];
     self.avatar.image = image;
 }
 @end
