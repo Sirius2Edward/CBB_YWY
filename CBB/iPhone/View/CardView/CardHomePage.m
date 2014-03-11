@@ -91,7 +91,7 @@
     NSString *formNum = [login.userInfo objectForKey:@"newreg"];
     NSString *avaName = [login.userInfo objectForKey:@"images"];
     if (avaName && ![avaName isEqualToString:@""]) {
-        
+        [req requestImage:avaName];
     }
     self.nameLabel.text = [login.userInfo objectForKey:@"username"]==nil?@"name":[login.userInfo objectForKey:@"username"];
     self.cityLabel.text = [login.userInfo objectForKey:@"city"]==nil?@"city":[login.userInfo objectForKey:@"city"];
@@ -228,11 +228,6 @@
     [self.navigationController pushViewController:cv animated:YES];
 }
 
--(IBAction)thisMonthBuy
-{
-    
-}
-
 //充值记录
 -(IBAction)payRecord
 {
@@ -353,5 +348,12 @@
     doneUnit = [self.doneNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     successUnit = [self.successNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     payUnit = [self.payNumLabel addUnit:@"元" Font:font Color:color xOffset:2 yOffset:1];
+}
+
+-(void)imageGot:(id)data
+{
+    UIImage *image = [UIImage imageWithData:data];
+    [image drawInRect:CGRectMake(0, 0, 75, 75)];
+    self.avatar.image = image;
 }
 @end

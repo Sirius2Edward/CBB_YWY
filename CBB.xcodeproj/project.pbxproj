@@ -41,6 +41,7 @@
 		362E3F9C17DDBF8B0041F20D /* CardClientSift.m in Sources */ = {isa = PBXBuildFile; fileRef = 362E3F9B17DDBF8B0041F20D /* CardClientSift.m */; };
 		362EBFAF17BE03C200616249 /* PARSEuserlogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 362EBFAE17BE03C200616249 /* PARSEuserlogin.m */; };
 		363696FD18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */; };
+		3639DE1818CEAE4200CF6096 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3639DE1718CEAE4200CF6096 /* Images.xcassets */; };
 		363D946917C3046B000C81D4 /* PARSEcarduserlogin11.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D946817C3046B000C81D4 /* PARSEcarduserlogin11.m */; };
 		363D946C17C30478000C81D4 /* PARSEcarduserlogin12.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D946B17C30478000C81D4 /* PARSEcarduserlogin12.m */; };
 		363D94E617C3108A000C81D4 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 363D94B717C3108A000C81D4 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -123,7 +124,6 @@
 		3675378317E6A54B0073C061 /* BaseSiftView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3675378217E6A54B0073C061 /* BaseSiftView.m */; };
 		3679768D18B5EC990082CB12 /* PARSEXYKServlet1.m in Sources */ = {isa = PBXBuildFile; fileRef = 3679768C18B5EC990082CB12 /* PARSEXYKServlet1.m */; };
 		3679769418B5F0360082CB12 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 3679769118B5F0360082CB12 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		368F747717F0230800E24FBF /* SBTableAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 368F747617F0230800E24FBF /* SBTableAlert.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		368F747E17F03CF700E24FBF /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 368F747C17F03CF700E24FBF /* icon.png */; };
 		368F747F17F03CF700E24FBF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 368F747D17F03CF700E24FBF /* icon@2x.png */; };
 		369A7FB418ADB8F6002CE4BA /* CardHomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 369A7FB118ADB8F6002CE4BA /* CardHomePage.m */; };
@@ -296,6 +296,7 @@
 		362EBFAE17BE03C200616249 /* PARSEuserlogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEuserlogin.m; sourceTree = "<group>"; };
 		363696FB18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEDeleteLoanslyServlet1.h; sourceTree = "<group>"; };
 		363696FC18BF40B7007E60D4 /* PARSEDeleteLoanslyServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEDeleteLoanslyServlet1.m; sourceTree = "<group>"; };
+		3639DE1718CEAE4200CF6096 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		363D946717C3046B000C81D4 /* PARSEcarduserlogin11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin11.h; sourceTree = "<group>"; };
 		363D946817C3046B000C81D4 /* PARSEcarduserlogin11.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEcarduserlogin11.m; sourceTree = "<group>"; };
 		363D946A17C30478000C81D4 /* PARSEcarduserlogin12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PARSEcarduserlogin12.h; sourceTree = "<group>"; };
@@ -416,8 +417,6 @@
 		3679768C18B5EC990082CB12 /* PARSEXYKServlet1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PARSEXYKServlet1.m; sourceTree = "<group>"; };
 		3679769018B5F0360082CB12 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		3679769118B5F0360082CB12 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
-		368F747517F0230800E24FBF /* SBTableAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBTableAlert.h; sourceTree = "<group>"; };
-		368F747617F0230800E24FBF /* SBTableAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBTableAlert.m; sourceTree = "<group>"; };
 		368F747C17F03CF700E24FBF /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		368F747D17F03CF700E24FBF /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		369A7FB018ADB8F6002CE4BA /* CardHomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardHomePage.h; sourceTree = "<group>"; };
@@ -849,6 +848,7 @@
 				3640A1D417B08DBB0064D4EF /* Model */,
 				3640A1C217B08C7D0064D4EF /* AppDelegate.h */,
 				3640A1C317B08C7D0064D4EF /* AppDelegate.m */,
+				3639DE1718CEAE4200CF6096 /* Images.xcassets */,
 				3640A1BA17B08C7D0064D4EF /* Supporting Files */,
 			);
 			path = CBB;
@@ -922,7 +922,6 @@
 				3679768E18B5F0360082CB12 /* JSONKit */,
 				369A7FBC18ADBBAC002CE4BA /* ChartView */,
 				36FA95261803A08800404865 /* CPPickerView */,
-				368F747417F0230800E24FBF /* SBTableAlert */,
 				36FBCE9D17CDF8B60001C62E /* SVProgressHUD */,
 				363D94B517C3108A000C81D4 /* ASIHttpRequest */,
 				363D94CA17C3108A000C81D4 /* GData */,
@@ -965,15 +964,6 @@
 				3679769118B5F0360082CB12 /* JSONKit.m */,
 			);
 			path = JSONKit;
-			sourceTree = "<group>";
-		};
-		368F747417F0230800E24FBF /* SBTableAlert */ = {
-			isa = PBXGroup;
-			children = (
-				368F747517F0230800E24FBF /* SBTableAlert.h */,
-				368F747617F0230800E24FBF /* SBTableAlert.m */,
-			);
-			path = SBTableAlert;
 			sourceTree = "<group>";
 		};
 		369A7FBC18ADBBAC002CE4BA /* ChartView */ = {
@@ -1145,6 +1135,9 @@
 		36EB23A117C5EDDB00624628 /* LoanView */ = {
 			isa = PBXGroup;
 			children = (
+				366BC50A18B20794003A0040 /* LoanHomeController.h */,
+				366BC50B18B20794003A0040 /* LoanHomeController.m */,
+				366BC50C18B20794003A0040 /* LoanHomeController.xib */,
 				36EB23A217C5EDDB00624628 /* LoanClientTable.h */,
 				36EB23A317C5EDDB00624628 /* LoanClientTable.m */,
 				36EB23B317C5EE2200624628 /* LoanRegister.h */,
@@ -1153,9 +1146,6 @@
 				36EB23BA17C5EE5B00624628 /* LoanInfoModify.m */,
 				360249D717F42597005E4C37 /* LoanClientSift.h */,
 				360249D817F42597005E4C37 /* LoanClientSift.m */,
-				366BC50A18B20794003A0040 /* LoanHomeController.h */,
-				366BC50B18B20794003A0040 /* LoanHomeController.m */,
-				366BC50C18B20794003A0040 /* LoanHomeController.xib */,
 				3657186918BC95E00066B59A /* LoanAdvisorView.h */,
 				3657186A18BC95E00066B59A /* LoanAdvisorView.m */,
 			);
@@ -1376,6 +1366,7 @@
 				366E0E6917CC87EE00FC8324 /* detail02@2x.png in Resources */,
 				366BC50218B1D806003A0040 /* line1@2x.png in Resources */,
 				361C34FA17CDA18000C74084 /* detail1@2x.png in Resources */,
+				3639DE1818CEAE4200CF6096 /* Images.xcassets in Resources */,
 				361C34FB17CDA18000C74084 /* detail2@2x.png in Resources */,
 				361C34FC17CDA18000C74084 /* detail3@2x.png in Resources */,
 				366BC4FF18B1D806003A0040 /* cz@2x.png in Resources */,
@@ -1513,7 +1504,6 @@
 				362CABB217DEC55600C2F3F5 /* PARSEcarduserlogin7.m in Sources */,
 				362CABB517DEC56000C2F3F5 /* PARSEcarduserlogin8.m in Sources */,
 				3675378317E6A54B0073C061 /* BaseSiftView.m in Sources */,
-				368F747717F0230800E24FBF /* SBTableAlert.m in Sources */,
 				360249D317F3D2B2005E4C37 /* PARSEServiceFileUploadImage.m in Sources */,
 				360249D917F42597005E4C37 /* LoanClientSift.m in Sources */,
 				36FA952E1803A08800404865 /* CPPickerView.m in Sources */,
@@ -1606,6 +1596,8 @@
 		3640A1CE17B08C7D0064D4EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 泽华 杨 (2T5222GF9K)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1625,6 +1617,8 @@
 		3640A1CF17B08C7D0064D4EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Easy Card Electronic Technology Co., Ltd. (ADD839EB9C)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Easy Card Electronic Technology Co., Ltd. (ADD839EB9C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

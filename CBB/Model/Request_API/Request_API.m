@@ -35,7 +35,7 @@
 
 -(void)setDelegate:(id)delegate
 {
-    [self cancel];
+
     req.delegate = delegate;
 }
 
@@ -377,7 +377,6 @@
 //加载图片
 -(void)requestImage:(NSString *)url
 {
-    req.connectEnd = @selector(imageGot:);
     [req httpRequestWithURL:[NSString stringWithFormat:@"http://www.cardbaobao.com/loans/Office/%@",url]];
 }
 @end

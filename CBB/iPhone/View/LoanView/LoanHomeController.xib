@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoanHomeController">
             <connections>
                 <outlet property="askLabel" destination="xRP-t5-CZz" id="v0a-su-3re"/>
+                <outlet property="avatar" destination="6yr-Ff-k5f" id="7P1-0K-e3o"/>
                 <outlet property="companyLabel" destination="X7x-Bd-sDF" id="OaI-3C-ExZ"/>
                 <outlet property="doneNumLabel" destination="Jv6-2G-R7b" id="QbX-dG-8Ze"/>
                 <outlet property="matchReg" destination="l9y-Ei-O7Y" id="xTT-rL-DxT"/>

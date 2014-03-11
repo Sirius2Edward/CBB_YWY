@@ -396,6 +396,7 @@
 
 -(void)popAction
 {
+    [req cancel];
     [self.data setObject:self.items forKey:@"UL"];
     [self.data setObject:[NSString stringWithFormat:@"%d",page] forKey:@"Page"];
     [self.navigationController popToRootViewControllerAnimated:YES];

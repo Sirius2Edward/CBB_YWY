@@ -365,4 +365,11 @@
     successUnit = [self.successNumLabel addUnit:@"张" Font:font Color:color xOffset:2 yOffset:1];
     payUnit = [self.payNumLabel addUnit:@"元" Font:font Color:color xOffset:2 yOffset:1];
 }
+
+-(void)imageGot:(id)data
+{
+    UIImage *image = [UIImage imageWithData:data];
+    [image drawInRect:CGRectMake(0, 0, 75, 75)];
+    self.avatar.image = image;
+}
 @end

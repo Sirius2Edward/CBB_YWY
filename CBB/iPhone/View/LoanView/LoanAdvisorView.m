@@ -373,6 +373,7 @@
 
 -(void)popAction
 {
+    [req cancel];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

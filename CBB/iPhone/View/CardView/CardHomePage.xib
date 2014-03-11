@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CardHomePage">
             <connections>
-                <outlet property="avatar" destination="4" id="1514"/>
+                <outlet property="avatar" destination="4" id="sn9-gT-mc3"/>
                 <outlet property="bankLabel" destination="37" id="1513"/>
                 <outlet property="cityLabel" destination="34" id="1512"/>
                 <outlet property="doneNumLabel" destination="478" id="1517"/>

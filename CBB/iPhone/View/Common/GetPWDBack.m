@@ -135,6 +135,7 @@
 
 -(void)popAction
 {
+    [req cancel];
     [selectControl removeObserver:self forKeyPath:@"selectIndex"];
     [super popAction];
 }

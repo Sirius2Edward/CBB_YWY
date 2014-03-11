@@ -135,8 +135,6 @@
 //    NSLog(@"请求URL———— %@",encodeURL);
     NSURL *reqURL = [NSURL URLWithString:encodeURL];
     
-    NSLog(@"%@",NSStringFromRange([encodeURL rangeOfString:@"?"]));
-    
     ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:reqURL];
     [self.queue addOperation:req];
     [self.queue go];
@@ -215,6 +213,12 @@
         [SVProgressHUD dismiss];
     }
     
+    if ([aRequest.url.pathExtension isEqualToString:@"jpg"] || [aRequest.url.pathExtension isEqualToString:@"png"]) {
+        if ([self.delegate respondsToSelector:@selector(imageGot:)]) {
+            [self.delegate performSelector:@selector(imageGot:) withObject:aRequest.responseData];
+        }
+        return;
+    }
     //解析
     NSString *parserName = [[self getParserNameFromURL:aRequest.url] copy];
     
