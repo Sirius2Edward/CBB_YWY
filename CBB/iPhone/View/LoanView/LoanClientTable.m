@@ -430,9 +430,11 @@
     UILabel *mobilLabel;
     UILabel *bDateLabel;
     UIButton *statusButton;
+    UIButton *mapBtn;
     UIProgressView *grade;
 }
 @synthesize controller;
+@synthesize zts;
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -444,16 +446,22 @@
             itemL.font = [UIFont systemFontOfSize:15];
             itemL.textColor = [UIColor darkGrayColor];
             itemL.text = [arr objectAtIndex:i];
+            itemL.tag = 6350+i;
             [self.contentView addSubview:itemL];
             yCo += 25;
         }
+        UIButton *detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        detailBtn.frame = CGRectMake(10, 8, 200, 38);
+//        [detailBtn addTarget:self action:@selector(detail) forControlEvents:UIControlEventTouchUpInside];
+        [self .contentView addSubview:detailBtn];
+        
         statusButton = [UIButton buttonWithType:UIButtonTypeSystem];
         statusButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         statusButton.frame = CGRectMake(150, 8, 150, 30);
         [statusButton addTarget:self action:@selector(changeStatus:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:statusButton];
         
-        UIButton *mapBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        mapBtn = [UIButton buttonWithType:UIButtonTypeSystem];
         [mapBtn setBackgroundImage:[UIImage imageNamed:@"map_icon.jpg"] forState:UIControlStateNormal];
         [mapBtn addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
         mapBtn.frame = CGRectMake(263, 65, 37, 37);
@@ -486,6 +494,11 @@
     return self;
 }
 
+-(NSArray *)zts
+{
+    return @[@"未联系",@"已联系",@"",@"已联系不成功",@"",@"办理成功",@""];
+}
+
 -(void)setItem:(LoanClient *)item
 {
     [super setItem:item];
@@ -505,6 +518,42 @@
     bDateLabel.text = item.mon_date;
     
     [statusButton setTitle:[self.zts objectAtIndex:item.zt.integerValue-1] forState:UIControlStateNormal];
+    
+    if ((!item.loans_dyw || [item.loans_dyw isEqualToString:@""]) &&
+        (item.monthIncome || [item.monthIncome isEqualToString:@"0"] || [item.monthIncome isEqualToString:@""])) {
+        mapBtn.hidden = YES;
+        incomLabel.hidden = YES;
+        mortgLabel.hidden = YES;
+        UIView *label = nil;
+        label = [self viewWithTag:6352];
+        label.hidden = YES;
+        label = [self viewWithTag:6353];
+        label.hidden = YES;
+        label = [self viewWithTag:6354];
+        label.frame = CGRectMake(30, 110, 80, 25);
+        label = [self viewWithTag:6355];
+        label.frame = CGRectMake(30, 135, 80, 25);
+        mobilLabel.frame = CGRectMake(110, 110, 180, 25);
+        bDateLabel.frame = CGRectMake(110, 135, 180, 25);
+        self.bg.frame = CGRectMake(10, 5, 300, 162);
+    }
+    else {
+        mapBtn.hidden = NO;
+        incomLabel.hidden = NO;
+        mortgLabel.hidden = NO;
+        UIView *label = nil;
+        label = [self viewWithTag:6352];
+        label.hidden = NO;
+        label = [self viewWithTag:6353];
+        label.hidden = NO;
+        label = [self viewWithTag:6354];
+        label.frame = CGRectMake(30, 160, 80, 25);
+        label = [self viewWithTag:6355];
+        label.frame = CGRectMake(30, 185, 80, 25);
+        mobilLabel.frame = CGRectMake(110, 160, 180, 25);
+        bDateLabel.frame = CGRectMake(110, 185, 180, 25);
+        self.bg.frame = CGRectMake(10, 5, 300, 212);
+    }
 }
 
 -(void)setStatus:(NSString *)status
@@ -534,7 +583,6 @@
 }
 
 //查看详情
-/*
 -(void)detail
 {
     UserInfo *info = [UserInfo shareInstance];
@@ -547,8 +595,6 @@
     req.delegate = self;
     [req loanBuyerDetailWithDic:dic];
 }
-*/
-
 -(void)loanBoughtDetail:(id)mDic
 {
     DoneLoanClientDetail *clientDetail = [[DoneLoanClientDetail alloc] init];
@@ -1373,7 +1419,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 222.0f;
+    LoanClient *item = [self.items objectAtIndex:indexPath.row];
+    if ((!item.loans_dyw || [item.loans_dyw isEqualToString:@""]) &&
+        (item.monthIncome || [item.monthIncome isEqualToString:@"0"] || [item.monthIncome isEqualToString:@""])) {
+        return 172.0f;
+    }
+    else {
+        return 222.0f;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1439,9 +1492,9 @@
 {
     DoneLoanClientCell *cell = [info objectForKey:@"CELL"];
     cell.status = value;
-    
     LoanClient *item = [self.items objectAtIndex:[self.tableView indexPathForCell:cell].row];
-    item.zt = [NSString stringWithFormat:@"%d",[zts indexOfObject:value]+1];
+    NSDictionary *ztDic = [self.data objectForKey:@"ZTS"];
+    item.zt = [NSString stringWithFormat:@"%@",[ztDic objectForKey:value]];
     UserInfo *userInfo = [UserInfo shareInstance];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
                          userInfo.username,@"username",

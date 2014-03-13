@@ -134,8 +134,8 @@
     NSString *encodeURL = [aUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"请求URL———— %@",encodeURL);
     NSURL *reqURL = [NSURL URLWithString:encodeURL];
-    
     ASIHTTPRequest * req = [ASIHTTPRequest requestWithURL:reqURL];
+    [req setDefaultResponseEncoding:NSUTF8StringEncoding];
     [self.queue addOperation:req];
     [self.queue go];
 }
@@ -214,6 +214,9 @@
     }
     
     if ([aRequest.url.pathExtension isEqualToString:@"jpg"] || [aRequest.url.pathExtension isEqualToString:@"png"]) {
+        if (aRequest.responseStatusCode == 404) {
+            return;
+        }
         if ([self.delegate respondsToSelector:@selector(imageGot:)]) {
             [self.delegate performSelector:@selector(imageGot:) withObject:aRequest.responseData];
         }

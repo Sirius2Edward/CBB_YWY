@@ -280,7 +280,7 @@
 - (void)loadView
 {
     [super loadView];
-    NSArray *keys = [NSArray arrayWithObjects:@"Orderid",@"truename",@"yearmonth",@"usersex",@"RadBankA",
+    NSArray *keys = [NSArray arrayWithObjects:@"Orderid",@"truename",@"yearmonth",@"RadBankA",
                      @"workaddress",@"worktype",@"pdy",@"loanmoney",@"loansrt",@"house",@"cards",
                      @"monthincome",@"moneyin",@"mobile",@"email",@"buylist",@"contact", nil];
     

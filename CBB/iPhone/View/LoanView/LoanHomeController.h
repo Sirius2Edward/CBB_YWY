@@ -17,6 +17,7 @@
 @property(nonatomic,retain)IBOutlet UILabel *askLabel;
 @property(nonatomic,retain)IBOutlet UILabel *matchReg;
 @property(nonatomic,retain)IBOutlet UILabel *toMeReg;
+@property(nonatomic,retain)IBOutlet UILabel *boughtReg;
 @property(nonatomic,retain)IBOutlet UILabel *monthLabel;
 @property(nonatomic,retain)IBOutlet UILabel *doneNumLabel;
 @property(nonatomic,retain)IBOutlet UILabel *successNumLabel;

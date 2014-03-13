@@ -98,6 +98,7 @@
     UserInfo *login = [UserInfo shareInstance];
     NSString *formNum = [login.userInfo objectForKey:@"newreg"];
     NSString *myRegNum = [login.userInfo objectForKey:@"dpreg"];
+    NSString *boughtNum = [login.userInfo objectForKey:@"oldreg"];
     NSString *money = [login.userInfo objectForKey:@"money"];
     NSString *avaName = [login.userInfo objectForKey:@"images"];
     if (avaName && ![avaName isEqualToString:@""]) {
@@ -110,6 +111,7 @@
     self.moneyLabel.text = money==nil?@"0分":[NSString stringWithFormat:@"%@分",money];
     self.matchReg.text = formNum==nil?@"新增0张":[NSString stringWithFormat:@"新增%@张",formNum];
     self.toMeReg.text = myRegNum==nil?@"新增0张":[NSString stringWithFormat:@"新增%@张",myRegNum];
+    self.boughtReg.text = boughtNum==nil?@"已购买0张":[NSString stringWithFormat:@"已购买%@张",boughtNum];
 }
 
 -(void)pushToNewLoanClientTable

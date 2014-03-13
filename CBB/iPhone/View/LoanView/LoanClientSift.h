@@ -30,5 +30,5 @@ typedef void (^block)(void);
 @end
 
 @interface BoughtClientSift : LoanClientSift
-@property(nonatomic,retain)NSArray *status;
+@property(nonatomic,retain)NSDictionary *ztDic;
 @end

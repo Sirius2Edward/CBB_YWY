@@ -355,7 +355,7 @@
 #pragma mark -
 @implementation BoughtClientSift
 {
-    NSArray *_status;
+    NSDictionary *_ztDic;
     UITextField *nameTF;
     UITextField *statTF;
     UITextField *usageTF;
@@ -363,7 +363,7 @@
     UITextField *upDateTF;
     UIPickerView *picker;
 }
-@synthesize status = _status;
+@synthesize ztDic = _ztDic;
 -(void)loadView
 {
     [super loadView];
@@ -451,12 +451,12 @@
     [nameTF becomeFirstResponder];
 }
 
--(NSArray *)status
+-(NSDictionary *)ztDic
 {
-    if (!_status) {
-        _status = @[@"处理状态（全部）",@"未联系",@"已联系待办",@"已上门",@"已联系条件不符",@"已上门条件不符",@"已办理",@"已查阅条件不符"];
+    if (!_ztDic) {
+        _ztDic = @{@"未联系":@"1",@"已联系":@"2",@"已联系不成功":@"4",@"办理成功":@"6",};
     }
-    return _status;
+    return _ztDic;
 }
 
 -(void)dateChanged:(UIDatePicker *)sender
@@ -473,7 +473,7 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     if (textField == statTF) {
-        self.pickerData = self.status;
+        self.pickerData = [self.ztDic allKeys];
         [picker reloadAllComponents];
     }
     else if (textField == usageTF) {
@@ -502,7 +502,7 @@
         [self.paramters setObject:@"0" forKey:@"uzt"];
     }
     else {
-        [self.paramters setObject:[NSString stringWithFormat:@"%d",[self.status indexOfObject:statTF.text]] forKey:@"uzt"];
+        [self.paramters setObject:[NSString stringWithFormat:@"%@",[[self ztDic] objectForKey:statTF.text]] forKey:@"uzt"];
     }
     
     if ([usageTF.text isEqualToString:@""]) {

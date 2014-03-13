@@ -243,7 +243,7 @@
                              userInfo.password,@"password",
                              @"0",@"year",
                              @"0",@"month",
-                             textField.text,@"content",
+                             [textField.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],@"content",
                              advisor.ID,@"id",nil];
         [self.controller replyWithDic:dic];
         textField.text = @"";
