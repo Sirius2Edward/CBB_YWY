@@ -1137,7 +1137,7 @@
 {
     WebViewController *web = [WebViewController new];
     web.title = @"优惠活动";
-    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
+    web.url = LWEB_URL;
     [self.navigationController pushViewController:web animated:YES];
 }
 
@@ -1642,7 +1642,7 @@
 {
     WebViewController *web = [WebViewController new];
     web.title = @"优惠活动";
-    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/dkhd.html";
+    web.url = LWEB_URL;
     [self.navigationController pushViewController:web animated:YES];
 }
 

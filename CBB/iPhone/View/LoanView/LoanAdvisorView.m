@@ -461,7 +461,7 @@
         if (Nil == tCell) {
             tCell = [[LoanActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tIdentifier];
         }
-        tCell.textField.text = @"";
+        tCell.textField.text = @"你猜啊";
         tCell.textField.placeholder = _placeholder;
         tCell.advisor = _advisor;
         tCell.controller = self;

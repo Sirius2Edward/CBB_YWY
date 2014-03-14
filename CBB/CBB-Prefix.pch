@@ -10,7 +10,6 @@
 
 #define IOS7_OR_LATER   ( [[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending )
 
-
 #define SuppressPerformSelectorLeakWarning(Stuff) \
 do { \
 _Pragma("clang diagnostic push") \
@@ -23,3 +22,8 @@ _Pragma("clang diagnostic pop") \
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define SeveletHost "http://192.168.1.132:8089/"
+#define SeveletURL @ SeveletHost "cardbaobao-ywy/"
+#define LWEB_URL @ SeveletHost "cardbaobao-3g/kbbywy/dkhd.html"
+#define CWEB_URL @ SeveletHost "cardbaobao-3g/kbbywy/xykhd.html"

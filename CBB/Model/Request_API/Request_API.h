@@ -15,8 +15,6 @@
 #define LoanREG @"loansreg.asp"
 #define CardREG @"regcard.asp"
 
-#define SeveletURL @"http://192.168.1.32:8082/cardbaobao-ywy/"
-
 @interface Request_API : NSObject
 
 @property(nonatomic,assign)id delegate;

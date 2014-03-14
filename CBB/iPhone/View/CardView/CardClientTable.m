@@ -469,7 +469,7 @@ UIButton *statusButton;
 {
     WebViewController *web = [WebViewController new];
     web.title = @"优惠活动";
-    web.url = @"http://192.168.1.32:8082/cardbaobao-3g/kbbywy/xykhd.html";
+    web.url = CWEB_URL;
     [self.navigationController pushViewController:web animated:YES];
 }
 
